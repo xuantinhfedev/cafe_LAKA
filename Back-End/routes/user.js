@@ -1,3 +1,4 @@
+// Khai báo biến, thư viện sử dụng
 const express = require('express');
 const connection = require('../connection');
 const router = express.Router();
@@ -5,8 +6,11 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
-
+var auth = require('../services/authentication');
+var checkRole = require('../services/checkRole');
+// API đăng ký tài khoản
 router.post('/signup', (req, res) => {
+
     let user = req.body;
     query = "select email,password,role,status from user where email=?";
     connection.query(query, [user.email], (err, results) => {
@@ -33,7 +37,9 @@ router.post('/signup', (req, res) => {
     });
 });
 
+// API đăng nhập tài khoản
 router.post('/login', (req, res) => {
+
     const user = req.body;
     query = "select email, password, role, status from user where email=?";
     connection.query(query, [user.email], (err, results) => {
@@ -68,6 +74,7 @@ router.post('/login', (req, res) => {
     });
 });
 
+// Khai báo nodemailer
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -76,7 +83,9 @@ var transporter = nodemailer.createTransport({
     }
 });
 
+// API quên mật khẩu > mật khẩu sẽ gửi về mail nhập vào 
 router.post('/forgotPassword', (req, res) => {
+
     const user = req.body;
     query = "select email, password from user where email=?"
     connection.query(query, [user.email], (err, results) => {
@@ -100,7 +109,7 @@ router.post('/forgotPassword', (req, res) => {
                     }
                 });
                 return res.status(200).json({
-                    message: "Mật khẩu mới đã được gửi tới tài khoản Email của bạnnn."
+                    message: "Mật khẩu mới đã được gửi tới tài khoản Email của bạn."
                 })
             }
         }
@@ -109,5 +118,89 @@ router.post('/forgotPassword', (req, res) => {
         }
     })
 });
+
+// API lấy danh sách user
+router.get('/get', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+
+    var query = "select id, name, email, contactNumber, status from user where role = 'user'";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            return res.status(200).json(results);
+        }
+        else {
+            return res.status(500).json(err);
+        }
+    });
+
+});
+
+// API thay đổi(cập nhật) trạng thái status của user
+router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+
+    let user = req.body;
+    var query = "update user set status = ? where id = ?";
+    connection.query(query, [user.status, user.id], (err, results) => {
+        if (!err) {
+            if (results.affectedRows == 0) {
+                return res.status(404).json({
+                    message: "ID của tài khoản không tồn tại."
+                })
+            }
+            return res.status(200).json({
+                message: "Cập nhật trạng thái tài khoản thành công."
+            });
+        }
+        else {
+            return res.status(500).json(err);
+        }
+    })
+})
+
+// API kiểm tra Token
+router.get('/checkToken', auth.authenticateToken, (req, res) => {
+
+    return res.status(200).json({
+        message: "true"
+    });
+});
+
+// API thay đổi mật khẩu của user
+router.post('/changePassword', auth.authenticateToken, (req, res) => {
+
+    const user = req.body;
+    const email = res.locals.email;
+    var query = "select * from user where email = ? and password = ?";
+    console.log("user: ", user);
+    connection.query(query, [email, user.oldPassword], (err, results) => {
+        if (!err) {
+            if (results.length <= 0) {
+                return res.status(400).json({
+                    message: "Mật khẩu cũ không chính xác."
+                })
+            }
+            else if (results[0].password == user.oldPassword) {
+                query = "update user set password = ? where email = ?";
+                connection.query(query, [user.newPassword, email], (err, results) => {
+                    if (!err) {
+                        return res.status(200).json({
+                            message: "Mật khẩu đã được cập nhật thành công."
+                        })
+                    }
+                    else {
+                        return res.status(500).json(err)
+                    }
+                });
+            }
+            else {
+                return res.status(400).json({
+                    message: "Có lỗi xảy ra. Vui lòng thử lại sau."
+                })
+            }
+        }
+        else {
+            return res.status(500).json(err);
+        }
+    });
+})
 
 module.exports = router;
