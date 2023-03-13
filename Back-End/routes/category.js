@@ -5,7 +5,7 @@ const router = express.Router();
 var auth = require('../services/authentication');
 var checkRole = require('../services/checkRole');
 
-// API thêm danh mục
+// API thêm Category
 router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
 
     let category = req.body;
@@ -21,7 +21,7 @@ router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
     });
 })
 
-// API lấy danh sách danh mục
+// API lấy danh sách Category
 router.get('/get', auth.authenticateToken, (req, res) => {
 
     var query = "select * from category order by id asc";
@@ -34,7 +34,7 @@ router.get('/get', auth.authenticateToken, (req, res) => {
     });
 });
 
-// API cập nhật tên danh mục
+// API cập nhật Category name
 router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) => {
 
     let category = req.body;
