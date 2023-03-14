@@ -24,7 +24,7 @@ router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
 // API lấy danh sách Category
 router.get('/get', auth.authenticateToken, (req, res) => {
 
-    var query = "select * from category order by id asc";
+    var query = "select * from category where deleted='false' order by id asc";
     connection.query(query, (err, results) => {
         if (!err) {
             return res.status(200).json(results);
@@ -38,12 +38,12 @@ router.get('/get', auth.authenticateToken, (req, res) => {
 router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) => {
 
     let category = req.body;
-    var query = "update category set name=? where id=?";
+    var query = "update category set name=? where id=? and deleted='false'";
     connection.query(query, [category.name, category.id], (err, results) => {
         if (!err) {
             if (results.affectedRows == 0) {    
                 return res.status(404).json({
-                    message: "ID danh mục không được tìm thấy."
+                    message: "Danh mục không được tìm thấy hoặc danh mục đã bị xóa."
                 });
             } else {
                 return res.status(200).json({
