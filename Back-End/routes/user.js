@@ -22,7 +22,10 @@ router.post('/signup', (req, res) => {
                         if (!err) {
                             return res
                                 .status(200)
-                                .json({ message: "Đăng ký tài khoản thành công" });
+                                .json({ 
+                                    status: "200",
+                                    message: "Đăng ký tài khoản thành công" 
+                                });
                         } else {
                             return res.status(500).json(err);
                         }

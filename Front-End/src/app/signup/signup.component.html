@@ -1,0 +1,61 @@
+<!-- Header Modal Popup -->
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center">Đăng ký</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<!-- End Header Modal Popup -->
+
+<!-- Content Modal Popup -->
+<mat-dialog-content class="mat-typography">
+  <form action="" [formGroup]="signupForm">
+    <div fxFlex fxLayout="column">
+      <mat-form-field appearance="fill" fxFlex="80px">
+        <mat-label>Họ và tên</mat-label>
+        <input matInput formControlName="name" required/>
+        <mat-error *ngIf="signupForm.controls.name.touched && signupForm.controls.name.invalid">
+          <span *ngIf="signupForm.controls.name.errors.required">Họ và tên không được để trống</span>
+          <span *ngIf="signupForm.controls.name.errors.pattern">Họ và tên không hợp lệ</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" fxFlex="80px">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required/>
+        <mat-error *ngIf="signupForm.controls.email.touched && signupForm.controls.email.invalid">
+          <span *ngIf="signupForm.controls.email.errors.required">Email không được để trống</span>
+          <span *ngIf="signupForm.controls.email.errors.pattern">Email không hợp lệ</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" fxFlex="80px">
+        <mat-label>Số điện thoại</mat-label>
+        <input matInput formControlName="contactNumber" required/>
+        <mat-error *ngIf="signupForm.controls.contactNumber.touched && signupForm.controls.contactNumber.invalid">
+          <span *ngIf="signupForm.controls.contactNumber.errors.required">Số điện thoại không được để trống</span>
+          <span *ngIf="signupForm.controls.contactNumber.errors.pattern">Số điện thoại không hợp lệ</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" fxFlex="80px">
+        <mat-label>Mật khẩu</mat-label>
+        <input matInput formControlName="password" type="password" required/>
+        <mat-error *ngIf="signupForm.controls.password.touched && signupForm.controls.password.invalid">
+          <span *ngIf="signupForm.controls.password.errors.required">Mật khẩu không được để trống</span>
+          <span *ngIf="signupForm.controls.password.errors.pattern">Mật khẩu không hợp lệ</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<!-- End Content Modal Popup -->
+
+<!-- Footer Modal Popup -->
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()" [disabled]="!(signupForm.valid && signupForm.dirty)">Đăng ký</button>
+  <button mat-raised-button style="background-color: #333; color: white;" mat-dialog-close>Đóng</button>
+</mat-dialog-actions>
+<!-- End Footer Modal Popup -->
+
+
+

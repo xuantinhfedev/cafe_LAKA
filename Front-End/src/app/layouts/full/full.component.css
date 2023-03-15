@@ -1,0 +1,10 @@
+.header-flex{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.logo-flex {
+  display: flex;
+  align-items: center;
+}

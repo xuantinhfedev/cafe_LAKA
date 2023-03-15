@@ -6,7 +6,7 @@ import { ChangeDetectorRef, Component, OnDestroy, AfterViewInit } from '@angular
 @Component({
   selector: 'app-full-layout',
   templateUrl: 'full.component.html',
-  styleUrls: []
+  styleUrls: ['./full.component.css']
 })
 export class FullComponent implements OnDestroy, AfterViewInit {
   mobileQuery: MediaQueryList;
@@ -15,7 +15,8 @@ export class FullComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher
+    media: MediaMatcher,
+
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -26,4 +27,5 @@ export class FullComponent implements OnDestroy, AfterViewInit {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
   ngAfterViewInit() { }
+
 }

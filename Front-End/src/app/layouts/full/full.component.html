@@ -1,29 +1,12 @@
-<style>
-  .header-flex{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  .logo-flex {
-    display: flex;
-    align-items: center;
-  }
-</style>
-
 <div class="main-container">
     <mat-toolbar color="primary" class="topbar telative">
         <div class="navbar-header header-flex">
             <button mat-icon-button (click)="snav.toggle()" value="sidebarclosed" style="vertical-align: bottom;">
                 <mat-icon>menu</mat-icon>
-            </button><b>
-                <!-- <span style="vertical-align: middle;">
-                  <mat-icon>local_cafe</mat-icon>
-                </span> -->
-            </b>
+            </button>
             <span fxShow="false" fxShow.gt-xs class="logo-flex">
               <mat-icon>local_cafe</mat-icon>
-              <span>Laka Cafe</span>
+              <span><b>Laka Cafe</b></span>
             </span>
         </div>
         <span fxFlex></span>
