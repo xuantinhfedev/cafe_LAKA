@@ -2,14 +2,19 @@
 <app-best-seller></app-best-seller>
 
 <div class="wrapper sticky">
-  <nav class="navbar-fixed-top" >
+  <nav class="navbar-fixed-top">
     <a href="#" class="logo" style="display:flex; align-items: center;">
       <mat-icon>
         local_cafe
       </mat-icon> <b><span style="font-size: 20px">Laka Cafe</span></b>
     </a>
     <ul>
-      <li><a style="cursor: pointer;" (click)="signupAction()">Đăng ký</a></li>
+      <li>
+        <a style="cursor: pointer;" (click)="signupAction()">Đăng ký</a>
+      </li>
+      <li>
+        <a style="cursor: pointer;" (click)="fotgotPasswordAction()">Quên mật khẩu</a>
+      </li>
     </ul>
   </nav>
 </div>

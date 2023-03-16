@@ -22,9 +22,11 @@ router.post('/signup', (req, res) => {
                         if (!err) {
                             return res
                                 .status(200)
-                                .json({ 
-                                    status: "200",
-                                    message: "Đăng ký tài khoản thành công" 
+                                .json({
+                                    results: {
+                                        responseCode: "200",
+                                        message: "Đăng ký tài khoản thành công",
+                                    }
                                 });
                         } else {
                             return res.status(500).json(err);
@@ -32,7 +34,12 @@ router.post('/signup', (req, res) => {
                     }
                 );
             } else {
-                return res.status(400).json({ message: "Tài khoản Email đã tồn tại!." });
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Tài khoản Email đã tồn tại.",
+                    }
+                });
             }
         } else {
             return res.status(500).json(err);
@@ -49,11 +56,17 @@ router.post('/login', (req, res) => {
         if (!err) {
             if (results.length <= 0 || results[0].password != user.password) {
                 return res.status(401).json({
-                    message: "Tài khoản hoặc mật khẩu không chính xác"
+                    results: {
+                        responseCode: '404',
+                        message: "Tài khoản hoặc mật khẩu không chính xác"
+                    }
                 });
             } else if (results[0].status === "false") {
                 return res.status(401).json({
-                    message: "Tài khoản của bạn đã dừng hoạt động. Liên hệ quản lý để kích hoạt",
+                    results: {
+                        responseCode: '404',
+                        message: "Tài khoản của bạn đã dừng hoạt động hoặc chưa kích hoạt. Liên hệ quản lý để kích hoạt",
+                    }
                 });
             } else if (results[0].password == user.password) {
                 const response = {
@@ -64,11 +77,18 @@ router.post('/login', (req, res) => {
                     expiresIn: '8h'
                 })
                 res.status(200).json({
-                    token: accessToken
+                    token: accessToken,
+                    results: {
+                        responseCode: '200',
+                        message: "Đăng nhập thành công.",
+                    }
                 });
             } else {
                 return res.status(400).json({
-                    message: "Có lỗi xảy ra. Vui lòng thử lại sau"
+                    results: {
+                        responseCode: '400',
+                        message: "Có lỗi xảy ra. Vui lòng thử lại sau"
+                    }
                 });
             }
         } else {
@@ -94,15 +114,18 @@ router.post('/forgotPassword', (req, res) => {
     connection.query(query, [user.email], (err, results) => {
         if (!err) {
             if (results.length <= 0) {
-                return res.status(401).json({
-                    message: "Tài khoản hoặc mật khẩu không chính xác"
+                return res.status(200).json({
+                    results: {
+                        responseCode: '401',
+                        message: "Email không chính xác"
+                    }
                 });
             } else {
                 var mailOptions = {
                     from: process.env.EMAIL,
                     to: results[0].email,
-                    subject: 'Mật khẩu được gửi từ Cafe manage',
-                    html: '<p><b>Chi tiết đăng nhập vào hệ thống Cafe manage</b><br><b>Email: </b>' + results[0].email + '<br><b>Password: </b>' + results[0].password + '<br><a href="http://localhost:4200">Click here to login</a></p>'
+                    subject: 'Mật khẩu được gửi từ Laka Cafe Manage',
+                    html: '<p><b>Chi tiết đăng nhập vào hệ thống Laka Cafe manage</b><br><b>Email: </b>' + results[0].email + '<br><b>Password: </b>' + results[0].password + '<br><a href="http://localhost:4200">Nhấn vào đây để đăng nhập lại</a></p>'
                 }
                 transporter.sendMail(mailOptions, function (err, info) {
                     if (err) {
@@ -112,7 +135,10 @@ router.post('/forgotPassword', (req, res) => {
                     }
                 });
                 return res.status(200).json({
-                    message: "Mật khẩu mới đã được gửi tới tài khoản Email của bạn."
+                    results: {
+                        responseCode: '200',
+                        message: "Mật khẩu đã được gửi tới Email của bạn."
+                    }
                 })
             }
         }

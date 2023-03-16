@@ -21,7 +21,6 @@ export class BaseService {
   }
 
   async postService(data: any, url: string, host: string) {
-    console.log(data)
     try {
       let response = await this.http
         .post<any>(`${this.path}/${url}`, data, {
@@ -32,43 +31,35 @@ export class BaseService {
           observe: 'response',
         })
         .toPromise();
-        console.log("Bước 1: ", response);
       if (response && response?.status == 200) {
-        console.log("Bước 2: ");
-
         let dataRest = response?.body;
-        console.log("Bước 3: ", dataRest);
         if (dataRest.status != '200') {
-          console.log("Bước 3.1: ");
-          this.toastr.warning(`${dataRest.message}`, 'Cảnh báo', {
-            timeOut: 5000,
-            closeButton: true,
-            progressBar: true,
-            newestOnTop: true,
-          });
+          return dataRest;
         } else {
-          console.log("Bước 3.2: ");
           return dataRest;
         }
       } else {
-        console.log("Bước 2.1: ");
-
         this.toastr.error('Có lỗi xảy ra vui lòng thử lại sau', `Lỗi`, {
           timeOut: 5000,
           closeButton: true,
           progressBar: true,
           newestOnTop: true,
         });
+        let dataRest = response?.body;
+        return dataRest;
       }
     } catch (error) {
-      console.log("Catch err: ");
-
       this.toastr.error('Có lỗi xảy ra vui lòng thử lại sau', `Lỗi`, {
         timeOut: 5000,
         closeButton: true,
         progressBar: true,
         newestOnTop: true,
       });
+      const results = {
+        responseCode: '404',
+        message: 'Đã có lỗi xảy ra.',
+      };
+      return results;
     }
     return null;
   }

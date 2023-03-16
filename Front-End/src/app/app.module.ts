@@ -17,22 +17,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { SignupComponent } from './signup/signup.component';
 import { NgxUiLoaderModule, NgxUiLoaderConfig, SPINNER, PB_DIRECTION } from'ngx-ui-loader';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   text: "Loading...",
   textColor: "#FFFFFF",
   textPosition: "center-center",
-  pbColor: "red",
-  bgsColor: "red",
-  fgsColor: "red",
+  pbColor: "brown",
+  bgsColor: "brown",
+  fgsColor: "brown",
   fgsType: SPINNER.squareLoader,
-  fgsSize: 100,
+  fgsSize: 50,
   pbDirection: PB_DIRECTION.leftToRight,
   pbThickness: 5,
 }
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     HomeComponent,
     BestSellerComponent,
@@ -40,8 +41,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppHeaderComponent,
     AppSidebarComponent,
     SignupComponent,
-
-  ],
+      ForgotPasswordComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,

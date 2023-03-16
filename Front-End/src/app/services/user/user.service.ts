@@ -11,10 +11,21 @@ const api_url = 'user/';
 export class UserService {
   constructor(private baseService: BaseService) {}
 
+  // Hàm thực hiện gọi API đăng ký tài khoản
   async signUp(data: any) {
     let dataResponse = await this.baseService.postService(
       data,
       api_url + 'signup',
+      ''
+    );
+    return dataResponse;
+  }
+
+  // Hàm thực hiện gọi API quên mật khẩu
+  async forgotPassword(data: any){
+    let dataResponse = await this.baseService.postService(
+      data,
+      api_url + 'forgotPassword',
       ''
     );
     return dataResponse;

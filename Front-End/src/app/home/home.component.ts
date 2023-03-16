@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { Toastr } from '../services/toastr.service'
 import { SignupComponent } from '../signup/signup.component';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,10 +16,19 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // Hàm thực hiện chức năng mở dialog đăng ký
   async signupAction() {
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = "650px";
-    this.dialog.open(SignupComponent, dialogConfig)
+    this.dialog.open(SignupComponent, dialogConfig);
+  }
+
+  // Hàm thực hiện chức năng mở dialog quên mật khẩu
+  async fotgotPasswordAction() {
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = "650px";
+    this.dialog.open(ForgotPasswordComponent, dialogConfig);
   }
 }
