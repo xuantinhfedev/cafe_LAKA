@@ -2,6 +2,8 @@ export class GlobalConstants {
   // Message
   public static genericError: string = 'Có lỗi xảy ra. Vui lòng thử lại sau.';
 
+  public static unauthorized: string = "Bạn không phải là người được quyền để truy cập trang này.";
+
   // Regex
   public static nameRegex: string = '[a-zA-Z0-9 ]*';
 

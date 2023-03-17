@@ -13,28 +13,34 @@ import { SharedModule } from './shared/shared.module';
 import { FullComponent } from './layouts/full/full.component';
 import { AppHeaderComponent } from './layouts/full/header/header.component';
 import { AppSidebarComponent } from './layouts/full/sidebar/sidebar.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { SignupComponent } from './signup/signup.component';
-import { NgxUiLoaderModule, NgxUiLoaderConfig, SPINNER, PB_DIRECTION } from'ngx-ui-loader';
+import {
+  NgxUiLoaderModule,
+  NgxUiLoaderConfig,
+  SPINNER,
+  PB_DIRECTION,
+} from 'ngx-ui-loader';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
+import { TokenInterceptorInterceptor } from './services/token-interceptor/token-interceptor.interceptor';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
-  text: "Loading...",
-  textColor: "#FFFFFF",
-  textPosition: "center-center",
-  pbColor: "brown",
-  bgsColor: "brown",
-  fgsColor: "brown",
+  text: 'Loading...',
+  textColor: '#FFFFFF',
+  textPosition: 'center-center',
+  pbColor: 'brown',
+  bgsColor: 'brown',
+  fgsColor: 'brown',
   fgsType: SPINNER.squareLoader,
   fgsSize: 50,
   pbDirection: PB_DIRECTION.leftToRight,
   pbThickness: 5,
-}
+};
 
 @NgModule({
-  declarations: [		
+  declarations: [
     AppComponent,
     HomeComponent,
     BestSellerComponent,
@@ -42,9 +48,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppHeaderComponent,
     AppSidebarComponent,
     SignupComponent,
-      ForgotPasswordComponent,
-      LoginComponent
-   ],
+    ForgotPasswordComponent,
+    LoginComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -58,7 +64,14 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],
-  providers: [],
+  providers: [
+    HttpClientModule,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

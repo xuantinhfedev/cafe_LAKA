@@ -54,7 +54,7 @@ router.post('/login', (req, res) => {
     query = "select email, password, role, status, deleted from user where email=?";
     connection.query(query, [user.email], (err, results) => {
         if (!err) {
-            
+
             console.log(results[0])
             if (results.length <= 0 || results[0].password != user.password) {
                 return res.status(200).json({
@@ -199,7 +199,10 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) 
 router.get('/checkToken', auth.authenticateToken, (req, res) => {
 
     return res.status(200).json({
-        message: "true"
+        results: {
+            responseCode: "200",
+            message: "true"
+        }
     });
 });
 

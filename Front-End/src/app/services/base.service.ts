@@ -76,10 +76,11 @@ export class BaseService {
         })
         .toPromise();
 
+      console.log(response);
       let status = response?.status;
       let dataRest = response?.body;
       if (status == 200 && dataRest) {
-        if (dataRest.result.responseCode != '200') {
+        if (dataRest.results.responseCode != '200') {
           this.toastr.warning(`${dataRest.message}`, 'Cảnh báo', {
             timeOut: 5000,
             closeButton: true,
@@ -96,14 +97,20 @@ export class BaseService {
           progressBar: true,
           newestOnTop: true,
         });
+        return dataRest;
       }
     } catch (error) {
-      this.toastr.error('Cảnh báo', `Có lỗi xảy ra vui lòng thử lại sau`, {
+      this.toastr.error('Có lỗi xảy ra vui lòng thử lại sau', `Lỗi`, {
         timeOut: 5000,
         closeButton: true,
         progressBar: true,
         newestOnTop: true,
       });
+      const results = {
+        responseCode: '404',
+        message: 'Đã có lỗi xảy ra.',
+      };
+      return results;
     }
     return null;
   }
