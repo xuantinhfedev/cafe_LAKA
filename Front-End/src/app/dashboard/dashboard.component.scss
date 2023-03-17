@@ -1,80 +1,95 @@
 .position-relative {
-	position: relative;
+  position: relative;
 }
 
 .add-contact {
-	position: absolute;
-    right: 17px;
-    top: 57px;
+  position: absolute;
+  right: 17px;
+  top: 57px;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-  }
-  
-  html {
-    box-sizing: border-box;
-  }
-  
-  *, *:before, *:after {
-    box-sizing: inherit;
-  }
-  
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.row {
+  margin: 0;
+}
+
+.column {
+  float: left;
+  width: 33.3%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 8px;
+  border-radius: 8px;
+}
+
+.about-section {
+  padding: 50px;
+  text-align: center;
+  background-color: #474e5d;
+  color: white;
+}
+
+.container {
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+}
+
+.container::after,
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+h2.title {
+  margin-top: 8px;
+}
+
+.title {
+  color: black;
+  text-align: center !important;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #6d4c41;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.button:hover {
+  background-color: #c58975;
+}
+
+@media screen and (max-width: 650px) {
   .column {
-    float: left;
-    width: 33.3%;
-    margin-bottom: 16px;
-    padding: 0 8px;
-  }
-  
-  .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    margin: 8px;
-  }
-  
-  .about-section {
-    padding: 50px;
-    text-align: center;
-    background-color: #474e5d;
-    color: white;
-  }
-  
-  .container {
-    padding: 0 16px;
-  }
-  
-  .container::after, .row::after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-  
-  .title {
-    color: black;
-    text-align: center !important;
-  }
-  
-  .button {
-    border: none;
-    outline: 0;
-    display: inline-block;
-    padding: 8px;
-    color: white;
-    background-color: #e53935;
-    text-align: center;
-    cursor: pointer;
     width: 100%;
-    font-weight: bold;
+    display: block;
   }
-  
-  .button:hover {
-    background-color: #555;
-  }
-  
-  @media screen and (max-width: 650px) {
-    .column {
-      width: 100%;
-      display: block;
-    }
-  }
+}

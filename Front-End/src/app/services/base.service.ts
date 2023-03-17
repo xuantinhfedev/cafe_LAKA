@@ -76,7 +76,6 @@ export class BaseService {
         })
         .toPromise();
 
-      console.log(response);
       let status = response?.status;
       let dataRest = response?.body;
       if (status == 200 && dataRest) {

@@ -36,7 +36,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   fgsType: SPINNER.squareLoader,
   fgsSize: 50,
   pbDirection: PB_DIRECTION.leftToRight,
-  pbThickness: 5,
+  pbThickness: 3,
 };
 
 @NgModule({
