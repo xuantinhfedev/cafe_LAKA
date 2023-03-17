@@ -212,7 +212,7 @@ router.post('/changePassword', auth.authenticateToken, (req, res) => {
     const user = req.body;
     const email = res.locals.email;
     var query = "select * from user where email = ? and password = ?";
-    console.log("user: ", user);
+    // console.log("user: ", user);
     connection.query(query, [email, user.oldPassword], (err, results) => {
         if (!err) {
             if (results.length <= 0) {

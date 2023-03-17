@@ -49,4 +49,10 @@ export class UserService {
     let dataResponse = await this.baseService.getService(api_url + 'checkToken', '');
     return dataResponse;
   }
+
+  // Hàm thực hiện gọi API thay đổi mật khẩu
+  async changePassword(data: any) {
+    let dataResponse = await this.baseService.postService(data ,api_url + 'changePassword', '');
+    return dataResponse;
+  }
 }
