@@ -51,24 +51,34 @@ router.post('/signup', (req, res) => {
 router.post('/login', (req, res) => {
 
     const user = req.body;
-    query = "select email, password, role, status from user where email=?";
+    query = "select email, password, role, status, deleted from user where email=?";
     connection.query(query, [user.email], (err, results) => {
         if (!err) {
+            
+            console.log(results[0])
             if (results.length <= 0 || results[0].password != user.password) {
-                return res.status(401).json({
+                return res.status(200).json({
                     results: {
                         responseCode: '404',
                         message: "Tài khoản hoặc mật khẩu không chính xác"
                     }
                 });
             } else if (results[0].status === "false") {
-                return res.status(401).json({
+                return res.status(200).json({
                     results: {
                         responseCode: '404',
                         message: "Tài khoản của bạn đã dừng hoạt động hoặc chưa kích hoạt. Liên hệ quản lý để kích hoạt",
                     }
                 });
-            } else if (results[0].password == user.password) {
+            } else if (results[0].deleted === "true") {
+                return res.status(200).json({
+                    results: {
+                        responseCode: '401',
+                        message: "Tài khoản của bạn đã bị xóa. Liên hệ quản lý để khôi phục",
+                    }
+                });
+            }
+            else if (results[0].password == user.password) {
                 const response = {
                     email: results[0].email,
                     role: results[0].role
@@ -84,7 +94,7 @@ router.post('/login', (req, res) => {
                     }
                 });
             } else {
-                return res.status(400).json({
+                return res.status(200).json({
                     results: {
                         responseCode: '400',
                         message: "Có lỗi xảy ra. Vui lòng thử lại sau"

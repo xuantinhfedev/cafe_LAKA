@@ -18,6 +18,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SignupComponent } from './signup/signup.component';
 import { NgxUiLoaderModule, NgxUiLoaderConfig, SPINNER, PB_DIRECTION } from'ngx-ui-loader';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { LoginComponent } from './login/login.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   text: "Loading...",
@@ -33,7 +34,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 }
 
 @NgModule({
-  declarations: [	
+  declarations: [		
     AppComponent,
     HomeComponent,
     BestSellerComponent,
@@ -41,7 +42,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppHeaderComponent,
     AppSidebarComponent,
     SignupComponent,
-      ForgotPasswordComponent
+      ForgotPasswordComponent,
+      LoginComponent
    ],
   imports: [
     BrowserModule,

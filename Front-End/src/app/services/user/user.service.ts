@@ -21,6 +21,16 @@ export class UserService {
     return dataResponse;
   }
 
+  // Hàm thực hiện gọi API đăng nhập
+  async login(data: any){
+    let dataResponse = await this.baseService.postService(
+      data,
+      api_url + 'login',
+      ''
+    );
+    return dataResponse;
+  }
+
   // Hàm thực hiện gọi API quên mật khẩu
   async forgotPassword(data: any){
     let dataResponse = await this.baseService.postService(

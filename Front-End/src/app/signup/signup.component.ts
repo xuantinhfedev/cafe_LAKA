@@ -14,7 +14,7 @@ import { GlobalConstants } from '../shared/global-constants';
 })
 export class SignupComponent implements OnInit {
   signupForm: any = FormGroup;
-  responseMessage: any;
+  responseMessage: string = "";
   hide = true;
 
   constructor(

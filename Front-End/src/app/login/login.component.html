@@ -1,0 +1,47 @@
+<!-- Header Modal Popup -->
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center">Đăng nhập tài khoản</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<!-- End Header Modal Popup -->
+
+<!-- Content Modal Popup -->
+<mat-dialog-content class="mat-typography">
+  <form action="" [formGroup]="loginForm">
+    <div fxFlex fxLayout="column">
+      <mat-form-field appearance="fill" fxFlex="80px">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required/>
+        <mat-icon matSuffix>mail</mat-icon>
+        <mat-error *ngIf="loginForm.controls.email.touched && loginForm.controls.email.invalid">
+          <span *ngIf="loginForm.controls.email.errors.required">Email không được để trống</span>
+          <span *ngIf="loginForm.controls.email.errors.pattern">Email không hợp lệ</span>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Mật khẩu</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="loginForm.controls.password.touched && loginForm.controls.password.invalid">
+          <span *ngIf="loginForm.controls.password.errors.required">Mật khẩu không được để trống</span>
+          <span *ngIf="loginForm.controls.password.errors.pattern">Mật khẩu không hợp lệ</span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<!-- End Content Modal Popup -->
+
+<!-- Footer Modal Popup -->
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()" [disabled]="!(loginForm.valid && loginForm.dirty)">Đăng nhập</button>
+  <button mat-raised-button style="background-color: #333; color: white;" mat-dialog-close>Đóng</button>
+</mat-dialog-actions>
+<!-- End Footer Modal Popup -->
+
+
+
