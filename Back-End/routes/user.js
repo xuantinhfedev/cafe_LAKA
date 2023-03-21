@@ -51,11 +51,11 @@ router.post('/signup', (req, res) => {
 router.post('/login', (req, res) => {
 
     const user = req.body;
-    query = "select email, password, role, status, deleted from user where email=?";
+    query = "select email, name, password, role, status, deleted from user where email=?";
     connection.query(query, [user.email], (err, results) => {
         if (!err) {
 
-            console.log(results[0])
+            // console.log(results[0])
             if (results.length <= 0 || results[0].password != user.password) {
                 return res.status(200).json({
                     results: {
@@ -81,7 +81,8 @@ router.post('/login', (req, res) => {
             else if (results[0].password == user.password) {
                 const response = {
                     email: results[0].email,
-                    role: results[0].role
+                    role: results[0].role,
+                    name: results[0].name,
                 };
                 const accessToken = jwt.sign(response, process.env.ACCESS_TOKEN, {
                     expiresIn: '8h'
@@ -139,9 +140,9 @@ router.post('/forgotPassword', (req, res) => {
                 }
                 transporter.sendMail(mailOptions, function (err, info) {
                     if (err) {
-                        console.log(err)
+                        // console.log(err)
                     } else {
-                        console.log("Email sent: " + info.response)
+                        // console.log("Email sent: " + info.response)
                     }
                 });
                 return res.status(200).json({
@@ -216,8 +217,11 @@ router.post('/changePassword', auth.authenticateToken, (req, res) => {
     connection.query(query, [email, user.oldPassword], (err, results) => {
         if (!err) {
             if (results.length <= 0) {
-                return res.status(400).json({
-                    message: "Mật khẩu cũ không chính xác."
+                return res.status(200).json({
+                    results: {
+                        responseCode: "401",
+                        message: "Mật khẩu cũ không chính xác."
+                    }
                 })
             }
             else if (results[0].password == user.oldPassword) {
@@ -225,7 +229,10 @@ router.post('/changePassword', auth.authenticateToken, (req, res) => {
                 connection.query(query, [user.newPassword, email], (err, results) => {
                     if (!err) {
                         return res.status(200).json({
-                            message: "Mật khẩu đã được cập nhật thành công."
+                            results:{
+                                responseCode: "200",
+                                message: "Mật khẩu đã được cập nhật thành công."
+                            }
                         })
                     }
                     else {

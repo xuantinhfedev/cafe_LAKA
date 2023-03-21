@@ -24,6 +24,7 @@ export class RouterGuardService {
     try {
       tokenPayload = jwt_decode(token);
       localStorage.setItem('role', tokenPayload.role)
+      localStorage.setItem('name', tokenPayload.name)
     } catch (err) {
       localStorage.clear();
       this.router.navigate(['/']);
