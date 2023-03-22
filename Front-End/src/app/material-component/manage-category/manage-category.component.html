@@ -6,7 +6,10 @@
 <mat-card>
   <mat-form-field appearance="fill">
     <mat-label>Tìm kiếm</mat-label>
-    <input matInput (keyup)="applyFilter($event)" #input />
+    <input matInput (keyup)="applyFilter($event)" #input [(ngModel)]="value"/>
+    <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
 </mat-card>
 <hr>

@@ -9,13 +9,13 @@ var checkRole = require('../services/checkRole');
 router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
 
     let category = req.body;
-    var query = "insert into category (name) values(?)";
+    var query = "insert into category (name, deleted) values(?, 'false')";
     connection.query(query, [category.name], (err, results) => {
         if (!err) {
             return res.status(200).json({
                 results: {
                     responseCode: "200",
-                    message: "Danh mục được thêm thành công."
+                    message: "Thêm danh mục thành công."
                 }
             });
         } else {
@@ -69,7 +69,10 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) 
                 });
             } else {
                 return res.status(200).json({
-                    message: "Cập nhật tên danh mục thành công."
+                    results: {
+                        responseCode: "200",
+                        message: "Cập nhật tên danh mục thành công."
+                    }
                 });
             }
         } else {
