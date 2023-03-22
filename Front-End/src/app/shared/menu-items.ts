@@ -18,7 +18,7 @@ const MENUITEMS = [
     state: 'category',
     name: 'Quản lý danh mục',
     icon: 'dashboard',
-    role: '',
+    role: 'admin',
   }
 ];
 

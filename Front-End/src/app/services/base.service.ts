@@ -157,4 +157,50 @@ export class BaseService {
     }
     return null;
   }
+
+  async patchService(data: any, url: string, host: string) {
+    try {
+      let response = await this.http
+        .patch<any>(`${this.path}/${url}`, data, {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          }),
+          observe: 'response',
+        })
+        .toPromise();
+      if (response && response?.status == 200) {
+        let dataRest = response?.body;
+        if (dataRest.status != '200') {
+          return dataRest;
+        } else {
+          return dataRest;
+        }
+      } else {
+        this.toastr.error('Có lỗi xảy ra vui lòng thử lại sau', `Lỗi`, {
+          timeOut: 5000,
+          closeButton: true,
+          progressBar: true,
+          newestOnTop: true,
+        });
+        let dataRest = response?.body;
+        return dataRest;
+      }
+    } catch (error) {
+      this.toastr.error('Có lỗi xảy ra vui lòng thử lại sau', `Lỗi`, {
+        timeOut: 5000,
+        closeButton: true,
+        progressBar: true,
+        newestOnTop: true,
+      });
+      const results = {
+        responseCode: '404',
+        message: 'Đã có lỗi xảy ra.',
+      };
+      return results;
+    }
+    return null;
+  }
+
+
 }

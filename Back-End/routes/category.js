@@ -13,10 +13,18 @@ router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
     connection.query(query, [category.name], (err, results) => {
         if (!err) {
             return res.status(200).json({
-                message: "Danh mục được thêm thành công."
+                results: {
+                    responseCode: "200",
+                    message: "Danh mục được thêm thành công."
+                }
             });
         } else {
-            return res.status(500).json(err);
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
     });
 })
@@ -27,9 +35,20 @@ router.get('/get', auth.authenticateToken, (req, res) => {
     var query = "select * from category where deleted='false' order by id asc";
     connection.query(query, (err, results) => {
         if (!err) {
-            return res.status(200).json(results);
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Lấy danh sách danh mục thành công.",
+                    data: results
+                }
+            });
         } else {
-            return res.status(500).json(err);
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
     });
 });
@@ -42,16 +61,24 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) 
     connection.query(query, [category.name, category.id], (err, results) => {
         if (!err) {
             if (results.affectedRows == 0) {    
-                return res.status(404).json({
-                    message: "Danh mục không được tìm thấy hoặc danh mục đã bị xóa."
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Danh mục không được tìm thấy hoặc danh mục đã bị xóa."
+                    }
                 });
             } else {
                 return res.status(200).json({
-                    message: "Danh mục được cập nhật thành công."
+                    message: "Cập nhật tên danh mục thành công."
                 });
             }
         } else {
-            return res.status(500).json(err);
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
     });
 });

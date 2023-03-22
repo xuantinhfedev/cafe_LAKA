@@ -1,0 +1,19 @@
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-card {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  font-size: 18px;
+  font-style: bold;
+  font-weight: 600;
+}
