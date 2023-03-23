@@ -29,17 +29,76 @@ router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
     });
 })
 
+// API tìm kiếm danh sách Category
+router.get('/search', auth.authenticateToken, (req, res) => {
+
+    console.log(req.query);
+    var queryCount = "select COUNT(*) as dataCount from category where deleted='false' and name LIKE ? order by id asc";
+    let dataCount = 0;
+    connection.query(queryCount, [req.query.name,  ['%' + req.query.name + '%']], (err, results) => {
+        if (!err) {
+            dataCount = results[0];
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+
+    var query = "select * from category where deleted='false' and name LIKE ? order by id asc";
+    connection.query(query, [['%' + req.query.name + '%']], (err, results) => {
+        if (!err) {
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Tìm kiếm danh mục thành công.",
+                    data: results,
+                    dataCount: dataCount.dataCount
+                }
+            });
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
+
+
 // API lấy danh sách Category
 router.get('/get', auth.authenticateToken, (req, res) => {
 
-    var query = "select * from category where deleted='false' order by id asc";
+    console.log(req.query);
+    var queryCount = "select COUNT(*) as dataCount from category where deleted='false' order by id asc";
+    let dataCount = 0;
+    connection.query(queryCount, (err, results) => {
+        if (!err) {
+            dataCount = results[0];
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+
+    var query = "select * from category where deleted='false'  order by id asc";
     connection.query(query, (err, results) => {
         if (!err) {
             return res.status(200).json({
                 results: {
                     responseCode: "200",
                     message: "Lấy danh sách danh mục thành công.",
-                    data: results
+                    data: results,
+                    dataCount: dataCount.dataCount
                 }
             });
         } else {

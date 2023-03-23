@@ -7,8 +7,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
-import { StylePaginatorDirective } from '../style-paginator.directive';
 import { CategoryComponent } from '../dialog/category/category.component';
+import { MatSort } from '@angular/material/sort';
 @Component({
   selector: 'app-manage-category',
   templateUrl: './manage-category.component.html',
@@ -18,9 +18,11 @@ export class ManageCategoryComponent implements OnInit {
   displayedColumns: string[] = ['name', 'edit'];
   dataSource: any;
   responseMessage: string = '';
-  value: string = "";
+  valueSearch: string = "";
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | undefined;
+  @ViewChild(MatSort)
+  sort!: MatSort;
 
   // pagination
   length = 0
@@ -47,6 +49,33 @@ export class ManageCategoryComponent implements OnInit {
     this.tableData();
   }
 
+  // Hàm thực hiện tìm kiếm tên danh mục
+  async searchNameCategory() {
+
+    if(this.valueSearch == ""){
+      this.tableData();
+      return;
+    }
+    let response = await this.categoryService.getSearchCategory(this.valueSearch);
+    if (response.results.responseCode == '200') {
+      this.ngxService.stop();
+      this.dataSource = new MatTableDataSource(response.results.data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.paginator.length = response.results.dataCount;
+      console.log(this.dataSource.paginator)
+      this.responseMessage = response.results.message;
+      this.toastr.toastSuccess(this.responseMessage, 'Thành công');
+    } else {
+      this.ngxService.stop();
+      if (response.results.message) {
+        this.responseMessage = response.results.message;
+      } else {
+        this.responseMessage = GlobalConstants.genericError;
+      }
+      this.toastr.toastError(this.responseMessage, 'Lỗi');
+    }
+  }
+
   // Hàm thực hiện lấy danh sách bản ghi
   async tableData() {
     let response = await this.categoryService.getCategorys();
@@ -54,8 +83,10 @@ export class ManageCategoryComponent implements OnInit {
       this.ngxService.stop();
       this.dataSource = new MatTableDataSource(response.results.data);
       this.dataSource.paginator = this.paginator;
-      this.dataSource.paginator.length = response.results.data.length;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator.length = response.results.dataCount;
       console.log(this.dataSource.paginator)
+      console.log(this.dataSource.sort);
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {

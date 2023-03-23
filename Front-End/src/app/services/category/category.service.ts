@@ -36,4 +36,11 @@ constructor(
     return dataResponse;
   }
 
+  // Hàm thực hiện gọi API tím kiếm danh mục
+  async getSearchCategory(valueSearch: any) {
+    let dataResponse = await this.baseService.getService(api_url + 'search?name=' + valueSearch, '')
+
+    return dataResponse;
+  }
+
 }
