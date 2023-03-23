@@ -9,23 +9,26 @@ import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 import { CategoryComponent } from '../dialog/category/category.component';
 import { MatSort } from '@angular/material/sort';
+import { DeleteCategoryComponent } from '../dialog/category/delete-category/delete-category.component';
 @Component({
   selector: 'app-manage-category',
   templateUrl: './manage-category.component.html',
   styleUrls: ['./manage-category.component.scss'],
 })
 export class ManageCategoryComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'edit'];
+  displayedColumns: string[] = ['index', 'name', 'edit'];
   dataSource: any;
   responseMessage: string = '';
-  valueSearch: string = "";
+  valueSearch: string = '';
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator | undefined;
+  @ViewChild(MatPaginator, { static: true }) paginator:
+    | MatPaginator
+    | undefined;
   @ViewChild(MatSort)
   sort!: MatSort;
 
   // pagination
-  length = 0
+  length = 0;
   pageSize = 10;
   pageIndex = 0;
   pageSizeOptions = [10, 20, 30];
@@ -51,18 +54,19 @@ export class ManageCategoryComponent implements OnInit {
 
   // Hàm thực hiện tìm kiếm tên danh mục
   async searchNameCategory() {
-
-    if(this.valueSearch == ""){
+    if (this.valueSearch == '') {
       this.tableData();
       return;
     }
-    let response = await this.categoryService.getSearchCategory(this.valueSearch);
+    let response = await this.categoryService.getSearchCategory(
+      this.valueSearch
+    );
     if (response.results.responseCode == '200') {
       this.ngxService.stop();
       this.dataSource = new MatTableDataSource(response.results.data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.paginator.length = response.results.dataCount;
-      console.log(this.dataSource.paginator)
+      console.log(this.dataSource.paginator);
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
@@ -85,7 +89,7 @@ export class ManageCategoryComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator.length = response.results.dataCount;
-      console.log(this.dataSource.paginator)
+      console.log(this.dataSource.paginator);
       console.log(this.dataSource.sort);
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
@@ -101,18 +105,18 @@ export class ManageCategoryComponent implements OnInit {
   }
 
   //
-  applyFilter(event: Event) {
-    let filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  // applyFilter(event: Event) {
+  //   let filterValue = (event.target as HTMLInputElement).value;
+  //   this.dataSource.filter = filterValue.trim().toLowerCase();
+  // }
 
   //
   handleAddAction() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      action: 'Add'
-    }
-    dialogConfig.width = '850px';
+      action: 'Add',
+    };
+    dialogConfig.width = '800px';
     const dialogRef = this.dialog.open(CategoryComponent, dialogConfig);
     this.router.events.subscribe(() => {
       dialogRef.close();
@@ -122,8 +126,7 @@ export class ManageCategoryComponent implements OnInit {
       (response) => {
         this.tableData();
       }
-    )
-
+    );
   }
 
   //
@@ -131,11 +134,12 @@ export class ManageCategoryComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       action: 'Edit',
-      data: element
-    }
-    dialogConfig.width = '850px';
+      data: element,
+    };
+    dialogConfig.width = '800px';
     const dialogRef = this.dialog.open(CategoryComponent, dialogConfig);
     this.router.events.subscribe(() => {
+      console.log('Router event: ', this.router.events);
       dialogRef.close();
     });
 
@@ -143,7 +147,27 @@ export class ManageCategoryComponent implements OnInit {
       (response) => {
         this.tableData();
       }
-    )
+    );
+  }
 
+  //
+  handleDeleteAction(element: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      message: 'chuyển danh mục này vào thùng rác',
+      action: 'Delete',
+      data: element,
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(DeleteCategoryComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
+
+    const sub = dialogRef.componentInstance.onDeleteCategory.subscribe(
+      (response) => {
+        this.tableData();
+      }
+    );
   }
 }

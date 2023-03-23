@@ -43,3 +43,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-top: 70px !important;
     padding: 20px !important;
 }
+
+.table-br-w100 {
+  border-right: 1px solid #ccc;
+  width: 100px;
+}
+
+.table-br {
+  border-right: 1px solid #ccc;
+}
+
+.table-w150 {
+  width: 150px;
+}

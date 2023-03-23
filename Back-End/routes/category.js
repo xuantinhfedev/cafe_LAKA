@@ -145,4 +145,36 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) 
     });
 });
 
+// API xóa Category
+router.delete('/delete', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+    let category = req.query.id;
+    var query = "update category set deleted='true' where id=?";
+    connection.query(query, [category], (err, results) => {
+        if (!err) {
+            if (results.affectedRows == 0) {    
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Danh mục không được tìm thấy hoặc danh mục đã được chuyển vào thùng rác."
+                    }
+                });
+            } else {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Danh mục đã được chuyển vào thùng rác thành công."
+                    }
+                });
+            }
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
+
 module.exports = router;

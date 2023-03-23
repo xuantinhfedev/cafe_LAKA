@@ -43,4 +43,10 @@ constructor(
     return dataResponse;
   }
 
+  // Hàm thực hiện gọi API xóa(mềm) danh mục
+  async deleteCategory(id: any) {
+    let dataResponse = await this.baseService.deleteService(api_url + 'delete?id=' + id, '');
+    return dataResponse;
+  }
+
 }

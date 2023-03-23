@@ -126,27 +126,28 @@ export class BaseService {
         })
         .toPromise();
 
-      let status = response?.status;
-      let dataRest = response?.body;
-      if (status == 200 && dataRest) {
-        if (dataRest.result.responseCode != '200') {
-          this.toastr.warning(`${dataRest.message}`, 'Cảnh báo', {
+        let status = response?.status;
+        let dataRest = response?.body;
+        if (status == 200 && dataRest) {
+          if (dataRest.results.responseCode != '200') {
+            this.toastr.warning(`${dataRest.message}`, 'Cảnh báo', {
+              timeOut: 5000,
+              closeButton: true,
+              progressBar: true,
+              newestOnTop: true,
+            });
+          } else {
+            return dataRest;
+          }
+        } else {
+          this.toastr.error('Cảnh báo', `Có lỗi xảy ra vui lòng thử lại sau`, {
             timeOut: 5000,
             closeButton: true,
             progressBar: true,
             newestOnTop: true,
           });
-        } else {
           return dataRest;
         }
-      } else {
-        this.toastr.error('Có lỗi xảy ra vui lòng thử lại sau', `Lỗi`, {
-          timeOut: 5000,
-          closeButton: true,
-          progressBar: true,
-          newestOnTop: true,
-        });
-      }
     } catch (error) {
       this.toastr.error('Có lỗi xảy ra vui lòng thử lại sau', `Lỗi`, {
         timeOut: 5000,

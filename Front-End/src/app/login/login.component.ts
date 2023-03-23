@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.responseMessage = GlobalConstants.genericError;
       }
-      this.toastr.toastError(this.responseMessage, 'Lỗi');
+      this.toastr.toastError(this.responseMessage, 'Thất bại');
     }
   }
 }

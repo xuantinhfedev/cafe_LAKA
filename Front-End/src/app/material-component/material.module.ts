@@ -14,6 +14,7 @@ import { ConfirmationComponent } from './dialog/confirmation/confirmation.compon
 import { ChangePasswordComponent } from './dialog/change-password/change-password.component';
 import { ManageCategoryComponent } from './manage-category/manage-category.component';
 import { CategoryComponent } from './dialog/category/category.component';
+import { DeleteCategoryComponent } from './dialog/category/delete-category/delete-category.component'
 
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -69,7 +70,8 @@ import { StylePaginatorDirective } from './style-paginator.directive';
     ChangePasswordComponent,
     ManageCategoryComponent,
     CategoryComponent,
-    StylePaginatorDirective
+    StylePaginatorDirective,
+    DeleteCategoryComponent
   ],
   exports: [
     MatAutocompleteModule,
