@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    if (localStorage.getItem('token') != null) {
+    if (sessionStorage.getItem('token') != null) {
       let response = await this.userService.checkToken();
       if (response.results.responseCode == 200) {
         this.router.navigate(['/cafe/dashboard']);

@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     if (response.results.responseCode == '200') {
       this.ngxService.stop();
       this.dialogRef.close();
-      localStorage.setItem('token', response.token);
+      sessionStorage.setItem('token', response.token);
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
       this.router.navigate(['/cafe/dashboard']);

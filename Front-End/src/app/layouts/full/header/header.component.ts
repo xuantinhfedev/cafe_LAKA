@@ -13,8 +13,8 @@ export class AppHeaderComponent {
   name: any;
   constructor(private router: Router,
     private dialog: MatDialog) {
-      this.name = localStorage.getItem('name');
-      console.log(this.name)
+      this.name = sessionStorage.getItem('name');
+      // console.log(this.name)
   }
 
   logOut() {
@@ -25,7 +25,7 @@ export class AppHeaderComponent {
     const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig);
     const sub = dialogRef.componentInstance.onEmitStatusChange.subscribe((user) => {
       dialogRef.close();
-      localStorage.clear();
+      sessionStorage.clear();
       this.router.navigate(['/'])
     })
   }

@@ -66,7 +66,7 @@ export class ManageCategoryComponent implements OnInit {
       this.dataSource = new MatTableDataSource(response.results.data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.paginator.length = response.results.dataCount;
-      console.log(this.dataSource.paginator);
+      // console.log(this.dataSource.paginator);
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
@@ -89,8 +89,8 @@ export class ManageCategoryComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator.length = response.results.dataCount;
-      console.log(this.dataSource.paginator);
-      console.log(this.dataSource.sort);
+      // console.log(this.dataSource.paginator);
+      // console.log(this.dataSource.sort);
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
@@ -139,7 +139,7 @@ export class ManageCategoryComponent implements OnInit {
     dialogConfig.width = '800px';
     const dialogRef = this.dialog.open(CategoryComponent, dialogConfig);
     this.router.events.subscribe(() => {
-      console.log('Router event: ', this.router.events);
+      // console.log('Router event: ', this.router.events);
       dialogRef.close();
     });
 

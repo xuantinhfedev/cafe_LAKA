@@ -71,7 +71,7 @@ import { StylePaginatorDirective } from './style-paginator.directive';
     ManageCategoryComponent,
     CategoryComponent,
     StylePaginatorDirective,
-    DeleteCategoryComponent
+    DeleteCategoryComponent,
   ],
   exports: [
     MatAutocompleteModule,

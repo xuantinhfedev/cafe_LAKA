@@ -1,6 +1,10 @@
 <mat-card class="category-header">
-  <b><span>Quản lý danh mục</span></b>
-  <button mat-flat-button color="primary" class="float-right" (click)="handleAddAction()">Thêm danh mục</button>
+  <b><h2 style="margin: 0">Quản lý danh mục</h2></b>
+  <div>
+    <button mat-flat-button color="primary" class="float-right" (click)="handleAddAction()">Thêm danh mục</button>
+    &nbsp; &nbsp; &nbsp;
+    <button mat-flat-button color="primary" (click)="handleAddAction()">Thùng rác<mat-icon>delete_forever</mat-icon></button>
+  </div>
 </mat-card>
 <hr>
 <mat-card>
@@ -17,10 +21,8 @@
 
     <!-- Index Column -->
     <ng-container matColumnDef="index">
-      <th class="table-br-w100"
-      mat-header-cell *matHeaderCellDef> STT </th>
-      <td class="table-br-w100"
-      mat-cell *matCellDef="let index = index"> {{index + 1}} </td>
+      <th class="table-br-w100" mat-header-cell *matHeaderCellDef> STT </th>
+      <td class="table-br-w100" mat-cell *matCellDef="let index = index"> {{index + 1}} </td>
     </ng-container>
 
     <ng-container matColumnDef="name">

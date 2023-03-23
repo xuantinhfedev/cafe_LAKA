@@ -19,34 +19,34 @@ export class RouterGuardService {
     let expectedRoleArray = route.data;
     expectedRoleArray = expectedRoleArray.expectedRole;
 
-    const token: any = localStorage.getItem('token');
+    const token: any = sessionStorage.getItem('token');
     var tokenPayload: any;
     try {
       tokenPayload = jwt_decode(token);
-      localStorage.setItem('role', tokenPayload.role)
-      localStorage.setItem('name', tokenPayload.name)
+      sessionStorage.setItem('role', tokenPayload.role);
+      sessionStorage.setItem('name', tokenPayload.name);
     } catch (err) {
-      localStorage.clear();
+      sessionStorage.clear();
       this.router.navigate(['/']);
     }
 
     let checkRole = false;
     for (let i = 0; i < expectedRoleArray.length; i++) {
-      if(expectedRoleArray[i] == tokenPayload.role){
+      if (expectedRoleArray[i] == tokenPayload.role) {
         checkRole = true;
       }
     }
 
-    if(tokenPayload.role == 'user' || tokenPayload.role == 'admin'){
-      if(this.auth.isAuthenticated() && checkRole){
+    if (tokenPayload.role == 'user' || tokenPayload.role == 'admin') {
+      if (this.auth.isAuthenticated() && checkRole) {
         return true;
       }
-      this.toastr.toastError(GlobalConstants.unauthorized, "Lỗi");
+      this.toastr.toastError(GlobalConstants.unauthorized, 'Lỗi');
       this.router.navigate(['/cafe/dashboard']);
       return false;
-    }else{
+    } else {
       this.router.navigate(['/']);
-      localStorage.clear();
+      sessionStorage.clear();
       return false;
     }
   }

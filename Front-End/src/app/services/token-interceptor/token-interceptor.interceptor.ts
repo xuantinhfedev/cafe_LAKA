@@ -18,7 +18,7 @@ export class TokenInterceptorInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
       request = request.clone({
         setHeaders: {
@@ -29,12 +29,12 @@ export class TokenInterceptorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err) => {
         if (err instanceof HttpErrorResponse) {
-          console.log('url interceptor: ', err.url);
-          console.log('interceptor err: ', err);
+          // console.log('url interceptor: ', err.url);
+          // console.log('interceptor err: ', err);
           if (err.status === 401 || err.status === 403) {
             if (this.router.url === '/') {
             } else {
-              localStorage.clear();
+              sessionStorage.clear();
               this.router.navigate(['/']);
             }
           }

@@ -9,7 +9,7 @@ import { MenuItems } from 'src/app/shared/menu-items';
 })
 export class AppSidebarComponent implements OnDestroy {
   mobileQuery: MediaQueryList;
-  token: any = localStorage.getItem('token');
+  token: any = sessionStorage.getItem('token');
   tokenPayload: any;
 
   private _mobileQueryListener: () => void;

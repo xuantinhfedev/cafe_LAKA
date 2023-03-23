@@ -4,7 +4,6 @@ import { RouterGuardService } from '../services/router-guard/router-guard.servic
 import { ManageCategoryComponent } from './manage-category/manage-category.component';
 
 
-
 export const MaterialRoutes: Routes = [
   {
     path: 'category',
