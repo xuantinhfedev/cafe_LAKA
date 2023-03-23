@@ -77,6 +77,7 @@ export class CategoryComponent implements OnInit {
       id: this.dialogData.data.id,
       name: formData.name,
     };
+    console.log('Dialog data: ',this.dialogData)
     let response = await this.categoryService.update(data);
     if (response.results.responseCode == '200') {
       this.dialogRef.close();
