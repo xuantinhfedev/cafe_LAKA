@@ -23,6 +23,16 @@ constructor(
     return dataResponse;
   }
 
+  // Hàm thực hiện gọi API khôi phục
+  async restore(data: any){
+    let dataResponse = await this.baseService.patchService(data, api_url + 'restore', '');
+    return dataResponse;
+  }
+  // Hàm thực hiện gọi API phá hủy(destroy)
+  async destroy(id: any) {
+    let dataResponse = await this.baseService.deleteService(api_url + 'destroy?id=' + id, '');
+    return dataResponse;
+  }
   // Hàm thực hiện gọi API cập nhật danh mục
   async update(data: any){
     let dataResponse = await this.baseService.patchService(data, api_url + 'update', '');

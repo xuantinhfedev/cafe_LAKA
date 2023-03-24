@@ -73,7 +73,7 @@ router.get('/search', auth.authenticateToken, (req, res) => {
 // API lấy danh sách Category
 router.get('/get', auth.authenticateToken, (req, res) => {
 
-    var queryCount = "select COUNT(*) as dataCount from category where deleted='false' order by id asc";
+    var queryCount = "select COUNT(*) as dataCount from category where deleted='false'";
     let dataCount = 0;
     connection.query(queryCount, (err, results) => {
         if (!err) {
@@ -88,7 +88,7 @@ router.get('/get', auth.authenticateToken, (req, res) => {
         }
     });
 
-    var query = "select * from category where deleted='false'  order by id asc";
+    var query = "select * from category where deleted='false'  order by id desc";
     connection.query(query, (err, results) => {
         if (!err) {
             return res.status(200).json({
@@ -258,6 +258,70 @@ router.get('/search-trash', auth.authenticateToken, (req, res) => {
     });
 });
 
+// API xóa hoàn toàn khỏi Category
+router.delete('/destroy', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+    let category = req.query.id;
+    var query = "DELETE FROM category where id=?";
+    connection.query(query, [category], (err, results) => {
+        if (!err) {
+            if (results.affectedRows == 0) {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Danh mục không được tìm thấy hoặc danh mục đã được chuyển vào thùng rác."
+                    }
+                });
+            } else {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Danh mục đã bị xóa hoàn toàn."
+                    }
+                });
+            }
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
+
+
+// API khôi phục Category từ thùng rác
+router.patch('/restore', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+    let category = req.body;
+    var query = "update category set deleted='false' where id=?";
+    connection.query(query, [category.id], (err, results) => {
+        if (!err) {
+            if (results.affectedRows == 0) {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Danh mục không được tìm thấy hoặc danh mục đã được chuyển vào thùng rác."
+                    }
+                });
+            } else {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Khôi phục danh mục thành công."
+                    }
+                });
+            }
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
 
 
 module.exports = router;

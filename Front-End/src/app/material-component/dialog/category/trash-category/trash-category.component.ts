@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
+import { OneTrashCategoryComponent } from './one-trash-category/one-trash-category.component';
 
 @Component({
   selector: 'app-trash-category',
@@ -96,9 +97,46 @@ export class TrashCategoryComponent implements OnInit {
     }
   }
 
-  async handleBackUpAction(element: any) {}
+  async handleBackUpAction(element: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'restore',
+      message: 'khôi phục danh mục này',
+      data: element
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(OneTrashCategoryComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
 
-  async handleDestroyAction(element: any) {}
+    const sub = dialogRef.componentInstance.onRestoreCategory.subscribe(
+      (response) => {
+        // this.tableData();
+        this.router.navigate(['/cafe/category'])
+      }
+    );
+  }
+
+  async handleDestroyAction(element: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'destroy',
+      message: 'xóa bỏ danh mục này',
+      data: element
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(OneTrashCategoryComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
+
+    const sub = dialogRef.componentInstance.onDestroyCategory.subscribe(
+      (response) => {
+        this.tableData();
+      }
+    );
+  }
 
   returnCategory() {
     this.router.navigate(['/cafe/category'])

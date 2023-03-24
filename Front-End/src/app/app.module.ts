@@ -61,7 +61,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FlexLayoutModule,
     SharedModule,
     HttpClientModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      countDuplicates: true
+    }),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],
   providers: [

@@ -14,6 +14,7 @@ export class Toastr {
       newestOnTop: true,
       extendedTimeOut: 1000,
       enableHtml: true,
+      timeOut: 4000,
     });
   }
 
@@ -24,6 +25,7 @@ export class Toastr {
       newestOnTop: true,
       extendedTimeOut: 1000,
       enableHtml: true,
+      timeOut: 4000,
     });
   }
 
@@ -34,6 +36,7 @@ export class Toastr {
       newestOnTop: true,
       extendedTimeOut: 1000,
       enableHtml: true,
+      timeOut: 4000,
     });
   }
 
@@ -44,6 +47,7 @@ export class Toastr {
       newestOnTop: true,
       extendedTimeOut: 1000,
       enableHtml: true,
+      timeOut: 4000,
     });
   }
 }
