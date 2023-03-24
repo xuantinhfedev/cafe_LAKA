@@ -6,10 +6,10 @@
     <mat-icon color="primary">delete_forever</mat-icon>
   </div>
   <div>
-    <button mat-flat-button color="primary" class="float-right">Lấy lại toàn bộ dữ liệu
+    <button mat-flat-button color="primary" class="float-right" (click)="handleRestoreAllAction()">Lấy lại toàn bộ dữ liệu
       <mat-icon>history</mat-icon></button>
     &nbsp; &nbsp; &nbsp;
-    <button mat-flat-button color="primary">Xóa toàn bộ dữ liệu<mat-icon>clear</mat-icon></button>
+    <button mat-flat-button color="primary" (click)="handleDestroyAllAction()">Xóa toàn bộ dữ liệu<mat-icon>clear</mat-icon></button>
   </div>
 </mat-card>
 <hr>

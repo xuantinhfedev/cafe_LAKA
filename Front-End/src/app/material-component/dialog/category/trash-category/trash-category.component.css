@@ -42,3 +42,18 @@ table {
 .table-w150 {
   width: 150px;
 }
+
+.mat-toolbar {
+  margin: -24px;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.title-center {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+mat-form-filed {
+  padding: 5px;
+}

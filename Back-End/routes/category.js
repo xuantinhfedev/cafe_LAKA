@@ -324,4 +324,68 @@ router.patch('/restore', auth.authenticateToken, checkRole.checkRole, (req, res)
 });
 
 
+
+// API xóa hoàn toàn tất cả danh mục khỏi Category
+router.delete('/destroy-all', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+    var query = "DELETE FROM category where deleted='true'";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            if (results.affectedRows == 0) {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Danh mục không được tìm thấy hoặc danh mục đã được chuyển vào thùng rác."
+                    }
+                });
+            } else {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Danh mục đã bị xóa hoàn toàn."
+                    }
+                });
+            }
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
+
+
+// API khôi phục tất cả Category từ thùng rác
+router.patch('/restore-all', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+    var query = "update category set deleted='false'";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            if (results.affectedRows == 0) {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Danh mục không được tìm thấy hoặc danh mục đã được chuyển vào thùng rác."
+                    }
+                });
+            } else {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Khôi phục danh mục thành công."
+                    }
+                });
+            }
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
+
 module.exports = router;

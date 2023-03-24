@@ -8,6 +8,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
+import { AllTrashCategoryComponent } from './all-trash-category/all-trash-category.component';
 import { OneTrashCategoryComponent } from './one-trash-category/one-trash-category.component';
 
 @Component({
@@ -96,6 +97,43 @@ export class TrashCategoryComponent implements OnInit {
       this.toastr.toastError(this.responseMessage, 'Lỗi');
     }
   }
+  async handleRestoreAllAction() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'restoreAll',
+      message: 'khôi phục tất cả danh mục từ trong thùng rác',
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(AllTrashCategoryComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
+
+    const sub = dialogRef.componentInstance.onRestoreAllCategory.subscribe(
+      (response) => {
+        this.router.navigate(['/cafe/category'])
+      }
+    );
+  }
+
+  async handleDestroyAllAction() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'destroyAll',
+      message: 'xóa tất cả danh mục có trong thùng rác',
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(AllTrashCategoryComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
+
+    const sub = dialogRef.componentInstance.onDestroyAllCategory.subscribe(
+      (response) => {
+        this.tableData();
+      }
+    );
+  }
 
   async handleBackUpAction(element: any) {
     const dialogConfig = new MatDialogConfig();
@@ -122,7 +160,7 @@ export class TrashCategoryComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       action: 'destroy',
-      message: 'xóa bỏ danh mục này',
+      message: 'xóa bỏ hoàn toàn danh mục này',
       data: element
     };
     dialogConfig.width = '800px';
