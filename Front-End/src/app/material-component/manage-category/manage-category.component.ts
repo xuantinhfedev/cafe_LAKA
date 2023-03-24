@@ -66,7 +66,6 @@ export class ManageCategoryComponent implements OnInit {
       this.dataSource = new MatTableDataSource(response.results.data);
       this.dataSource.paginator = this.paginator;
       this.dataSource.paginator.length = response.results.dataCount;
-      // console.log(this.dataSource.paginator);
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
@@ -169,5 +168,10 @@ export class ManageCategoryComponent implements OnInit {
         this.tableData();
       }
     );
+  }
+
+  //
+  handleRouterToTrash() {
+    this.router.navigate(['/cafe/category/category-trash'])
   }
 }

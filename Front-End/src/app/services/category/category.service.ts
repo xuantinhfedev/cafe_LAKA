@@ -49,4 +49,16 @@ constructor(
     return dataResponse;
   }
 
+  // Hàm thực hiện gọi API trash-category(Thùng rác)
+  async trashCategory() {
+    let dataResponse = await this.baseService.getService(api_url + 'trash', '');
+    return dataResponse;
+  }
+
+  // Hàm thực hiện gọi API tím kiếm danh mục
+  async getSearchTrashCategory(valueSearch: any) {
+    let dataResponse = await this.baseService.getService(api_url + 'search-trash?name=' + valueSearch, '')
+
+    return dataResponse;
+  }
 }

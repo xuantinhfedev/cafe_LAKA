@@ -32,10 +32,9 @@ router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
 // API tìm kiếm danh sách Category
 router.get('/search', auth.authenticateToken, (req, res) => {
 
-    console.log(req.query);
     var queryCount = "select COUNT(*) as dataCount from category where deleted='false' and name LIKE ? order by id asc";
     let dataCount = 0;
-    connection.query(queryCount, [req.query.name,  ['%' + req.query.name + '%']], (err, results) => {
+    connection.query(queryCount, [req.query.name, ['%' + req.query.name + '%']], (err, results) => {
         if (!err) {
             dataCount = results[0];
         } else {
@@ -74,7 +73,6 @@ router.get('/search', auth.authenticateToken, (req, res) => {
 // API lấy danh sách Category
 router.get('/get', auth.authenticateToken, (req, res) => {
 
-    console.log(req.query);
     var queryCount = "select COUNT(*) as dataCount from category where deleted='false' order by id asc";
     let dataCount = 0;
     connection.query(queryCount, (err, results) => {
@@ -112,6 +110,8 @@ router.get('/get', auth.authenticateToken, (req, res) => {
     });
 });
 
+
+
 // API cập nhật Category name
 router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) => {
 
@@ -119,7 +119,7 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) 
     var query = "update category set name=? where id=? and deleted='false'";
     connection.query(query, [category.name, category.id], (err, results) => {
         if (!err) {
-            if (results.affectedRows == 0) {    
+            if (results.affectedRows == 0) {
                 return res.status(200).json({
                     results: {
                         responseCode: "404",
@@ -151,7 +151,7 @@ router.delete('/delete', auth.authenticateToken, checkRole.checkRole, (req, res)
     var query = "update category set deleted='true' where id=?";
     connection.query(query, [category], (err, results) => {
         if (!err) {
-            if (results.affectedRows == 0) {    
+            if (results.affectedRows == 0) {
                 return res.status(200).json({
                     results: {
                         responseCode: "404",
@@ -176,5 +176,88 @@ router.delete('/delete', auth.authenticateToken, checkRole.checkRole, (req, res)
         }
     });
 });
+
+// API lấy thùng rác Category
+router.get('/trash', auth.authenticateToken, (req, res) => {
+
+    var queryCount = "select COUNT(*) as dataCount from category where deleted='true' order by id asc";
+    let dataCount = 0;
+    connection.query(queryCount, (err, results) => {
+        if (!err) {
+            dataCount = results[0];
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+
+    var query = "select * from category where deleted='true'  order by id asc";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Lấy danh sách thùng rác thành công.",
+                    data: results,
+                    dataCount: dataCount.dataCount
+                }
+            });
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
+
+
+// API tìm kiếm danh sách thùng rác Category
+router.get('/search-trash', auth.authenticateToken, (req, res) => {
+
+    var queryCount = "select COUNT(*) as dataCount from category where deleted='true' and name LIKE ? order by id asc";
+    let dataCount = 0;
+    connection.query(queryCount, [req.query.name, ['%' + req.query.name + '%']], (err, results) => {
+        if (!err) {
+            dataCount = results[0];
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+
+    var query = "select * from category where deleted='true' and name LIKE ? order by id asc";
+    connection.query(query, [['%' + req.query.name + '%']], (err, results) => {
+        if (!err) {
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Tìm kiếm danh mục thành công.",
+                    data: results,
+                    dataCount: dataCount.dataCount
+                }
+            });
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
+
+
 
 module.exports = router;

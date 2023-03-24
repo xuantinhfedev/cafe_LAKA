@@ -52,6 +52,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 
 import { StylePaginatorDirective } from './style-paginator.directive';
+import { TrashCategoryComponent } from './dialog/category/trash-category/trash-category.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -72,6 +73,7 @@ import { StylePaginatorDirective } from './style-paginator.directive';
     CategoryComponent,
     StylePaginatorDirective,
     DeleteCategoryComponent,
+    TrashCategoryComponent
   ],
   exports: [
     MatAutocompleteModule,
