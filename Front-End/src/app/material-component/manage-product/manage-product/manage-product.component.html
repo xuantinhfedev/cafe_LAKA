@@ -1,0 +1,85 @@
+<mat-card class="category-header">
+  <b>
+    <h2 style="margin: 0">Quản lý sản phẩm</h2>
+  </b>
+  <div>
+    <button mat-flat-button color="primary" class="float-right" (click)="handleAddAction()">Thêm sản
+      phẩm<mat-icon>add</mat-icon></button>
+    &nbsp; &nbsp; &nbsp;
+    <button mat-flat-button color="primary" (click)="handleRouterToTrash()">Thùng
+      rác<mat-icon>delete_forever</mat-icon></button>
+  </div>
+</mat-card>
+<hr>
+<mat-card>
+  <mat-form-field class="example-full-width">
+    <span matPrefix> </span>
+    <input type="tel" matInput placeholder="Tìm kiếm sản phẩm" name="search" [(ngModel)]="valueSearch">
+    <button matSuffix mat-button (click)="searchNameProduct()"><mat-icon>search</mat-icon></button>
+  </mat-form-field>
+  <br />
+</mat-card>
+<hr>
+<div class="responsive-table">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Index Column -->
+    <ng-container matColumnDef="index">
+      <th class="table-br-w100" mat-header-cell *matHeaderCellDef> STT </th>
+      <td class="table-br-w100" mat-cell *matCellDef="let index = index"> {{index + 1}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th class="table-br" mat-header-cell *matHeaderCellDef> Tên sản phẩm </th>
+      <td class="table-br" mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="categoryName">
+      <th class="table-br-w300" mat-header-cell *matHeaderCellDef> Tên danh mục </th>
+      <td class="table-br-w300" mat-cell *matCellDef="let element"> {{element.categoryName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th class="table-br-w300" mat-header-cell *matHeaderCellDef> Mô tả </th>
+      <td class="table-br-w300" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:1px;"
+        mat-cell *matCellDef="let element" [matTooltipPosition]="'above'" matTooltip="{{ element.description }}">
+        {{element.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th class="table-br-w150" mat-header-cell *matHeaderCellDef> Giá </th>
+      <td class="table-br-w150" mat-cell *matCellDef="let element"> {{element.price | number}} đồng</td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th class="table-w150" mat-header-cell *matHeaderCellDef>Thao tác</th>
+      <td class="table-w150" mat-cell *matCellDef="let element" class="action-link">
+        <button mat-icon-button color="primary" [matTooltipPosition]="'above'" matTooltip="Cập nhật sản phẩm"
+          (click)="handleEditAction(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" [matTooltipPosition]="'above'"
+          matTooltip="Chuyển sản phẩm vào thùng rác" (click)="handleDeleteAction(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-slide-toggle (change)="onChange($event.checked, element.id)" [matTooltipPosition]="'above'"
+          matTooltip="Hoạt động hoặc không hoạt động sản phẩm" [checked]="element.status"></mat-slide-toggle>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr style="height: 224px" class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="3">Không có dữ liệu {{ valueSearch }}
+        <br>
+        <mat-icon style="height: 72px; width: 72px; font-size: 72px">report_off</mat-icon>
+      </td>
+    </tr>
+
+  </table>
+
+  <mat-paginator appStylePaginator (page)="pageChangeEvent($event)" [length]="length" [pageSize]="pageSize"
+    [pageIndex]="pageIndex" showFirstLastButtons [pageSizeOptions]="pageSizeOptions">
+  </mat-paginator>
+</div>

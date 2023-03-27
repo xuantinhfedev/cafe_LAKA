@@ -35,6 +35,7 @@ export class CategoryService {
     );
     return dataResponse;
   }
+
   // Hàm thực hiện gọi API phá hủy(destroy)
   async destroy(id: any) {
     let dataResponse = await this.baseService.deleteService(
@@ -60,6 +61,7 @@ export class CategoryService {
     );
     return dataResponse;
   }
+
   // Hàm thực hiện gọi API cập nhật danh mục
   async update(data: any) {
     let dataResponse = await this.baseService.patchService(

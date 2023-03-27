@@ -55,6 +55,7 @@ import { StylePaginatorDirective } from './style-paginator.directive';
 import { TrashCategoryComponent } from './dialog/category/trash-category/trash-category.component';
 import { OneTrashCategoryComponent } from './dialog/category/trash-category/one-trash-category/one-trash-category.component';
 import { AllTrashCategoryComponent } from './dialog/category/trash-category/all-trash-category/all-trash-category.component';
+import { ManageProductComponent } from './manage-product/manage-product/manage-product.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -77,7 +78,8 @@ import { AllTrashCategoryComponent } from './dialog/category/trash-category/all-
     DeleteCategoryComponent,
     TrashCategoryComponent,
     OneTrashCategoryComponent,
-    AllTrashCategoryComponent
+    AllTrashCategoryComponent,
+    ManageProductComponent
   ],
   exports: [
     MatAutocompleteModule,

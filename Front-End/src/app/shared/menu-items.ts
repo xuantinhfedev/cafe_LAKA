@@ -19,6 +19,12 @@ const MENUITEMS = [
     name: 'Quản lý danh mục',
     icon: 'dashboard',
     role: 'admin',
+  },
+  {
+    state: 'product',
+    name: 'Quản lý sản phẩm',
+    icon: 'restaurant',
+    role: 'admin',
   }
 ];
 

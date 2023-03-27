@@ -13,10 +13,18 @@ router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
     connection.query(query, [product.name, product.categoryId, product.description, product.price], (err, results) => {
         if (!err) {
             return res.status(200).json({
-                message: "Sản phẩm được thêm thành công."
+                results: {
+                    responseCode: "200",
+                    message: "Thêm sản phẩm mới thành công."
+                }
             });
         } else {
-            return res.status(500).json(err);
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
     });
 });
@@ -24,12 +32,45 @@ router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
 // API lấy danh sách Product
 router.get('/get', auth.authenticateToken, (req, res, next) => {
 
-    var query = "select p.id, p.name, p.description, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'false'";
-    connection.query(query, (err, results) => {
+    let valueSearch = req.query.value;
+    let pageSize = Number(req.query.pageSize);
+    let pageIndex = Number(req.query.pageIndex);
+    let valueLimit = pageSize;
+    let valueOffset = pageSize * pageIndex;
+
+    var queryCount = "SELECT COUNT(*) as dataCount FROM product WHERE deleted='false' and (? IS NULL or name LIKE ?) ORDER BY id ASC";
+    let dataCount = 0;
+    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
         if (!err) {
-            return res.status(200).json(results);
+            dataCount = results[0];
         } else {
-            return res.status(500).json(err);
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    })
+
+    var query = "select p.id, p.name, p.description, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'false' and (? IS NULL or p.name LIKE ?) order by id asc LIMIT ? OFFSET ?";
+    connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
+        if (!err) {
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Lấy danh sách sản phẩm thành công.",
+                    data: results,
+                    dataCount: dataCount.dataCount
+                }
+            });
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
     });
 });
@@ -75,17 +116,27 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res, 
     var query = "update product set name=?, categoryId=?, description=?, price=? where id=? and deleted='false'";
     connection.query(query, [product.name, product.categoryId, product.description, product.price, product.id], (err, results) => {
         if (!err) {
-            console.log("update id: ", results);
             if (results.affectedRows == 0) {
-                return res.status(404).json({
-                    message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
+                    }
                 });
             }
             return res.status(200).json({
-                message: "Sản phẩm được cập nhật thành công."
+                results: {
+                    responseCode: "200",
+                    message: "Cập nhật sản phẩm thành công."
+                }
             });
         } else {
-            return res.status(500).json(err);
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
     })
 });
@@ -100,14 +151,25 @@ router.delete('/delete/:id', auth.authenticateToken, checkRole.checkRole, (req, 
         if (!err) {
             if (results.affectedRows == 0) {
                 return res.status(404).json({
-                    message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
-                });
+                    results: {
+                        responseCode: "404",
+                        message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
+                    }
+                    });
             }
             return res.status(200).json({
-                message: "Sản phẩm đã được xóa thành công."
+                results: {
+                    responseCode: "200",
+                    message: "Sản phẩm đã được xóa thành công."
+                }
             });
         } else {
-            return res.status(500).json(err);
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            }); 
         }
     });
 });
@@ -119,15 +181,26 @@ router.patch('/updateStatus', auth.authenticateToken, checkRole.checkRole, (req,
     connection.query(query, [user.status, user.id], (err, results) => {
         if (!err) {
             if (results.affectedRows == 0) {
-                return res.status(404).json({
-                    message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
+                    }
                 });
             }
             return res.status(200).json({
-                message: "Trạng thái sản phẩm đã được cập nhật thành công."
+                results: {
+                    responseCode: "200",
+                    message: "Trạng thái sản phẩm đã được cập nhật thành công."
+                }
             });
         } else {
-            return res.status(500).json(err);
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
     });
 });
