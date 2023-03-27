@@ -8,76 +8,123 @@ const url_environment = environment.apiUrl;
 const api_url = 'category/';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
-
-constructor(
-  private baseService: BaseService,
-  private httpClient: HttpClient
-  ) { }
+  constructor(
+    private baseService: BaseService,
+    private httpClient: HttpClient
+  ) {}
 
   // Hàm thực hiện gọi API thêm danh mục
-  async add(data: any){
-    let dataResponse = await this.baseService.postService(data, api_url + 'add', '');
+  async add(data: any) {
+    let dataResponse = await this.baseService.postService(
+      data,
+      api_url + 'add',
+      ''
+    );
     return dataResponse;
   }
 
   // Hàm thực hiện gọi API khôi phục
-  async restore(data: any){
-    let dataResponse = await this.baseService.patchService(data, api_url + 'restore', '');
+  async restore(data: any) {
+    let dataResponse = await this.baseService.patchService(
+      data,
+      api_url + 'restore',
+      ''
+    );
     return dataResponse;
   }
   // Hàm thực hiện gọi API phá hủy(destroy)
   async destroy(id: any) {
-    let dataResponse = await this.baseService.deleteService(api_url + 'destroy?id=' + id, '');
+    let dataResponse = await this.baseService.deleteService(
+      api_url + 'destroy?id=' + id,
+      ''
+    );
     return dataResponse;
   }
   // Hàm thực hiện gọi API khôi phục
-  async restoreAll(data: any){
-    let dataResponse = await this.baseService.patchService(data, api_url + 'restore-all', '');
+  async restoreAll(data: any) {
+    let dataResponse = await this.baseService.patchService(
+      data,
+      api_url + 'restore-all',
+      ''
+    );
     return dataResponse;
   }
   // Hàm thực hiện gọi API phá hủy(destroy)
   async destroyAll() {
-    let dataResponse = await this.baseService.deleteService(api_url + 'destroy-all', '');
+    let dataResponse = await this.baseService.deleteService(
+      api_url + 'destroy-all',
+      ''
+    );
     return dataResponse;
   }
   // Hàm thực hiện gọi API cập nhật danh mục
-  async update(data: any){
-    let dataResponse = await this.baseService.patchService(data, api_url + 'update', '');
+  async update(data: any) {
+    let dataResponse = await this.baseService.patchService(
+      data,
+      api_url + 'update',
+      ''
+    );
     return dataResponse;
   }
 
   // Hàm thực hiện gọi API lấy danh sách danh mục
-  async getCategorys() {
-    let dataResponse = await this.baseService.getService(api_url + 'get', '');
-    // console.log("Category service: ", dataResponse);
+  async getCategories(pageSize: number, pageIndex: number, value: string) {
+    let dataResponse = await this.baseService.getService(
+      api_url +
+        'get?pageSize=' +
+        pageSize +
+        '&pageIndex=' +
+        pageIndex +
+        '&value=' +
+        value,
+      ''
+    );
     return dataResponse;
   }
 
   // Hàm thực hiện gọi API tím kiếm danh mục
   async getSearchCategory(valueSearch: any) {
-    let dataResponse = await this.baseService.getService(api_url + 'search?name=' + valueSearch, '')
+    let dataResponse = await this.baseService.getService(
+      api_url + 'search?name=' + valueSearch,
+      ''
+    );
 
     return dataResponse;
   }
 
   // Hàm thực hiện gọi API xóa(mềm) danh mục
   async deleteCategory(id: any) {
-    let dataResponse = await this.baseService.deleteService(api_url + 'delete?id=' + id, '');
+    let dataResponse = await this.baseService.deleteService(
+      api_url + 'delete?id=' + id,
+      ''
+    );
     return dataResponse;
   }
 
   // Hàm thực hiện gọi API trash-category(Thùng rác)
-  async trashCategory() {
-    let dataResponse = await this.baseService.getService(api_url + 'trash', '');
+  async trashCategory(pageSize: any, pageIndex: any, value: any) {
+    let dataResponse = await this.baseService.getService(
+      api_url +
+        'trash?pageSize=' +
+        pageSize +
+        '&pageIndex=' +
+        pageIndex +
+        '&value=' +
+        value,
+      ''
+    );
     return dataResponse;
   }
 
   // Hàm thực hiện gọi API tím kiếm danh mục
   async getSearchTrashCategory(valueSearch: any) {
-    let dataResponse = await this.baseService.getService(api_url + 'search-trash?name=' + valueSearch, '')
+    let dataResponse = await this.baseService.getService(
+      api_url + 'search-trash?name=' + valueSearch,
+      ''
+    );
 
     return dataResponse;
   }

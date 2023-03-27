@@ -32,10 +32,6 @@ export class TrashCategoryComponent implements OnInit {
   pageIndex = 0;
   pageSizeOptions = [10, 20, 30];
 
-  pageChangeEvent(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-  }
   // end pagination
   constructor(
     private categoryService: CategoryService,
@@ -47,18 +43,23 @@ export class TrashCategoryComponent implements OnInit {
 
   ngOnInit() {
     this.ngxService.start();
-    this.tableData();
+    this.tableData(10, 0, this.valueSearch);
   }
 
   // Hàm thực hiện lấy danh sách bản ghi
-  async tableData() {
-    let response = await this.categoryService.trashCategory();
+  async tableData(pageSize: number, pageIndex: number, value: string) {
+    let response = await this.categoryService.trashCategory(
+      pageSize,
+      pageIndex,
+      value
+    );
     if (response.results.responseCode == '200') {
       this.ngxService.stop();
       this.dataSource = new MatTableDataSource(response.results.data);
-      this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      this.dataSource.paginator.length = response.results.dataCount;
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.paginator.length = response.results.dataCount;
+      this.length = response.results.dataCount;
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
@@ -73,30 +74,18 @@ export class TrashCategoryComponent implements OnInit {
   }
 
   async searchNameCategory() {
-    if (this.valueSearch == '') {
-      this.tableData();
-      return;
-    }
-    let response = await this.categoryService.getSearchTrashCategory(
-      this.valueSearch
-    );
-    if (response.results.responseCode == '200') {
-      this.ngxService.stop();
-      this.dataSource = new MatTableDataSource(response.results.data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.paginator.length = response.results.dataCount;
-      this.responseMessage = response.results.message;
-      this.toastr.toastSuccess(this.responseMessage, 'Thành công');
-    } else {
-      this.ngxService.stop();
-      if (response.results.message) {
-        this.responseMessage = response.results.message;
-      } else {
-        this.responseMessage = GlobalConstants.genericError;
-      }
-      this.toastr.toastError(this.responseMessage, 'Lỗi');
-    }
+    this.pageSize = 10;
+    this.pageIndex = 0;
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
   }
+
+  pageChangeEvent(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch)
+    console.log('Phân trang: ',event)
+  }
+
   async handleRestoreAllAction() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
@@ -111,7 +100,7 @@ export class TrashCategoryComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onRestoreAllCategory.subscribe(
       (response) => {
-        this.router.navigate(['/cafe/category'])
+        this.router.navigate(['/cafe/category']);
       }
     );
   }
@@ -130,7 +119,9 @@ export class TrashCategoryComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onDestroyAllCategory.subscribe(
       (response) => {
-        this.tableData();
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }
@@ -140,7 +131,7 @@ export class TrashCategoryComponent implements OnInit {
     dialogConfig.data = {
       action: 'restore',
       message: 'khôi phục danh mục này',
-      data: element
+      data: element,
     };
     dialogConfig.width = '800px';
     const dialogRef = this.dialog.open(OneTrashCategoryComponent, dialogConfig);
@@ -150,8 +141,7 @@ export class TrashCategoryComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onRestoreCategory.subscribe(
       (response) => {
-        // this.tableData();
-        this.router.navigate(['/cafe/category'])
+        this.router.navigate(['/cafe/category']);
       }
     );
   }
@@ -161,7 +151,7 @@ export class TrashCategoryComponent implements OnInit {
     dialogConfig.data = {
       action: 'destroy',
       message: 'xóa bỏ hoàn toàn danh mục này',
-      data: element
+      data: element,
     };
     dialogConfig.width = '800px';
     const dialogRef = this.dialog.open(OneTrashCategoryComponent, dialogConfig);
@@ -171,12 +161,14 @@ export class TrashCategoryComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onDestroyCategory.subscribe(
       (response) => {
-        this.tableData();
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }
 
   returnCategory() {
-    this.router.navigate(['/cafe/category'])
+    this.router.navigate(['/cafe/category']);
   }
 }

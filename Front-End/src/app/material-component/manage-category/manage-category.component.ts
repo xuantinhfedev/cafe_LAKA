@@ -32,11 +32,6 @@ export class ManageCategoryComponent implements OnInit {
   pageSize = 10;
   pageIndex = 0;
   pageSizeOptions = [10, 20, 30];
-
-  pageChangeEvent(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-  }
   // end pagination
 
   constructor(
@@ -49,47 +44,37 @@ export class ManageCategoryComponent implements OnInit {
 
   ngOnInit() {
     this.ngxService.start();
-    this.tableData();
+    this.tableData(10, 0, this.valueSearch);
   }
 
   // Hàm thực hiện tìm kiếm tên danh mục
   async searchNameCategory() {
-    if (this.valueSearch == '') {
-      this.tableData();
-      return;
-    }
-    let response = await this.categoryService.getSearchCategory(
-      this.valueSearch
+
+    this.pageSize = 10;
+    this.pageIndex = 0;
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+  }
+
+  // Xử lý phân trang
+  pageChangeEvent(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch)
+    console.log('Phân trang: ',event)
+  }
+
+  // Hàm thực hiện lấy danh sách bản ghi
+  async tableData(pageSize: number, pageIndex: number, value: string) {
+    let response = await this.categoryService.getCategories(
+      pageSize,
+      pageIndex,
+      value
     );
     if (response.results.responseCode == '200') {
       this.ngxService.stop();
       this.dataSource = new MatTableDataSource(response.results.data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.paginator.length = response.results.dataCount;
-      this.responseMessage = response.results.message;
-      this.toastr.toastSuccess(this.responseMessage, 'Thành công');
-    } else {
-      this.ngxService.stop();
-      if (response.results.message) {
-        this.responseMessage = response.results.message;
-      } else {
-        this.responseMessage = GlobalConstants.genericError;
-      }
-      this.toastr.toastError(this.responseMessage, 'Lỗi');
-    }
-  }
-
-  // Hàm thực hiện lấy danh sách bản ghi
-  async tableData() {
-    let response = await this.categoryService.getCategorys();
-    if (response.results.responseCode == '200') {
-      this.ngxService.stop();
-      this.dataSource = new MatTableDataSource(response.results.data);
-      this.dataSource.paginator = this.paginator;
+      this.length = response.results.dataCount;
       this.dataSource.sort = this.sort;
-      this.dataSource.paginator.length = response.results.dataCount;
-      // console.log(this.dataSource.paginator);
-      // console.log(this.dataSource.sort);
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
@@ -123,7 +108,9 @@ export class ManageCategoryComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onAddCategory.subscribe(
       (response) => {
-        this.tableData();
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }
@@ -144,7 +131,9 @@ export class ManageCategoryComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onEditCategory.subscribe(
       (response) => {
-        this.tableData();
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }
@@ -165,13 +154,15 @@ export class ManageCategoryComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onDeleteCategory.subscribe(
       (response) => {
-        this.tableData();
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }
 
   //
   handleRouterToTrash() {
-    this.router.navigate(['/cafe/category/category-trash'])
+    this.router.navigate(['/cafe/category/category-trash']);
   }
 }

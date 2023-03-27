@@ -62,7 +62,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SharedModule,
     HttpClientModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-top-right',
+      positionClass: 'toast-bottom-right',
       preventDuplicates: true,
       countDuplicates: true
     }),
