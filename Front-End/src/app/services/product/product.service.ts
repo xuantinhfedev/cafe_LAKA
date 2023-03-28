@@ -69,4 +69,13 @@ export class ProductService {
     );
     return dataResponse;
   }
+
+  // Hàm thực hiện lấy danh sách danh mục
+  async getCategories(){
+    let dataResponse = await this.baseService.getService(
+      api_url + 'getCategories',
+      ''
+    );
+    return dataResponse;
+  }
 }

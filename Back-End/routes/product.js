@@ -205,4 +205,26 @@ router.patch('/updateStatus', auth.authenticateToken, checkRole.checkRole, (req,
     });
 });
 
+router.get('/getCategories', auth.authenticateToken,(req, res, next) => {
+    var query = "SELECT * FROM category WHERE deleted='false'";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Lấy danh sách danh mục thành công.",
+                    data: results,
+                }
+            });
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
+
 module.exports = router;

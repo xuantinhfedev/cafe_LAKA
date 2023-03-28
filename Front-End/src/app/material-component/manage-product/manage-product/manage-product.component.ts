@@ -8,6 +8,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ProductService } from 'src/app/services/product/product.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
+import { AddProductComponent } from '../product/add-product/add-product.component';
+import { EditProductComponent } from '../product/edit-product/edit-product.component';
 
 @Component({
   selector: 'app-manage-product',
@@ -79,7 +81,23 @@ export class ManageProductComponent implements OnInit {
   }
 
   async handleAddAction() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'Add',
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(AddProductComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
 
+    const sub = dialogRef.componentInstance.onAddProduct.subscribe(
+      (response) => {
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+      }
+    );
   }
 
   async handleRouterToTrash() {
@@ -91,7 +109,23 @@ export class ManageProductComponent implements OnInit {
   }
 
   async handleEditAction(element: any){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      data: element,
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(EditProductComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
 
+    const sub = dialogRef.componentInstance.onEditProduct.subscribe(
+      (response) => {
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+      }
+    );
   }
 
   async handleDeleteAction(element: any){

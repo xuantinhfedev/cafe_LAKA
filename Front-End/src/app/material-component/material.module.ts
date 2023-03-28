@@ -56,6 +56,8 @@ import { TrashCategoryComponent } from './dialog/category/trash-category/trash-c
 import { OneTrashCategoryComponent } from './dialog/category/trash-category/one-trash-category/one-trash-category.component';
 import { AllTrashCategoryComponent } from './dialog/category/trash-category/all-trash-category/all-trash-category.component';
 import { ManageProductComponent } from './manage-product/manage-product/manage-product.component';
+import { AddProductComponent } from './manage-product/product/add-product/add-product.component';
+import { EditProductComponent } from './manage-product/product/edit-product/edit-product.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -79,7 +81,9 @@ import { ManageProductComponent } from './manage-product/manage-product/manage-p
     TrashCategoryComponent,
     OneTrashCategoryComponent,
     AllTrashCategoryComponent,
-    ManageProductComponent
+    ManageProductComponent,
+    AddProductComponent,
+    EditProductComponent
   ],
   exports: [
     MatAutocompleteModule,

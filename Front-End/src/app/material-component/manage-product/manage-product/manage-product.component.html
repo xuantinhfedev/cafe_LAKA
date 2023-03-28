@@ -21,7 +21,7 @@
 </mat-card>
 <hr>
 <div class="responsive-table">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
     <!-- Index Column -->
     <ng-container matColumnDef="index">
@@ -30,8 +30,8 @@
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th class="table-br" mat-header-cell *matHeaderCellDef> Tên sản phẩm </th>
-      <td class="table-br" mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <th class="table-br-w300" mat-header-cell *matHeaderCellDef> Tên sản phẩm </th>
+      <td class="table-br-w300" mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="categoryName">
@@ -40,14 +40,14 @@
     </ng-container>
 
     <ng-container matColumnDef="description">
-      <th class="table-br-w300" mat-header-cell *matHeaderCellDef> Mô tả </th>
-      <td class="table-br-w300" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:1px;"
+      <th class="table-br" mat-header-cell *matHeaderCellDef> Mô tả </th>
+      <td class="table-br" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:1px;"
         mat-cell *matCellDef="let element" [matTooltipPosition]="'above'" matTooltip="{{ element.description }}">
         {{element.description}} </td>
     </ng-container>
 
     <ng-container matColumnDef="price">
-      <th class="table-br-w150" mat-header-cell *matHeaderCellDef> Giá </th>
+      <th class="table-br-w150 header-custom" mat-header-cell *matHeaderCellDef mat-sort-header> Giá </th>
       <td class="table-br-w150" mat-cell *matCellDef="let element"> {{element.price | number}} đồng</td>
     </ng-container>
 
