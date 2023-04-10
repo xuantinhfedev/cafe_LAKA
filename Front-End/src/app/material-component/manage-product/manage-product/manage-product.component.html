@@ -39,6 +39,13 @@
       <td class="table-br-w300" mat-cell *matCellDef="let element"> {{element.categoryName}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="image">
+      <th class="table-br-w200" mat-header-cell *matHeaderCellDef> Hình ảnh </th>
+      <td class="table-br"
+        mat-cell *matCellDef="let element" >
+        <img *ngIf="element.file_src !== ''" style="width: 200px" src="http://localhost:8080/uploads/{{ element.file_src }}" alt=""></td>
+    </ng-container>
+
     <ng-container matColumnDef="description">
       <th class="table-br" mat-header-cell *matHeaderCellDef> Mô tả </th>
       <td class="table-br" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:1px;"

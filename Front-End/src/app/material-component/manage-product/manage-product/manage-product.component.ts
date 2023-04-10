@@ -21,6 +21,7 @@ export class ManageProductComponent implements OnInit {
     'index',
     'name',
     'categoryName',
+    'image',
     'description',
     'price',
     'edit',
@@ -77,7 +78,10 @@ export class ManageProductComponent implements OnInit {
   }
 
   async pageChangeEvent(event: any){
-
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch)
+    console.log('Phân trang: ',event)
   }
 
   async handleAddAction() {

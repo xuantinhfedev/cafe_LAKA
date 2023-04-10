@@ -34,6 +34,7 @@ export class AddProductComponent implements OnInit {
       categoryId: [null, Validators.required],
       description: [null, Validators.required],
       price: [null, Validators.required],
+      image: [null]
     });
 
     this.getCategories();
@@ -57,15 +58,37 @@ export class AddProductComponent implements OnInit {
     this.add();
   }
 
+  nameFile: any;
+  valueDesc: any;
+  valueName: any;
+  valuePrice: any;
+
+  uploadFile(event: any) {
+    const filePatch = (event.target as HTMLInputElement).files![0];
+    this.productForm.patchValue({
+      image: filePatch,
+    });
+    this.productForm.get('image')!.updateValueAndValidity();
+    this.nameFile = filePatch.name;
+    console.log(filePatch)
+  }
+
   async add(){
-    var formData = this.productForm.value;
+    var formDataGroup = this.productForm.value;
     var data = {
-      name: formData.name,
-      categoryId: formData.categoryId,
-      description: formData.description,
-      price: formData.price,
+      name: formDataGroup.name,
+      categoryId: formDataGroup.categoryId,
+      description: formDataGroup.description,
+      price: formDataGroup.price,
     }
-    let response = await this.productService.add(data);
+    var formData: FormData = new FormData();
+    formData.append('name', this.productForm.get('name')!.value);
+    formData.append('categoryId', this.productForm.get('categoryId')!.value);
+    formData.append('description', this.productForm.get('description')!.value);
+    formData.append('price', this.productForm.get('price')!.value);
+    formData.append('image', this.productForm.get('image')!.value);
+
+    let response = await this.productService.add(formData);
     if (response.results.responseCode == '200') {
       this.dialogRef.close();
       this.onAddProduct.emit();

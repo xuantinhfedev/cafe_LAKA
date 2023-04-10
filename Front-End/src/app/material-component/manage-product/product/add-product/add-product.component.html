@@ -9,20 +9,25 @@
     <div fxFlex fxLayout="column">
       <mat-form-field appearance="fill" fxFlex="80px">
         <mat-label>Tên sản phẩm</mat-label>
-        <input matInput formControlName="name" required>
+        <input matInput formControlName="name" required [(ngModel)]="valueName">
         <mat-error *ngIf="productForm.controls.name.touched && productForm.controls.name.invalid">
           <span *ngIf="productForm.controls.name.errors.required">Tên sản phẩm không được bỏ trống</span>
-          
         </mat-error>
+        <button mat-button *ngIf="valueName" matSuffix mat-icon-button aria-label="Clear" (click)="valueName=''">
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
 
       <div fxLayout="row wrap" class="margin-l" fxFlex="80px">
         <mat-form-field appearance="fill" fxFlex>
           <mat-label>Giá sản phẩm</mat-label>
-          <input type="number" matInput formControlName="price" required>
+          <input type="number" matInput formControlName="price" required [(ngModel)]="valuePrice">
           <mat-error *ngIf="productForm.controls.price.touched && productForm.controls.price.invalid">
             <span *ngIf="productForm.controls.price.errors.required">Giá sản phẩm không được bỏ trống</span>
           </mat-error>
+          <button mat-button *ngIf="valuePrice" matSuffix mat-icon-button aria-label="Clear" (click)="valuePrice=''">
+            <mat-icon>close</mat-icon>
+          </button>
         </mat-form-field>
         <mat-form-field appearance="fill" fxFlex>
           <mat-label>Danh mục sản phẩm</mat-label>
@@ -36,11 +41,18 @@
 
       <mat-form-field appearance="fill" fxFlex="80px">
         <mat-label>Mô tả sản phẩm</mat-label>
-        <input matInput formControlName="description" required>
+        <input matInput formControlName="description" required [(ngModel)]="valueDesc">
         <mat-error *ngIf="productForm.controls.description.touched && productForm.controls.description.invalid">
           <span *ngIf="productForm.controls.description.errors.required">Tên sản phẩm không được bỏ trống</span>
         </mat-error>
+        <button mat-button *ngIf="valueDesc" matSuffix mat-icon-button aria-label="Clear" (click)="valueDesc=''">
+          <mat-icon>close</mat-icon>
+        </button>
       </mat-form-field>
+
+      <button style="margin-bottom: 4px" type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+      <input hidden (change)="uploadFile($event)" #fileInput type="file" id="image" >
+      <mat-label style="margin-bottom:24px">{{ nameFile }}</mat-label>
     </div>
   </form>
 </mat-dialog-content>

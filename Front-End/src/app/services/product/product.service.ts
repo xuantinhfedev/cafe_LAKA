@@ -3,6 +3,7 @@ import { BaseService } from 'src/app/services/base.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UploadService } from '../uploadService.service';
 
 const url_environment = environment.apiUrl;
 const api_url = 'product/';
@@ -13,12 +14,13 @@ const api_url = 'product/';
 export class ProductService {
   constructor(
     private baseService: BaseService,
+    private uploadService: UploadService,
     private httpClient: HttpClient
   ) {}
 
   // Hàm thực hiện gọi API thêm sản phẩm
   async add(data: any) {
-    let dataResponse = await this.baseService.postService(
+    let dataResponse = await this.uploadService.postService(
       data,
       api_url + 'add',
       ''
