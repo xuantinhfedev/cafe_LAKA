@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/')
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname)
+    cb(null, Date.now() + '-' + file.originalname)
   }
 })
 
@@ -142,38 +142,65 @@ router.get('/getById/:id', auth.authenticateToken, (req, res, next) => {
 });
 
 // API cập nhật sản phẩm dựa theo id sản phẩm
-router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
+// router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
+
+//   let product = req.body;
+//   console.log(product)
+//   var query = "update product set name=?, categoryId=?, description=?, price=? where id=? and deleted='false'";
+//   connection.query(query, [product.name, product.categoryId, product.description, product.price, product.id], (err, results) => {
+//     if (!err) {
+//       if (results.affectedRows == 0) {
+//         return res.status(200).json({
+//           results: {
+//             responseCode: "404",
+//             message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
+//           }
+//         });
+//       }
+//       return res.status(200).json({
+//         results: {
+//           responseCode: "200",
+//           message: "Cập nhật sản phẩm thành công."
+//         }
+//       });
+//     } else {
+//       return res.status(200).json({
+//         results: {
+//           responseCode: "500",
+//           message: err
+//         }
+//       });
+//     }
+//   })
+// });
+
+router.post('/update', upload.single('image'), auth.authenticateToken, checkRole.checkRole, (req, res) => {
 
   let product = req.body;
-  console.log(product)
-  var query = "update product set name=?, categoryId=?, description=?, price=? where id=? and deleted='false'";
-  connection.query(query, [product.name, product.categoryId, product.description, product.price, product.id], (err, results) => {
-    if (!err) {
-      if (results.affectedRows == 0) {
+  if (!req.file) {
+    console.log("No file upload");
+  } else {
+    var imgsrc = req.file.filename;
+    var query = "update product set name=?, categoryId=?, description=?,file_src=?, price=? where id=? and deleted='false'";
+    connection.query(query, [product.name, product.categoryId, product.description, imgsrc, product.price, product.id], (err, results) => {
+      if (!err) {
         return res.status(200).json({
           results: {
-            responseCode: "404",
-            message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
+            responseCode: "200",
+            message: "Cập nhật sản phẩm mới thành công."
+          }
+        });
+      } else {
+        return res.status(200).json({
+          results: {
+            responseCode: "500",
+            message: err
           }
         });
       }
-      return res.status(200).json({
-        results: {
-          responseCode: "200",
-          message: "Cập nhật sản phẩm thành công."
-        }
-      });
-    } else {
-      return res.status(200).json({
-        results: {
-          responseCode: "500",
-          message: err
-        }
-      });
-    }
-  })
+    });
+  }
 });
-
 // API xóa sản phẩm theo id sản phẩm
 router.delete('/delete/:id', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
 

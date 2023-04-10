@@ -28,12 +28,24 @@ export class EditProductComponent implements OnInit {
     private toastr: Toastr
   ) {}
 
+  nameFile: any;
+  uploadFile(event: any) {
+    const filePatch = (event.target as HTMLInputElement).files![0];
+    this.productForm.patchValue({
+      image: filePatch,
+    });
+    this.productForm.get('image')!.updateValueAndValidity();
+    this.nameFile = filePatch.name;
+    console.log(filePatch);
+  }
+
   ngOnInit() {
     this.productForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       categoryId: [null, Validators.required],
       description: [null, Validators.required],
       price: [null, Validators.required],
+      image: [null],
     });
 
     this.productForm.patchValue(this.dialogData.data);
@@ -61,15 +73,24 @@ export class EditProductComponent implements OnInit {
   }
 
   async edit() {
-    var formData = this.productForm.value;
+    var formDataGroup = this.productForm.value;
     var data = {
-      id: this.dialogData.data.id,
-      name: formData.name,
-      categoryId: formData.categoryId,
-      description: formData.description,
-      price: formData.price,
+      name: formDataGroup.name,
+      categoryId: formDataGroup.categoryId,
+      description: formDataGroup.description,
+      price: formDataGroup.price,
     };
-    let response = await this.productService.update(data);
+
+    var formData: FormData = new FormData();
+    formData.append('id', this.dialogData.data.id);
+    formData.append('name', this.productForm.get('name')!.value);
+    formData.append('categoryId', this.productForm.get('categoryId')!.value);
+    formData.append('description', this.productForm.get('description')!.value);
+    formData.append('price', this.productForm.get('price')!.value);
+    formData.append('image', this.productForm.get('image')!.value);
+
+
+    let response = await this.productService.update(formData);
     if (response.results.responseCode == '200') {
       this.dialogRef.close();
       this.onEditProduct.emit();

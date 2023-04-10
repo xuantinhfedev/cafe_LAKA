@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-delete-product',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./delete-product.component.scss']
 })
 export class DeleteProductComponent implements OnInit {
-
+  onDeleteProduct = new EventEmitter();
   constructor() { }
 
   ngOnInit() {

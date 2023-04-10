@@ -30,7 +30,7 @@ export class ProductService {
 
   // Hàm thực hiện gọi API cập nhật sản phẩm
   async update(data: any) {
-    let dataResponse = await this.baseService.patchService(
+    let dataResponse = await this.uploadService.postService(
       data,
       api_url + 'update',
       ''

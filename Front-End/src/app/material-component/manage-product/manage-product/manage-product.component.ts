@@ -10,6 +10,7 @@ import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 import { AddProductComponent } from '../product/add-product/add-product.component';
 import { EditProductComponent } from '../product/edit-product/edit-product.component';
+import { DeleteProductComponent } from '../product/delete-product/delete-product.component';
 
 @Component({
   selector: 'app-manage-product',
@@ -65,7 +66,7 @@ export class ManageProductComponent implements OnInit {
       this.length = response.results.dataCount;
       this.dataSource.sort = this.sort;
       this.responseMessage = response.results.message;
-      this.toastr.toastSuccess(this.responseMessage, 'Thành công');
+      // this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
       this.ngxService.stop();
       if (response.results.message) {
@@ -105,7 +106,7 @@ export class ManageProductComponent implements OnInit {
   }
 
   async handleRouterToTrash() {
-
+    this.router.navigate(['/cafe/product/product-trash']);
   }
 
   async searchNameProduct() {
@@ -133,7 +134,25 @@ export class ManageProductComponent implements OnInit {
   }
 
   async handleDeleteAction(element: any){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      message: 'chuyển danh mục này vào thùng rác',
+      action: 'Delete',
+      data: element,
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(DeleteProductComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
 
+    const sub = dialogRef.componentInstance.onDeleteProduct.subscribe(
+      (response) => {
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+      }
+    );
   }
 
   async onChange(status: any, id: any){

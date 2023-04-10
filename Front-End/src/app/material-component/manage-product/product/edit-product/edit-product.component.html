@@ -40,6 +40,10 @@
           <span *ngIf="productForm.controls.description.errors.required">Tên sản phẩm không được bỏ trống</span>
         </mat-error>
       </mat-form-field>
+
+      <button style="margin-bottom: 4px" type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+      <input hidden (change)="uploadFile($event)" #fileInput type="file" id="image" >
+      <mat-label style="margin-bottom:24px">{{ nameFile }}</mat-label>
     </div>
   </form>
 </mat-dialog-content>

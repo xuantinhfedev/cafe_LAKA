@@ -4,6 +4,7 @@ import { RouterGuardService } from '../services/router-guard/router-guard.servic
 import { TrashCategoryComponent } from './dialog/category/trash-category/trash-category.component';
 import { ManageCategoryComponent } from './manage-category/manage-category.component';
 import { ManageProductComponent } from './manage-product/manage-product/manage-product.component';
+import { TrashProductComponent } from './manage-product/product/trash-product/trash-product.component';
 
 
 export const MaterialRoutes: Routes = [
@@ -26,6 +27,14 @@ export const MaterialRoutes: Routes = [
   {
     path: 'product',
     component: ManageProductComponent,
+    canActivate:[RouterGuardService],
+    data: {
+      expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'product/product-trash',
+    component: TrashProductComponent,
     canActivate:[RouterGuardService],
     data: {
       expectedRole: ['admin']
