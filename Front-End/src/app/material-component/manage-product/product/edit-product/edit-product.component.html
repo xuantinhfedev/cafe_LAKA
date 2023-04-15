@@ -41,8 +41,10 @@
         </mat-error>
       </mat-form-field>
 
-      <button style="margin-bottom: 4px" type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+      <!-- <button style="margin-bottom: 4px" type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
       <input hidden (change)="uploadFile($event)" #fileInput type="file" id="image" >
+      <mat-label style="margin-bottom:24px">{{ nameFile }}</mat-label> -->
+      <input (change)="uploadFile($event)" #fileInput type="file" id="image" accept=".jpeg, .png, .jpg">
       <mat-label style="margin-bottom:24px">{{ nameFile }}</mat-label>
     </div>
   </form>

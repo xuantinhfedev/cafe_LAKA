@@ -41,9 +41,10 @@
 
     <ng-container matColumnDef="image">
       <th class="table-br-w200" mat-header-cell *matHeaderCellDef> Hình ảnh </th>
-      <td class="table-br"
-        mat-cell *matCellDef="let element" >
-        <img *ngIf="element.file_src !== ''" style="width: 200px" src="http://localhost:8080/uploads/{{ element.file_src }}" alt=""></td>
+      <td class="table-br" mat-cell *matCellDef="let element">
+        <img *ngIf="element.file_src !== ''" style="width: 200px"
+          src="http://localhost:8080/uploads/{{ element.file_src }}" alt="">
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="description">
@@ -54,7 +55,7 @@
     </ng-container>
 
     <ng-container matColumnDef="price">
-      <th class="table-br-w150 header-custom" mat-header-cell *matHeaderCellDef mat-sort-header> Giá </th>
+      <th class="table-br-w150 " mat-header-cell *matHeaderCellDef mat-sort-header> Giá </th>
       <td class="table-br-w150" mat-cell *matCellDef="let element"> {{element.price | number}} đồng</td>
     </ng-container>
 
@@ -78,7 +79,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     <tr style="height: 224px" class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="3">Không có dữ liệu {{ valueSearch }}
+      <td class="mat-cell" colspan="7">Không có dữ liệu {{ valueSearch }}
         <br>
         <mat-icon style="height: 72px; width: 72px; font-size: 72px">report_off</mat-icon>
       </td>

@@ -64,7 +64,7 @@ export class ProductService {
   }
 
   // Hàm thực hiện chuyển sản phẩm vào thùng rác
-  async delete(id: any){
+  async deleteProduct(id: any){
     let dataResponse = await this.baseService.deleteService(
       api_url + 'delete/' + id,
       ''

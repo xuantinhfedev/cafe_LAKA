@@ -25,6 +25,12 @@ import { AllTrashCategoryComponent } from './dialog/category/trash-category/all-
 import { ManageProductComponent } from './manage-product/manage-product/manage-product.component';
 import { AddProductComponent } from './manage-product/product/add-product/add-product.component';
 import { EditProductComponent } from './manage-product/product/edit-product/edit-product.component';
+import { DeleteProductComponent } from './manage-product/product/delete-product/delete-product.component';
+import { TrashProductComponent } from './manage-product/product/trash-product/trash-product.component';
+import { RestoreProductComponent } from './manage-product/product/restore-product/restore-product.component';
+import { RestoreAllProductComponent } from './manage-product/product/restore-all-product/restore-all-product.component';
+import { ClearProductComponent } from './manage-product/product/clear-product/clear-product.component';
+import { DestroyProductComponent } from './manage-product/product/destroy-product/destroy-product.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -51,7 +57,13 @@ import { EditProductComponent } from './manage-product/product/edit-product/edit
     AllTrashCategoryComponent,
     ManageProductComponent,
     AddProductComponent,
-    EditProductComponent
+    EditProductComponent,
+    DeleteProductComponent,
+    TrashProductComponent,
+    RestoreProductComponent,
+    RestoreAllProductComponent,
+    ClearProductComponent,
+    DestroyProductComponent,
   ],
   exports: []
 })

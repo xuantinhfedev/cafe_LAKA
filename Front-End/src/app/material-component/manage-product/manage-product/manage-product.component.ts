@@ -60,8 +60,8 @@ export class ManageProductComponent implements OnInit {
       pageIndex,
       value
     );
+    this.ngxService.stop();
     if (response.results.responseCode == '200') {
-      this.ngxService.stop();
       this.dataSource = new MatTableDataSource(response.results.data);
       this.length = response.results.dataCount;
       this.dataSource.sort = this.sort;
@@ -78,11 +78,11 @@ export class ManageProductComponent implements OnInit {
     }
   }
 
-  async pageChangeEvent(event: any){
+  async pageChangeEvent(event: any) {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
-    this.tableData(this.pageSize, this.pageIndex, this.valueSearch)
-    console.log('Phân trang: ',event)
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+    // console.log('Phân trang: ', event);
   }
 
   async handleAddAction() {
@@ -110,10 +110,12 @@ export class ManageProductComponent implements OnInit {
   }
 
   async searchNameProduct() {
-
+    this.pageSize = 10;
+    this.pageIndex = 0;
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
   }
 
-  async handleEditAction(element: any){
+  async handleEditAction(element: any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       data: element,
@@ -133,10 +135,10 @@ export class ManageProductComponent implements OnInit {
     );
   }
 
-  async handleDeleteAction(element: any){
+  async handleDeleteAction(element: any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
-      message: 'chuyển danh mục này vào thùng rác',
+      message: `chuyển sản phẩm ${element.name} vào thùng rác`,
       action: 'Delete',
       data: element,
     };
@@ -155,7 +157,16 @@ export class ManageProductComponent implements OnInit {
     );
   }
 
-  async onChange(status: any, id: any){
-    console.log(status, id)
+  async onChange(status: any, id: any) {
+    var data = {
+      status: status.toString(),
+      id: id
+    }
+    let res = await this.productService.updateStatus(data);
+    if(res.results.responseCode == '200') {
+      this.toastr.toastSuccess('Cập nhật trạng thái thành công', 'Thành công')
+    }else{
+      this.toastr.toastWarning('Cập nhật trạng thái thất bại', 'Thất bại')
+    }
   }
 }

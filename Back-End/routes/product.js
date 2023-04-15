@@ -70,7 +70,7 @@ router.get('/get', auth.authenticateToken, (req, res, next) => {
   let valueLimit = pageSize;
   let valueOffset = pageSize * pageIndex;
 
-  var queryCount = "SELECT COUNT(*) as dataCount FROM product WHERE deleted='false' and (? IS NULL or name LIKE ?) ORDER BY id ASC";
+  var queryCount = "SELECT COUNT(*) as dataCount FROM product WHERE deleted='false' and (? IS NULL or name LIKE ?)  ORDER BY categoryId ASC";
   let dataCount = 0;
   connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
     if (!err) {
@@ -85,7 +85,7 @@ router.get('/get', auth.authenticateToken, (req, res, next) => {
     }
   })
 
-  var query = "select p.id, p.name, p.description, p.file_src, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'false' and (? IS NULL or p.name LIKE ?) order by id asc LIMIT ? OFFSET ?";
+  var query = "select p.id, p.name, p.description, p.file_src, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'false' and (? IS NULL or p.name LIKE ?) order by categoryId asc LIMIT ? OFFSET ? ";
   connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
     if (!err) {
       return res.status(200).json({
@@ -178,7 +178,24 @@ router.post('/update', upload.single('image'), auth.authenticateToken, checkRole
 
   let product = req.body;
   if (!req.file) {
-    console.log("No file upload");
+    var query = "update product set name=?, categoryId=?, description=?, price=? where id=? and deleted='false'";
+    connection.query(query, [product.name, product.categoryId, product.description, product.price, product.id], (err, results) => {
+      if (!err) {
+        return res.status(200).json({
+          results: {
+            responseCode: "200",
+            message: "Cập nhật sản phẩm mới thành công."
+          }
+        });
+      } else {
+        return res.status(200).json({
+          results: {
+            responseCode: "500",
+            message: err
+          }
+        });
+      }
+    });
   } else {
     var imgsrc = req.file.filename;
     var query = "update product set name=?, categoryId=?, description=?,file_src=?, price=? where id=? and deleted='false'";
@@ -220,7 +237,7 @@ router.delete('/delete/:id', auth.authenticateToken, checkRole.checkRole, (req, 
       return res.status(200).json({
         results: {
           responseCode: "200",
-          message: "Sản phẩm đã được xóa thành công."
+          message: "Sản phẩm đã được chuyển vào thùng rác."
         }
       });
     } else {
