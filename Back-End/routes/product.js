@@ -36,7 +36,24 @@ router.post('/add', upload.single('image'), auth.authenticateToken, checkRole.ch
 
   let product = req.body;
   if (!req.file) {
-    console.log("No file upload");
+    var query = "insert into product (name, categoryId, description ,price, status, deleted) values(?, ?, ?, ?, 'true', 'false')";
+    connection.query(query, [product.name, product.categoryId, product.description, product.price], (err, results) => {
+      if (!err) {
+        return res.status(200).json({
+          results: {
+            responseCode: "200",
+            message: "Thêm sản phẩm mới thành công."
+          }
+        });
+      } else {
+        return res.status(200).json({
+          results: {
+            responseCode: "500",
+            message: err
+          }
+        });
+      }
+    });
   } else {
     var imgsrc = req.file.filename;
     var query = "insert into product (name, categoryId, description, file_src ,price, status, deleted) values(?, ?, ?, ?, ?, 'true', 'false')";
@@ -399,7 +416,7 @@ router.delete('/clear', auth.authenticateToken, checkRole.checkRole, (req, res) 
               return res.status(200).json({
                   results: {
                       responseCode: "200",
-                      message: "Sản phẩm đã bị xóa hoàn toàn."
+                      message: "Tất cả sản phẩm đã được xóa khỏi thùng rác"
                   }
               });
           }
@@ -432,7 +449,7 @@ router.patch('/restore-all', auth.authenticateToken, checkRole.checkRole, (req, 
               return res.status(200).json({
                   results: {
                       responseCode: "200",
-                      message: "Khôi phục sản phẩm thành công."
+                      message: "Khôi phục tất cả sản phẩm từ thùng rác thành công."
                   }
               });
           }

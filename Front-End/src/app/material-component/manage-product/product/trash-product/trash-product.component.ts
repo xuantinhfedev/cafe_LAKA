@@ -140,7 +140,7 @@ export class TrashProductComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onRestoreAllCategory.subscribe(
       (response) => {
-        this.router.navigate(['/cafe/category']);
+        this.router.navigate(['/cafe/product']);
       }
     );
   }

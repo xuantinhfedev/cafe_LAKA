@@ -70,22 +70,15 @@ export class AddProductComponent implements OnInit {
     });
     this.productForm.get('image')!.updateValueAndValidity();
     this.nameFile = filePatch.name;
-    console.log(filePatch)
   }
 
   async add(){
-    var formDataGroup = this.productForm.value;
-    var data = {
-      name: formDataGroup.name,
-      categoryId: formDataGroup.categoryId,
-      description: formDataGroup.description,
-      price: formDataGroup.price,
-    }
     var formData: FormData = new FormData();
     formData.append('name', this.productForm.get('name')!.value);
     formData.append('categoryId', this.productForm.get('categoryId')!.value);
     formData.append('description', this.productForm.get('description')!.value);
     formData.append('price', this.productForm.get('price')!.value);
+    console.log(this.productForm.get('image').value);
     formData.append('image', this.productForm.get('image')!.value);
 
     let response = await this.productService.add(formData);

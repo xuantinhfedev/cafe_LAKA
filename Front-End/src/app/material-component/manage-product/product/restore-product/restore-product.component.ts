@@ -23,7 +23,6 @@ export class RestoreProductComponent implements OnInit {
   ngOnInit() {
     if(this.dialogData) {
       this.details = this.dialogData;
-      console.log(this.dialogData)
     }
   }
 
