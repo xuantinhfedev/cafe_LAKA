@@ -51,7 +51,7 @@ export class TrashProductComponent implements OnInit {
   }
 
   async tableData(pageSize: number, pageIndex: number, value: string) {
-    let response = await this.productService.getProducts(
+    let response = await this.productService.getTrashProducts(
       pageSize,
       pageIndex,
       value
@@ -72,5 +72,37 @@ export class TrashProductComponent implements OnInit {
       }
       this.toastr.toastError(this.responseMessage, 'Lỗi');
     }
+  }
+
+  async searchNameProduct() {
+    this.pageSize = 10;
+    this.pageIndex = 0;
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+  }
+
+  async handleRestoreAction(element: any) {
+
+  }
+
+  async handleDestroyAction(element: any) {
+
+  }
+
+  async handleRestoreAllAction(){
+
+  }
+
+  async handleClearAction() {
+
+  }
+
+  async pageChangeEvent(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+  }
+
+  returnCategory() {
+    this.router.navigate(['/cafe/product']);
   }
 }

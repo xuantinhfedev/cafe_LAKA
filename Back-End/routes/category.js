@@ -277,7 +277,7 @@ router.delete('/destroy', auth.authenticateToken, checkRole.checkRole, (req, res
                 return res.status(200).json({
                     results: {
                         responseCode: "404",
-                        message: "Danh mục không được tìm thấy hoặc danh mục đã được chuyển vào thùng rác."
+                        message: "Danh mục không được tìm thấy."
                     }
                 });
             } else {

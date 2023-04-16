@@ -53,6 +53,21 @@ export class ProductService {
     return dataResponse;
   }
 
+    // Hàm thực hiện gọi API lấy danh sách sản phẩm
+    async getTrashProducts(pageSize: number, pageIndex: number, value: string) {
+      let dataResponse = await this.baseService.getService(
+        api_url +
+          'trash-product?pageSize=' +
+          pageSize +
+          '&pageIndex=' +
+          pageIndex +
+          '&value=' +
+          value,
+        ''
+      );
+      return dataResponse;
+    }
+
   // Hàm thực hiện cập nhật trạng thái Status của sản phẩm
   async updateStatus(data: any) {
     let dataResponse = await this.baseService.patchService(
@@ -80,4 +95,14 @@ export class ProductService {
     );
     return dataResponse;
   }
+
+  // API khôi phục bản ghi
+
+  // API xóa hoàn toàn bản ghi trong thùng rác
+
+  // API khôi phục tất cả bản ghi
+
+  // API xóa hoàn toàn tất cả bản ghi trong thùng rác
+  
+
 }

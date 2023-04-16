@@ -141,39 +141,7 @@ router.get('/getById/:id', auth.authenticateToken, (req, res, next) => {
   })
 });
 
-// API cập nhật sản phẩm dựa theo id sản phẩm
-// router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
-
-//   let product = req.body;
-//   console.log(product)
-//   var query = "update product set name=?, categoryId=?, description=?, price=? where id=? and deleted='false'";
-//   connection.query(query, [product.name, product.categoryId, product.description, product.price, product.id], (err, results) => {
-//     if (!err) {
-//       if (results.affectedRows == 0) {
-//         return res.status(200).json({
-//           results: {
-//             responseCode: "404",
-//             message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
-//           }
-//         });
-//       }
-//       return res.status(200).json({
-//         results: {
-//           responseCode: "200",
-//           message: "Cập nhật sản phẩm thành công."
-//         }
-//       });
-//     } else {
-//       return res.status(200).json({
-//         results: {
-//           responseCode: "500",
-//           message: err
-//         }
-//       });
-//     }
-//   })
-// });
-
+// API cập nhật sản phẩm
 router.post('/update', upload.single('image'), auth.authenticateToken, checkRole.checkRole, (req, res) => {
 
   let product = req.body;
@@ -301,6 +269,181 @@ router.get('/getCategories', auth.authenticateToken, (req, res, next) => {
         }
       });
     }
+  });
+});
+
+
+//  API lấy danh sách sản phẩm có trong thùng rác
+router.get('/trash-product', auth.authenticateToken, (req, res, next) => {
+
+  let valueSearch = req.query.value;
+  let pageSize = Number(req.query.pageSize);
+  let pageIndex = Number(req.query.pageIndex);
+  let valueLimit = pageSize;
+  let valueOffset = pageSize * pageIndex;
+
+  var queryCount = "SELECT COUNT(*) as dataCount FROM product WHERE deleted='true' and (? IS NULL or name LIKE ?)";
+  let dataCount = 0;
+  connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
+    if (!err) {
+      dataCount = results[0];
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  })
+
+  var query = "select p.id, p.name, p.description, p.file_src, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'true' and (? IS NULL or p.name LIKE ?) order by categoryId asc LIMIT ? OFFSET ? ";
+  connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
+    if (!err) {
+      return res.status(200).json({
+        results: {
+          responseCode: "200",
+          message: "Lấy danh sách sản phẩm thành công.",
+          data: results,
+          dataCount: dataCount.dataCount
+        }
+      });
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  });
+});
+
+// API xóa hoàn toàn khỏi Sản phẩm
+router.delete('/destroy', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+  let product = req.query.id;
+  var query = "DELETE FROM product where id=?";
+  connection.query(query, [product], (err, results) => {
+      if (!err) {
+          if (results.affectedRows == 0) {
+              return res.status(200).json({
+                  results: {
+                      responseCode: "404",
+                      message: "Sản phẩm không được tìm thấy"
+                  }
+              });
+          } else {
+              return res.status(200).json({
+                  results: {
+                      responseCode: "200",
+                      message: "Sản phẩm đã bị xóa hoàn toàn."
+                  }
+              });
+          }
+      } else {
+          return res.status(200).json({
+              results: {
+                  responseCode: "500",
+                  message: err
+              }
+          });
+      }
+  });
+});
+
+// API khôi phục Sản phẩm từ thùng rác
+router.patch('/restore', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+  let product = req.body;
+  var query = "UPDATE product SET deleted='false' WHERE id=?";
+  connection.query(query, [product.id], (err, results) => {
+      if (!err) {
+          if (results.affectedRows == 0) {
+              return res.status(200).json({
+                  results: {
+                      responseCode: "404",
+                      message: "Sản phẩm không được tìm thấy."
+                  }
+              });
+          } else {
+              return res.status(200).json({
+                  results: {
+                      responseCode: "200",
+                      message: "Khôi phục sản phẩm thành công."
+                  }
+              });
+          }
+      } else {
+          return res.status(200).json({
+              results: {
+                  responseCode: "500",
+                  message: err
+              }
+          });
+      }
+  });
+});
+
+// API xóa hoàn toàn tất cả danh mục khỏi danh sách Sản phẩm
+router.delete('/clear', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+  var query = "DELETE FROM product where deleted='true'";
+  connection.query(query, (err, results) => {
+      if (!err) {
+          if (results.affectedRows == 0) {
+              return res.status(200).json({
+                  results: {
+                      responseCode: "404",
+                      message: "Sản phẩm không được tìm thấy."
+                  }
+              });
+          } else {
+              return res.status(200).json({
+                  results: {
+                      responseCode: "200",
+                      message: "Sản phẩm đã bị xóa hoàn toàn."
+                  }
+              });
+          }
+      } else {
+          return res.status(200).json({
+              results: {
+                  responseCode: "500",
+                  message: err
+              }
+          });
+      }
+  });
+});
+
+
+
+// API khôi phục tất cả Sản phẩm từ thùng rác
+router.patch('/restore-all', auth.authenticateToken, checkRole.checkRole, (req, res) => {
+  var query = "UPDATE product SET deleted='false'";
+  connection.query(query, (err, results) => {
+      if (!err) {
+          if (results.affectedRows == 0) {
+              return res.status(200).json({
+                  results: {
+                      responseCode: "404",
+                      message: "Sản phẩm không được tìm thấy."
+                  }
+              });
+          } else {
+              return res.status(200).json({
+                  results: {
+                      responseCode: "200",
+                      message: "Khôi phục sản phẩm thành công."
+                  }
+              });
+          }
+      } else {
+          return res.status(200).json({
+              results: {
+                  responseCode: "500",
+                  message: err
+              }
+          });
+      }
   });
 });
 

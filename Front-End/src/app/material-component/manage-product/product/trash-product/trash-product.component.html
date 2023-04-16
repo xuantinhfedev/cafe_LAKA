@@ -1,3 +1,96 @@
-<p>
-  trash-product works!
-</p>
+<mat-card class="category-header">
+  <div class="category-header__title">
+    <b>
+      <h2 style="margin: 0">Thùng rác</h2>
+    </b>
+    <mat-icon color="primary">delete_forever</mat-icon>
+  </div>
+  <div>
+    <button mat-flat-button color="primary" class="float-right" (click)="handleRestoreAllAction()">Lấy lại toàn bộ dữ
+      liệu
+      <mat-icon>history</mat-icon></button>
+    &nbsp; &nbsp; &nbsp;
+    <button mat-flat-button color="primary" (click)="handleClearAction()">Xóa toàn bộ dữ
+      liệu<mat-icon>clear</mat-icon></button>
+  </div>
+</mat-card>
+
+<hr>
+<mat-card>
+  <mat-form-field class="example-full-width">
+    <span matPrefix> </span>
+    <input type="tel" matInput placeholder="Tìm kiếm sản phẩm" name="search" [(ngModel)]="valueSearch">
+    <button matSuffix mat-button (click)="searchNameProduct()"><mat-icon>search</mat-icon></button>
+  </mat-form-field>
+  <br />
+</mat-card>
+<hr>
+<div class="responsive-table">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+    <!-- Index Column -->
+    <ng-container matColumnDef="index">
+      <th class="table-br-w100" mat-header-cell *matHeaderCellDef> STT </th>
+      <td class="table-br-w100" mat-cell *matCellDef="let index = index"> {{index + 1}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th class="table-br-w300" mat-header-cell *matHeaderCellDef> Tên sản phẩm </th>
+      <td class="table-br-w300" mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="categoryName">
+      <th class="table-br-w300" mat-header-cell *matHeaderCellDef> Tên danh mục </th>
+      <td class="table-br-w300" mat-cell *matCellDef="let element"> {{element.categoryName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="image">
+      <th class="table-br-w200" mat-header-cell *matHeaderCellDef> Hình ảnh </th>
+      <td class="table-br" mat-cell *matCellDef="let element">
+        <img *ngIf="element.file_src !== ''" style="width: 200px"
+          src="http://localhost:8080/uploads/{{ element.file_src }}" alt="">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th class="table-br" mat-header-cell *matHeaderCellDef> Mô tả </th>
+      <td class="table-br" style="white-space: nowrap; text-overflow:ellipsis; overflow: hidden; max-width:1px;"
+        mat-cell *matCellDef="let element" [matTooltipPosition]="'above'" matTooltip="{{ element.description }}">
+        {{element.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th class="table-br-w150 " mat-header-cell *matHeaderCellDef mat-sort-header> Giá </th>
+      <td class="table-br-w150" mat-cell *matCellDef="let element"> {{element.price | number}} đồng</td>
+    </ng-container>
+
+    <ng-container matColumnDef="edit">
+      <th class="table-w150" mat-header-cell *matHeaderCellDef>Thao tác</th>
+      <td class="table-w150" mat-cell *matCellDef="let element" class="action-link">
+        <button mat-icon-button color="primary" matTooltip="Lấy lại dữ liệu" (click)="handleRestoreAction(element)">
+          <mat-icon>undo</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Xóa hoàn toàn" (click)="handleDestroyAction(element)">
+          <mat-icon>delete_sweep</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr style="height: 224px" class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="7">Không có dữ liệu {{ valueSearch }}
+        <br>
+        <mat-icon style="height: 72px; width: 72px; font-size: 72px">report_off</mat-icon>
+      </td>
+    </tr>
+
+  </table>
+
+  <mat-paginator appStylePaginator (page)="pageChangeEvent($event)" [length]="length" [pageSize]="pageSize"
+    [pageIndex]="pageIndex" showFirstLastButtons [pageSizeOptions]="pageSizeOptions">
+  </mat-paginator>
+  <button mat-flat-button color="primary" (click)="returnCategory()">Trở về
+    <mat-icon>keyboard_return</mat-icon></button>
+</div>
