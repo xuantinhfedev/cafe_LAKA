@@ -39,7 +39,7 @@ export class ManageProductComponent implements OnInit {
   length = 0;
   pageSize = 10;
   pageIndex = 0;
-  pageSizeOptions = [10, 20, 30];
+  pageSizeOptions = [10, 20, 30, 50];
 
   constructor(
     private productService: ProductService,

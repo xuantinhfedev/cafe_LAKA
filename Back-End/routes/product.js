@@ -169,7 +169,7 @@ router.post('/update', upload.single('image'), auth.authenticateToken, checkRole
         return res.status(200).json({
           results: {
             responseCode: "200",
-            message: "Cập nhật sản phẩm mới thành công."
+            message: "Cập nhật sản phẩm thành công."
           }
         });
       } else {
@@ -189,7 +189,7 @@ router.post('/update', upload.single('image'), auth.authenticateToken, checkRole
         return res.status(200).json({
           results: {
             responseCode: "200",
-            message: "Cập nhật sản phẩm mới thành công."
+            message: "Cập nhật sản phẩm thành công."
           }
         });
       } else {
