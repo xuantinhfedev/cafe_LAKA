@@ -53,20 +53,20 @@ export class ProductService {
     return dataResponse;
   }
 
-    // Hàm thực hiện gọi API lấy danh sách sản phẩm
-    async getTrashProducts(pageSize: number, pageIndex: number, value: string) {
-      let dataResponse = await this.baseService.getService(
-        api_url +
-          'trash-product?pageSize=' +
-          pageSize +
-          '&pageIndex=' +
-          pageIndex +
-          '&value=' +
-          value,
-        ''
-      );
-      return dataResponse;
-    }
+  // Hàm thực hiện gọi API lấy danh sách sản phẩm
+  async getTrashProducts(pageSize: number, pageIndex: number, value: string) {
+    let dataResponse = await this.baseService.getService(
+      api_url +
+        'trash-product?pageSize=' +
+        pageSize +
+        '&pageIndex=' +
+        pageIndex +
+        '&value=' +
+        value,
+      ''
+    );
+    return dataResponse;
+  }
 
   // Hàm thực hiện cập nhật trạng thái Status của sản phẩm
   async updateStatus(data: any) {
@@ -79,7 +79,7 @@ export class ProductService {
   }
 
   // Hàm thực hiện chuyển sản phẩm vào thùng rác
-  async deleteProduct(id: any){
+  async deleteProduct(id: any) {
     let dataResponse = await this.baseService.deleteService(
       api_url + 'delete/' + id,
       ''
@@ -88,7 +88,7 @@ export class ProductService {
   }
 
   // Hàm thực hiện lấy danh sách danh mục
-  async getCategories(){
+  async getCategories() {
     let dataResponse = await this.baseService.getService(
       api_url + 'getCategories',
       ''
@@ -97,12 +97,39 @@ export class ProductService {
   }
 
   // API khôi phục bản ghi
-
+  async restoreProduct(data: any) {
+    let res = await this.baseService.patchService(
+      data,
+      api_url + `restore`,
+      ''
+    );
+    return res;
+  }
   // API xóa hoàn toàn bản ghi trong thùng rác
-
+  async destroy(id: any) {
+    let dataResponse = await this.baseService.deleteService(
+      api_url + 'destroy?id=' + id,
+      ''
+    );
+    return dataResponse;
+  }
   // API khôi phục tất cả bản ghi
+  // Hàm thực hiện gọi API khôi phục
+  async restoreAll(data: any) {
+    let dataResponse = await this.baseService.patchService(
+      data,
+      api_url + 'restore-all',
+      ''
+    );
+    return dataResponse;
+  }
 
   // API xóa hoàn toàn tất cả bản ghi trong thùng rác
-  
-
+  async clear() {
+    let dataResponse = await this.baseService.deleteService(
+      api_url + `clear`,
+      ''
+    );
+    return dataResponse;
+  }
 }

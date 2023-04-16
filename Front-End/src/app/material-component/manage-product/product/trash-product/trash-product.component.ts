@@ -8,6 +8,10 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ProductService } from 'src/app/services/product/product.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
+import { RestoreProductComponent } from '../restore-product/restore-product.component';
+import { DestroyProductComponent } from '../destroy-product/destroy-product.component';
+import { RestoreAllProductComponent } from '../restore-all-product/restore-all-product.component';
+import { ClearProductComponent } from '../clear-product/clear-product.component';
 
 @Component({
   selector: 'app-trash-product',
@@ -81,19 +85,85 @@ export class TrashProductComponent implements OnInit {
   }
 
   async handleRestoreAction(element: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'restore',
+      message: 'khôi phục sản phẩm này',
+      data: element,
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(RestoreProductComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
 
+    const sub = dialogRef.componentInstance.onRestoreCategory.subscribe(
+      (response) => {
+        this.router.navigate(['/cafe/product']);
+      }
+    );
   }
 
   async handleDestroyAction(element: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'destroy',
+      message: 'xóa bỏ hoàn toàn danh mục này',
+      data: element,
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(DestroyProductComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
 
+    const sub = dialogRef.componentInstance.onDestroyCategory.subscribe(
+      (response) => {
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+      }
+    );
   }
 
-  async handleRestoreAllAction(){
+  async handleRestoreAllAction() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'restoreAll',
+      message: 'khôi phục tất cả danh mục từ trong thùng rác',
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(RestoreAllProductComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
 
+    const sub = dialogRef.componentInstance.onRestoreAllCategory.subscribe(
+      (response) => {
+        this.router.navigate(['/cafe/category']);
+      }
+    );
   }
 
   async handleClearAction() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'destroyAll',
+      message: 'xóa tất cả danh mục có trong thùng rác',
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(ClearProductComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
 
+    const sub = dialogRef.componentInstance.onDestroyAllCategory.subscribe(
+      (response) => {
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+      }
+    );
   }
 
   async pageChangeEvent(event: any) {

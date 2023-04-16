@@ -1,15 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, EventEmitter, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ProductService } from 'src/app/services/product/product.service';
+import { Toastr } from 'src/app/services/toastr.service';
+import { GlobalConstants } from 'src/app/shared/global-constants';
 @Component({
   selector: 'app-restore-product',
   templateUrl: './restore-product.component.html',
-  styleUrls: ['./restore-product.component.scss']
+  styleUrls: ['./restore-product.component.scss'],
 })
 export class RestoreProductComponent implements OnInit {
+  onRestoreCategory = new EventEmitter();
+  responseMessage: any;
+  details: any = {};
 
-  constructor() { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public dialogData: any,
+    private productService: ProductService,
+    public dialogRef: MatDialogRef<RestoreProductComponent>,
+    private toastr: Toastr
+  ) {}
 
   ngOnInit() {
+    if(this.dialogData) {
+      this.details = this.dialogData;
+      console.log(this.dialogData)
+    }
   }
 
+  async restore() {
+    var data = {
+      id: this.dialogData.data.id,
+    };
+    let response = await this.productService.restoreProduct(data);
+    if (response.results.responseCode == '200') {
+      this.dialogRef.close();
+      this.onRestoreCategory.emit();
+      this.responseMessage = response.results.message;
+      this.toastr.toastSuccess(this.responseMessage, 'Thành công');
+    } else {
+      this.dialogRef.close();
+      if (response.results.message) {
+        this.responseMessage = response.results.message;
+      } else {
+        this.responseMessage = GlobalConstants.genericError;
+      }
+      this.toastr.toastError(this.responseMessage, 'Lỗi');
+    }
+  }
 }
