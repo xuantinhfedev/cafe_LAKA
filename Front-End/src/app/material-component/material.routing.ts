@@ -5,6 +5,7 @@ import { TrashCategoryComponent } from './dialog/category/trash-category/trash-c
 import { ManageCategoryComponent } from './manage-category/manage-category.component';
 import { ManageProductComponent } from './manage-product/manage-product/manage-product.component';
 import { TrashProductComponent } from './manage-product/product/trash-product/trash-product.component';
+import { ManageOrderComponent } from './manage-order/manage-order.component';
 
 
 export const MaterialRoutes: Routes = [
@@ -38,6 +39,14 @@ export const MaterialRoutes: Routes = [
     canActivate:[RouterGuardService],
     data: {
       expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'order',
+    component: ManageOrderComponent,
+    canActivate:[RouterGuardService],
+    data: {
+      expectedRole: ['admin', 'user']
     }
   },
 ];

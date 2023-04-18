@@ -137,7 +137,7 @@ router.get('/getByCategory/:id', auth.authenticateToken, (req, res, next) => {
       return res.status(500).json(err);
     }
   });
-});
+}); 
 
 // API lấy id, name, description, price của sản phẩm bằng id
 router.get('/getById/:id', auth.authenticateToken, (req, res, next) => {

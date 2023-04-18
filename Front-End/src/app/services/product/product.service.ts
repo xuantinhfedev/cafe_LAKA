@@ -132,4 +132,20 @@ export class ProductService {
     );
     return dataResponse;
   }
+  // async getProductById(id: any){
+  //   let res = await this.baseService.getService(
+  //     api_url + `getByCategory/${id}`, ''
+  //   )
+  //   return res;
+  // }
+  getProductByCategory(id: any) {
+    return this.httpClient.get(
+      url_environment + '/' + api_url + `getByCategory/${id}`
+    );
+  }
+  getById(id: any) {
+    return this.httpClient.get(
+      url_environment + '/' + api_url + `getById/${id}`
+    );
+  }
 }

@@ -25,6 +25,12 @@ const MENUITEMS = [
     name: 'Quản lý sản phẩm',
     icon: 'restaurant',
     role: 'admin',
+  },
+  {
+    state: 'order',
+    name: 'Quản lý hóa đơn',
+    icon: 'list_alt',
+    role: '',
   }
 ];
 

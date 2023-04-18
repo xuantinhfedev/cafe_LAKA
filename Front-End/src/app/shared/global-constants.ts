@@ -4,6 +4,10 @@ export class GlobalConstants {
 
   public static unauthorized: string = "Bạn không phải là người được quyền để truy cập trang này.";
 
+  public static productExistError: string = "Sản phẩm đã tồn tại";
+
+  public static productAdded: string = "Sản phẩm được thêm thành công";
+
   // Regex
   public static nameRegex: string = '[a-zA-Z0-9 ]*';
 
