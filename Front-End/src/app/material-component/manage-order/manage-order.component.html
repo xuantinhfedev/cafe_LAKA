@@ -1,16 +1,16 @@
 <mat-card>
   <b><span>Quản lý đơn đặt hàng</span></b>
   <button mat-flat-button color="primary" class="float-right" [disabled]="validateSubmit()"
-    (click)="submitAction()">Submit & Get Bill</button>
+    (click)="submitAction()">Lưu & In hóa đơn</button>
 </mat-card>
 <hr>
 <mat-card>
-  <b><span>Customer Details:</span></b>
+  <b><span>Thông tin chi tiết khách hàng:</span></b>
   <form [formGroup]="manageOrderForm">
     <div fxFlex fxLayout="column">
       <div fxLayout="row wrap">
         <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Name</mat-label>
+          <mat-label>Tên khách hàng</mat-label>
           <input matInput formControlName="name" required>
           <mat-error *ngIf="manageOrderForm.controls.name.touched && manageOrderForm.controls.name.invalid">
             <span *ngIf="manageOrderForm.controls.name.errors?.required">Trường này không được bỏ trống</span>
@@ -26,7 +26,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Contact Number</mat-label>
+          <mat-label>Số điện thoại</mat-label>
           <input matInput formControlName="contactNumber" required>
           <mat-error
             *ngIf="manageOrderForm.controls.contactNumber.touched && manageOrderForm.controls.contactNumber.invalid">
@@ -35,7 +35,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Payment Method</mat-label>
+          <mat-label>Phương thức thanh toán</mat-label>
           <mat-select matInput formControlName="paymentMethod" required>
             <mat-option value="Cash">Cash</mat-option>
             <mat-option value="Credit Card">Credit Card</mat-option>
@@ -52,26 +52,26 @@
 </mat-card>
 <hr>
 <mat-card>
-  <b><span>Select Product:</span></b>
+  <b><span>Chọn sản phẩm:</span></b>
   <form [formGroup]="manageOrderForm">
     <div fxFlex fxLayout="column">
       <div fxLayout="row wrap">
         <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Category</mat-label>
+          <mat-label>Chọn danh mục</mat-label>
           <mat-select formControlName="category" (selectionChange)="getProductByCategory($event.value)">
             <mat-option *ngFor="let category of categories" [value]="category">{{ category.name }}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Product</mat-label>
+          <mat-label>Chọn sản phẩm</mat-label>
           <mat-select formControlName="product" (selectionChange)="getProductDetails($event.value)">
             <mat-option *ngFor="let product of products" [value]="product">{{ product.name }}</mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Price</mat-label>
+          <mat-label>Giá</mat-label>
           <input matInput formControlName="price" required readonly>
           <mat-error *ngIf="manageOrderForm.controls.price.touched && manageOrderForm.controls.price.invalid">
             <span *ngIf="manageOrderForm.controls.price.errors?.required">Trường này không được bỏ trống</span>
@@ -79,7 +79,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Quantity</mat-label>
+          <mat-label>Số lượng</mat-label>
           <input matInput formControlName="quantity" required (keyup)="setQuantity($event)" #input>
           <mat-error *ngIf="manageOrderForm.controls.quantity.touched && manageOrderForm.controls.quantity.invalid">
             <span *ngIf="manageOrderForm.controls.quantity.errors?.required">Trường này không được bỏ trống</span>
@@ -87,7 +87,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill" fxFlex>
-          <mat-label>Total</mat-label>
+          <mat-label>Tổng tiền</mat-label>
           <input matInput formControlName="total" required readonly>
           <mat-error *ngIf="manageOrderForm.controls.total.touched && manageOrderForm.controls.total.invalid">
             <span *ngIf="manageOrderForm.controls.total.errors?.required">Trường này không được bỏ trống</span>
@@ -98,8 +98,8 @@
     </div>
   </form>
   <div>
-    <button mat-flat-button color="primary" [disabled]="validateProductAdd()" (click)="add()">Add</button>
-    <button mat-flat-button color="primary" class="float-right">Total Amount: {{ totalAmount }}</button>
+    <button mat-flat-button color="primary" [disabled]="validateProductAdd()" (click)="add()">Thêm sản phẩm</button>
+    <button mat-flat-button color="primary" class="float-right">Tổng tiền thanh toán: {{ totalAmount }}</button>
   </div>
 </mat-card>
 <hr>
@@ -107,32 +107,32 @@
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <th mat-header-cell *matHeaderCellDef>Tên sản phẩm</th>
       <td mat-cell *matCellDef="let element">{{ element.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <th mat-header-cell *matHeaderCellDef>Tên danh mục</th>
       <td mat-cell *matCellDef="let element">{{ element.category }}</td>
     </ng-container>
 
     <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <th mat-header-cell *matHeaderCellDef>Giá</th>
       <td mat-cell *matCellDef="let element">{{ element.price }}</td>
     </ng-container>
 
     <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef>Quantity</th>
+      <th mat-header-cell *matHeaderCellDef>Số lượng</th>
       <td mat-cell *matCellDef="let element">{{ element.quantity }}</td>
     </ng-container>
 
     <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <th mat-header-cell *matHeaderCellDef>Tổng tiền</th>
       <td mat-cell *matCellDef="let element">{{ element.total }}</td>
     </ng-container>
 
     <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef>Delete</th>
+      <th mat-header-cell *matHeaderCellDef>Thao tác</th>
       <td mat-cell *matCellDef="let element; let i = index" class="action-link">
         <button mat-icon-button color="primary" matTooltip="Delete" (click)="handleDeleteAction(i, element)">
           <mat-icon>delete</mat-icon>
