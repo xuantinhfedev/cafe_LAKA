@@ -1,0 +1,79 @@
+<mat-card class="category-header">
+  <b>
+    <h2 style="margin: 0">Quản lý hóa đơn</h2>
+  </b>
+  <div>
+    <button mat-flat-button color="primary" (click)="handleRouterToTrash()">Thùng
+      rác<mat-icon>delete_forever</mat-icon></button>
+  </div>
+</mat-card>
+<hr>
+<mat-card>
+  <mat-form-field class="example-full-width">
+    <span matPrefix> </span>
+    <input type="tel" matInput placeholder="Tìm kiếm hóa đơn" name="search" [(ngModel)]="valueSearch">
+    <button matSuffix mat-button (click)="searchNameProduct()"><mat-icon>search</mat-icon></button>
+  </mat-form-field>
+  <br />
+</mat-card>
+<hr>
+
+<div class="responsive-table">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Tên khách hàng</th>
+      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="contactNumber">
+      <th mat-header-cell *matHeaderCellDef>Số điện thoại</th>
+      <td mat-cell *matCellDef="let element">{{ element.contactNumber }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="paymentMethod">
+      <th mat-header-cell *matHeaderCellDef>Phương thức thanh toán</th>
+      <td mat-cell *matCellDef="let element">{{ element.paymentMethod }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef>Tổng tiền</th>
+      <td mat-cell *matCellDef="let element">{{ element.total }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="view">
+      <th mat-header-cell *matHeaderCellDef>Thao tác</th>
+      <td mat-cell *matCellDef="let element" class="action-link">
+        <button mat-icon-button color="primary" matTooltip="Xem hóa đơn" (click)="handleViewAction(element)">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Tải xuống hóa đơn" (click)="downloadReportAction(element)">
+          <mat-icon>summarize</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Xóa hóa đơn" (click)="handleDeleteAction(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr style="height: 224px" class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="7">Không có dữ liệu {{ valueSearch }}
+        <br>
+        <mat-icon style="height: 72px; width: 72px; font-size: 72px">report_off</mat-icon>
+      </td>
+    </tr>
+
+  </table>
+
+  <mat-paginator appStylePaginator (page)="pageChangeEvent($event)" [length]="length" [pageSize]="pageSize"
+    [pageIndex]="pageIndex" showFirstLastButtons [pageSizeOptions]="pageSizeOptions">
+  </mat-paginator>
+</div>

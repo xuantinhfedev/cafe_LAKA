@@ -28,10 +28,16 @@ const MENUITEMS = [
   },
   {
     state: 'order',
-    name: 'Quản lý hóa đơn',
+    name: 'Quản lý đơn đặt hàng',
     icon: 'list_alt',
     role: '',
-  }
+  },
+  {
+    state: 'bill',
+    name: 'Quản lý hóa đơn',
+    icon: 'import_contacts',
+    role: '',
+  },
 ];
 
 @Injectable()

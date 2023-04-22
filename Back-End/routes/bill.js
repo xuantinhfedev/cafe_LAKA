@@ -11,12 +11,12 @@ var auth = require('../services/authentication');
 
 // API tạo báo cáo
 router.post('/generateReport', auth.authenticateToken, (req, res) => {
-
+    const moonLanding = new Date();
     const generateUuid = uuid.v1();
     const orderDetails = req.body;
     var productDetailsReport = JSON.parse(orderDetails.productDetails);
-    var query = "insert into bill (name, uuid, email, contactNumber, paymentMethod, total, productDetails, createdBy) values(?,?,?,?,?,?,?,?)";
-    connection.query(query, [orderDetails.name, generateUuid, orderDetails.email, orderDetails.contactNumber, orderDetails.paymentMethod, orderDetails.totalAmount, orderDetails.productDetails, res.locals.email], (err, results) => {
+    var query = "insert into bill (name, uuid, email, contactNumber, paymentMethod, total, productDetails, createdBy, createdAt,deleted) values(?,?,?,?,?,?,?,?,?,'false')";
+    connection.query(query, [orderDetails.name, generateUuid, orderDetails.email, orderDetails.contactNumber, orderDetails.paymentMethod, orderDetails.totalAmount, orderDetails.productDetails, res.locals.email, moonLanding], (err, results) => {
         if (!err) {
             ejs.renderFile(path.join(__dirname, '', "report.ejs"), {
                 productDetails: productDetailsReport,
@@ -95,7 +95,7 @@ router.post('/getPdf', auth.authenticateToken, (req, res) => {
 });
 
 // API lấy danh sách tất cả bill
-router.get('/getBills', auth.authenticateToken, (req, res) => {
+router.get('/getBill', auth.authenticateToken, (req, res) => {
 
     var query = "select * from bill where deleted='false' order by id asc";
     connection.query(query, (err, results) => {
@@ -108,30 +108,75 @@ router.get('/getBills', auth.authenticateToken, (req, res) => {
     })
 });
 
+// Get bills
+router.get('/getBills', auth.authenticateToken, (req, res) => {
+
+    let valueSearch = req.query.value;
+    let pageSize = Number(req.query.pageSize);
+    let pageIndex = Number(req.query.pageIndex);
+    let valueLimit = pageSize;
+    let valueOffset = pageSize * pageIndex;
+
+    var queryCount = "SELECT COUNT(*) as dataCount FROM bill WHERE deleted='false' and (? IS NULL or name LIKE ?) ORDER BY id ASC";
+    let dataCount = 0;
+    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']],(err, results) => {
+        if (!err) {
+            dataCount = results[0];
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+    var query = "SELECT * FROM bill WHERE deleted='false' and (? IS NULL or name LIKE ?) order by id asc LIMIT ? OFFSET ?";
+    connection.query(query,[valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset] ,(err, results) => {
+        if (!err) {
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Lấy danh sách hóa đơn thành công.",
+                    data: results,
+                    dataCount: dataCount.dataCount
+                }
+            });
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+});
+
 // API xóa bill
 router.delete('/delete/:id', auth.authenticateToken, (req, res, next) => {
 
     const id = req.params.id;
-    console.log("Bước 1: ", id)
+    // console.log("Bước 1: ", id)
     var query = "update bill set deleted='true' where id=? and deleted='false'";
-    console.log("Bước 2: ", query);
+    // console.log("Bước 2: ", query);
     connection.query(query, [id], (err, results) => {
         if (!err) {
             if (results.affectedRows == 0) {
-                console.log("Bước 3: (kết quả 1)")
+                // console.log("Bước 3: (kết quả 1)")
                 return res.status(404).json({
                     message: "Không tìm thấy hóa đơn hoặc hóa đơn đã bị xóa."
                 })
             }
             else {
-                console.log("Bước 3: (kết quả 2)")
+                // console.log("Bước 3: (kết quả 2)")
                 res.status(200).json({
                     message: "Đã xóa hóa đơn thành công."
                 })
             }
         }
         else {
-            console.log("Bước 3: (kết quả 3)");
+            // console.log("Bước 3: (kết quả 3)");
             return res.status(500).json({
                 message: "Không tìm thấy hóa đơn hoặc hóa đơn đã bị xóa."
             });

@@ -32,6 +32,7 @@ import { RestoreAllProductComponent } from './manage-product/product/restore-all
 import { ClearProductComponent } from './manage-product/product/clear-product/clear-product.component';
 import { DestroyProductComponent } from './manage-product/product/destroy-product/destroy-product.component';
 import { ManageOrderComponent } from './manage-order/manage-order.component';
+import { ViewBillComponent } from './view-bill/view-bill.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -66,6 +67,7 @@ import { ManageOrderComponent } from './manage-order/manage-order.component';
     ClearProductComponent,
     DestroyProductComponent,
     ManageOrderComponent,
+    ViewBillComponent,
   ],
   exports: []
 })

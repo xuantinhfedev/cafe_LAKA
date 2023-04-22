@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { BaseService } from '../base.service';
+const api_url = 'bill/';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,10 @@ import { environment } from 'src/environments/environment';
 export class BillService {
   url = environment.apiUrl;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private __baseService: BaseService
+  ) {}
 
   generateReport(data: any) {
     return this.httpClient.post(this.url + `/bill/generateReport`, data, {
@@ -22,4 +27,28 @@ export class BillService {
       responseType: 'blob',
     });
   }
+
+  async getBills(pageSize: number, pageIndex: number, value: string) {
+    let res = await this.__baseService.getService(
+      api_url +
+        'getBills?pageSize=' +
+        pageSize +
+        '&pageIndex=' +
+        pageIndex +
+        '&value=' +
+        value,
+      ''
+    );
+    return res;
+  }
+
+  async moveTrash(id: any) {
+    let dataResponse = await this.__baseService.deleteService(
+      api_url + 'delete /id=' + id,
+      ''
+    );
+    return dataResponse;
+  }
+
+
 }
