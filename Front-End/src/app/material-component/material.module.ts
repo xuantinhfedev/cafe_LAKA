@@ -33,6 +33,7 @@ import { ClearProductComponent } from './manage-product/product/clear-product/cl
 import { DestroyProductComponent } from './manage-product/product/destroy-product/destroy-product.component';
 import { ManageOrderComponent } from './manage-order/manage-order.component';
 import { ViewBillComponent } from './view-bill/view-bill.component';
+import { TrashBillComponent } from './view-bill/trash-bill/trash-bill.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -68,6 +69,7 @@ import { ViewBillComponent } from './view-bill/view-bill.component';
     DestroyProductComponent,
     ManageOrderComponent,
     ViewBillComponent,
+    TrashBillComponent
   ],
   exports: []
 })

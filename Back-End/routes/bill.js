@@ -54,16 +54,16 @@ router.post('/getPdf', auth.authenticateToken, (req, res) => {
 
     const orderDetails = req.body;
     const pdfPath = './generated_pdf/' + orderDetails.uuid + '.pdf';
-    console.log("Bước 1: ", pdfPath)
-    console.log("Bước 1.1(kiểm tra fs.existsSync(pdfPath)): ", fs.existsSync(pdfPath))
+    // console.log("Bước 1: ", pdfPath)
+    // console.log("Bước 1.1(kiểm tra fs.existsSync(pdfPath)): ", fs.existsSync(pdfPath))
     if (fs.existsSync(pdfPath)) {
-        console.log("Bước 2: (true)")
+        // console.log("Bước 2: (true)")
         res.contentType("application/pdf");
         fs.createReadStream(pdfPath).pipe(res);
     } else {
-        console.log("Bước 2.1: (false)")
+        // console.log("Bước 2.1: (false)")
         var productDetailsReport = JSON.parse(orderDetails.productDetails);
-        console.log("Bước 3: ", productDetailsReport);
+        // console.log("Bước 3: ", productDetailsReport);
         ejs.renderFile(path.join(__dirname, '', "report.ejs"), {
             productDetails: productDetailsReport,
             name: orderDetails.name,
@@ -73,18 +73,18 @@ router.post('/getPdf', auth.authenticateToken, (req, res) => {
             totalAmount: orderDetails.totalAmount
         }, (err, results) => {
             if (err) {
-                console.log("Bước 4: (render fail)");
+                // console.log("Bước 4: (render fail)");
                 return res.status(500).json(err);
             }
             else {
-                console.log("Bước 4.1: (render success)");
+                // console.log("Bước 4.1: (render success)");
                 pdf.create(results).toFile('./generated_pdf/' + orderDetails.uuid + ".pdf", function (err, data) {
                     if (err) {
-                        console.log("Bước 5.1: (create fail)");
+                        // console.log("Bước 5.1: (create fail)");
                         return res.status(500).json(err);
                     }
                     else {
-                        console.log("Bước 5.1: (create success)");
+                        // console.log("Bước 5.1: (create success)");
                         res.contentType("application/pdf");
                         fs.createReadStream(pdfPath).pipe(res);
                     }
@@ -117,9 +117,9 @@ router.get('/getBills', auth.authenticateToken, (req, res) => {
     let valueLimit = pageSize;
     let valueOffset = pageSize * pageIndex;
 
-    var queryCount = "SELECT COUNT(*) as dataCount FROM bill WHERE deleted='false' and (? IS NULL or name LIKE ?) ORDER BY id ASC";
+    var queryCount = "SELECT COUNT(*) as dataCount FROM bill WHERE deleted='false' and (? IS NULL or name LIKE ?) ORDER BY createdAt desc";
     let dataCount = 0;
-    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']],(err, results) => {
+    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
         if (!err) {
             dataCount = results[0];
         } else {
@@ -131,8 +131,8 @@ router.get('/getBills', auth.authenticateToken, (req, res) => {
             });
         }
     });
-    var query = "SELECT * FROM bill WHERE deleted='false' and (? IS NULL or name LIKE ?) order by id asc LIMIT ? OFFSET ?";
-    connection.query(query,[valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset] ,(err, results) => {
+    var query = "SELECT * FROM bill WHERE deleted='false' and (? IS NULL or name LIKE ?) order by createdAt desc LIMIT ? OFFSET ?";
+    connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
         if (!err) {
             return res.status(200).json({
                 results: {
@@ -154,34 +154,80 @@ router.get('/getBills', auth.authenticateToken, (req, res) => {
 });
 
 // API xóa bill
-router.delete('/delete/:id', auth.authenticateToken, (req, res, next) => {
-
-    const id = req.params.id;
-    // console.log("Bước 1: ", id)
-    var query = "update bill set deleted='true' where id=? and deleted='false'";
-    // console.log("Bước 2: ", query);
-    connection.query(query, [id], (err, results) => {
+router.delete('/delete', auth.authenticateToken, (req, res) => {
+    let bill = req.query.id;
+    var query = "update bill set deleted='true' where id=?";
+    connection.query(query, [bill], (err, results) => {
         if (!err) {
             if (results.affectedRows == 0) {
-                // console.log("Bước 3: (kết quả 1)")
-                return res.status(404).json({
-                    message: "Không tìm thấy hóa đơn hoặc hóa đơn đã bị xóa."
-                })
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "Hóa đơn không được tìm thấy hoặc hóa đơn đã được chuyển vào thùng rác."
+                    }
+                });
+            } else {
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Đã xóa hóa đơn thành công."
+                    }
+                });
             }
-            else {
-                // console.log("Bước 3: (kết quả 2)")
-                res.status(200).json({
-                    message: "Đã xóa hóa đơn thành công."
-                })
-            }
-        }
-        else {
-            // console.log("Bước 3: (kết quả 3)");
-            return res.status(500).json({
-                message: "Không tìm thấy hóa đơn hoặc hóa đơn đã bị xóa."
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
             });
         }
-    })
+    });
+});
+
+// API lấy thùng rác Bill
+router.get('/trash', auth.authenticateToken, (req, res) => {
+
+    let valueSearch = req.query.value;
+    let pageSize = Number(req.query.pageSize);
+    let pageIndex = Number(req.query.pageIndex);
+    let valueLimit = pageSize;
+    let valueOffset = pageSize * pageIndex;
+
+    var queryCount = "SELECT COUNT(*) as dataCount FROM bill WHERE deleted='true' and (? IS NULL or name LIKE ?) ORDER BY createdAt desc";
+    let dataCount = 0;
+    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
+        if (!err) {
+            dataCount = results[0];
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
+    var query = "SELECT * FROM bill WHERE deleted='true' and (? IS NULL or name LIKE ?) order by createdAt desc LIMIT ? OFFSET ?";
+    connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
+        if (!err) {
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Lấy danh sách thùng rác thành công.",
+                    data: results,
+                    dataCount: dataCount.dataCount
+                }
+            });
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
+        }
+    });
 });
 
 module.exports = router;

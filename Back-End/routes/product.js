@@ -143,7 +143,7 @@ router.get('/getByCategory/:id', auth.authenticateToken, (req, res, next) => {
 router.get('/getById/:id', auth.authenticateToken, (req, res, next) => {
 
   const id = req.params.id;
-  var query = "select id, name, description, price from product where id = ? and deleted = 'false'";
+  var query = "select id, name, description, price, file_src from product where id = ? and deleted = 'false'";
   connection.query(query, [id], (err, results) => {
     if (!err) {
       if (results.length <= 0) {

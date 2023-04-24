@@ -4,6 +4,12 @@
   align-items: center;
 }
 
+.category-header__title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 mat-card {
   padding: 20px;
 }
@@ -29,6 +35,26 @@ table {
   width: 100px;
 }
 
+.table-br-w150 {
+  border-right: 1px solid #ccc;
+  width: 150px;
+}
+
+.table-br-w200 {
+  border-right: 1px solid #ccc;
+  width: 200px;
+}
+
+.table-br-w250 {
+  border-right: 1px solid #ccc;
+  width: 250px;
+}
+
+.table-br-w300 {
+  border-right: 1px solid #ccc;
+  width: 300px;
+}
+
 .table-br {
   border-right: 1px solid #ccc;
 }
@@ -37,7 +63,3 @@ table {
   width: 150px;
 }
 
-.flex-button {
-  display: flex;
-  justify-content: space-between;
-}

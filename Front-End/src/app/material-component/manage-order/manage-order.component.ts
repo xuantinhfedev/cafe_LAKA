@@ -17,6 +17,7 @@ export class ManageOrderComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
     'category',
+    'image',
     'price',
     'quantity',
     'total',
@@ -27,6 +28,7 @@ export class ManageOrderComponent implements OnInit {
   categories: any = [];
   products: any = [];
   price: any;
+  file: any;
   totalAmount: number = 0;
   responseMessage: any;
 
@@ -76,7 +78,13 @@ export class ManageOrderComponent implements OnInit {
         this.manageOrderForm.controls['price'].setValue('');
         this.manageOrderForm.controls['quantity'].setValue('');
         this.manageOrderForm.controls['total'].setValue(0);
-        console.log(res);
+        if (res.length == 0) {
+          this.toastr.toastWarning(
+            'Danh mục hiện chưa có sản phẩm',
+            'Thông báo'
+          );
+          return;
+        }
       },
       (error: any) => {
         if (error.error?.message) {
@@ -90,10 +98,11 @@ export class ManageOrderComponent implements OnInit {
   }
 
   getProductDetails(value: any) {
-    console.log(value);
+    // console.log(value);
     this.productService.getById(value.id).subscribe(
       (res: any) => {
         this.price = res.price;
+        this.file = res.file_src;
         this.manageOrderForm.controls['price'].setValue(res.price);
         this.manageOrderForm.controls['quantity'].setValue('1');
         this.manageOrderForm.controls['total'].setValue(this.price * 1);
@@ -167,6 +176,7 @@ export class ManageOrderComponent implements OnInit {
         quantity: formData.quantity,
         price: formData.price,
         total: formData.total,
+        file: this.file
       });
       this.dataSource = [...this.dataSource];
       this.toastr.toastSuccess(GlobalConstants.productAdded, 'Thành công');

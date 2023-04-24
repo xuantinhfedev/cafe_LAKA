@@ -42,9 +42,24 @@ export class BillService {
     return res;
   }
 
-  async moveTrash(id: any) {
+  async getBillsInTrash(pageSize: number, pageIndex: number, value: string) {
+    let res = await this.__baseService.getService(
+      api_url +
+        'trash?pageSize=' +
+        pageSize +
+        '&pageIndex=' +
+        pageIndex +
+        '&value=' +
+        value,
+      ''
+    );
+    return res;
+  }
+
+   // Hàm thực hiện gọi API xóa hóa đươn
+   async moveTrash(id: any) {
     let dataResponse = await this.__baseService.deleteService(
-      api_url + 'delete /id=' + id,
+      api_url + 'delete?id=' + id,
       ''
     );
     return dataResponse;

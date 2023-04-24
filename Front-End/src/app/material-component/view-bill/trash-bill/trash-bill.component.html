@@ -1,10 +1,9 @@
 <mat-card class="category-header">
-  <b>
-    <h2 style="margin: 0">Quản lý hóa đơn</h2>
-  </b>
-  <div>
-    <button *ngIf="checkRole()" mat-flat-button color="primary" (click)="handleRouterToTrash()">Thùng
-      rác<mat-icon>delete_forever</mat-icon></button>
+  <div class="category-header__title">
+    <b>
+      <h2 style="margin: 0">Thùng rác</h2>
+    </b>
+    <mat-icon color="primary">delete_forever</mat-icon>
   </div>
 </mat-card>
 <hr>
@@ -64,12 +63,9 @@
         <button mat-icon-button color="primary" matTooltip="Xem hóa đơn" (click)="handleViewAction(element)">
           <mat-icon>visibility</mat-icon>
         </button>
-        <button mat-icon-button color="primary" matTooltip="Tải xuống hóa đơn" (click)="downloadReportAction(element)">
-          <mat-icon>summarize</mat-icon>
-        </button>
-        <button mat-icon-button color="primary" matTooltip="Xóa hóa đơn" (click)="handleDeleteAction(element)">
+        <!-- <button mat-icon-button color="primary" matTooltip="Xóa hóa đơn" (click)="handleDeleteAction(element)">
           <mat-icon>delete</mat-icon>
-        </button>
+        </button> -->
       </td>
     </ng-container>
 
@@ -77,7 +73,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     <tr style="height: 224px" class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="7">Không có dữ liệu {{ valueSearch }}
+      <td class="mat-cell" colspan="6">Không có dữ liệu {{ valueSearch }}
         <br>
         <mat-icon style="height: 72px; width: 72px; font-size: 72px">report_off</mat-icon>
       </td>
@@ -88,4 +84,6 @@
   <mat-paginator appStylePaginator (page)="pageChangeEvent($event)" [length]="length" [pageSize]="pageSize"
     [pageIndex]="pageIndex" showFirstLastButtons [pageSizeOptions]="pageSizeOptions">
   </mat-paginator>
+  <button mat-flat-button color="primary" (click)="return()">Trở về
+    <mat-icon>keyboard_return</mat-icon></button>
 </div>
