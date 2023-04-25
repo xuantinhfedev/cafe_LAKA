@@ -162,16 +162,47 @@ router.post('/forgotPassword', (req, res) => {
 // API lấy danh sách user
 router.get('/get', auth.authenticateToken, checkRole.checkRole, (req, res) => {
 
-    var query = "select id, name, email, contactNumber, status from user where role = 'user'";
-    connection.query(query, (err, results) => {
+    let valueSearch = req.query.value;
+    let pageSize = Number(req.query.pageSize);
+    let pageIndex = Number(req.query.pageIndex);
+    let valueLimit = pageSize;
+    let valueOffset = pageSize * pageIndex;
+    let dataCount = 0;
+
+    var queryCount = "SELECT COUNT(*) as dataCount FROM user WHERE deleted='false' and (? IS NULL or name LIKE ?)";
+    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
         if (!err) {
-            return res.status(200).json(results);
+            dataCount = results[0];
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
-        else {
-            return res.status(500).json(err);
+    })
+
+    var query = "select id, name, email, contactNumber, status from user where role = 'user' and deleted='false' and (? IS NULL or name LIKE ?) order by id asc LIMIT ? OFFSET ?";
+    connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
+        if (!err) {
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Lấy danh sách nhân viên thành công.",
+                    data: results,
+                    dataCount: dataCount.dataCount
+                }
+            });
+        } else {
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
     });
-
 });
 
 // API thay đổi(cập nhật) trạng thái status của user
@@ -229,7 +260,7 @@ router.post('/changePassword', auth.authenticateToken, (req, res) => {
                 connection.query(query, [user.newPassword, email], (err, results) => {
                     if (!err) {
                         return res.status(200).json({
-                            results:{
+                            results: {
                                 responseCode: "200",
                                 message: "Mật khẩu đã được cập nhật thành công."
                             }

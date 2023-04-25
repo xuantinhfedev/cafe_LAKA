@@ -38,6 +38,12 @@ const MENUITEMS = [
     icon: 'import_contacts',
     role: '',
   },
+  {
+    state: 'user',
+    name: 'Quản lý nhân viên',
+    icon: 'people',
+    role: 'admin',
+  },
 ];
 
 @Injectable()
