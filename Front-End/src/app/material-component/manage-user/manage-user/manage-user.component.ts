@@ -40,15 +40,44 @@ export class ManageUserComponent implements OnInit {
   }
 
   async tableData(pageSize: number, pageIndex: number, value: string) {
-    let response = await this.user.getUsers(pageSize,
-      pageIndex,
-      value);
+    let response = await this.user.getUsers(pageSize, pageIndex, value);
     this.ngX.stop();
     if (response.results.responseCode == '200') {
       this.dataSource = new MatTableDataSource(response.results.data);
       this.length = response.results.dataCount;
       this.dataSource.sort = this.sort;
       this.responseMessage = response.results.message;
+    } else {
+      this.ngX.stop();
+      if (response.results.message) {
+        this.responseMessage = response.results.message;
+      } else {
+        this.responseMessage = GlobalConstants.genericError;
+      }
+      this.toastr.toastError(this.responseMessage, 'Lỗi');
+    }
+  }
+
+  searchAction() {
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+  }
+
+  async pageChangeEvent(event: any) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+  }
+
+  async handleChangeAction(status: any, id: any) {
+    this.ngX.start();
+    var data = {
+      status: status.toString(),
+      id: id,
+    };
+    let response = await this.user.update(data);
+    if (response.results.responseCode == '200') {
+      this.ngX.stop();
+      this.toastr.toastSuccess(`${response.results.message}`, 'Thành công');
     } else {
       this.ngX.stop();
       if (response.results.message) {

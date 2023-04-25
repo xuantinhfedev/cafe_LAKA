@@ -1,3 +1,57 @@
-<p>
-  manage-user works!
-</p>
+<mat-card class="category-header">
+  <b>
+    <h2 style="margin: 0">Quản lý nhân viên</h2>
+  </b>
+</mat-card>
+<hr>
+<mat-card>
+  <mat-form-field class="example-full-width">
+    <span matPrefix> </span>
+    <input type="tel" matInput placeholder="Tìm kiếm nhân viên" name="search" [(ngModel)]="valueSearch">
+    <button matSuffix mat-button (click)="searchAction()"><mat-icon>search</mat-icon></button>
+  </mat-form-field>
+  <br />
+</mat-card>
+<hr>
+<div class="responsive-table">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+    <ng-container matColumnDef="name">
+      <th class="table-br" mat-header-cell *matHeaderCellDef> Tên nhân viên </th>
+      <td class="table-br" mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th class="table-br" mat-header-cell *matHeaderCellDef>Email</th>
+      <td class="table-br" mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="contactNumber">
+      <th class="table-br" mat-header-cell *matHeaderCellDef>Số điện thoại</th>
+      <td class="table-br" mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th class="table-w150" mat-header-cell *matHeaderCellDef>Thao tác</th>
+      <td class="table-w150" mat-cell *matCellDef="let element" class="action-link">
+        <mat-slide-toggle (change)="handleChangeAction($event.checked, element.id)" [matTooltipPosition]="'above'"
+          matTooltip="Hoạt động hoặc không hoạt động nhân viên" [checked]="element.status"></mat-slide-toggle>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <tr style="height: 224px" class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="7">Không có dữ liệu {{ valueSearch }}
+        <br>
+        <mat-icon style="height: 72px; width: 72px; font-size: 72px">report_off</mat-icon>
+      </td>
+    </tr>
+
+  </table>
+
+  <mat-paginator appStylePaginator (page)="pageChangeEvent($event)" [length]="length" [pageSize]="pageSize"
+    [pageIndex]="pageIndex" showFirstLastButtons [pageSizeOptions]="pageSizeOptions">
+  </mat-paginator>
+</div>

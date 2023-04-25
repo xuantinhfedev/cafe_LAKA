@@ -213,16 +213,27 @@ router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req, res) 
     connection.query(query, [user.status, user.id], (err, results) => {
         if (!err) {
             if (results.affectedRows == 0) {
-                return res.status(404).json({
-                    message: "ID của tài khoản không tồn tại."
-                })
+                return res.status(200).json({
+                    results: {
+                        responseCode: "404",
+                        message: "ID của tài khoản không tồn tại."
+                    }
+                });
             }
             return res.status(200).json({
-                message: "Cập nhật trạng thái tài khoản thành công."
+                results: {
+                    responseCode: "200",
+                    message: "Cập nhật trạng thái tài khoản thành công."
+                }
             });
         }
         else {
-            return res.status(500).json(err);
+            return res.status(200).json({
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
+            });
         }
     })
 })
