@@ -6,6 +6,13 @@ import { RouterGuardService } from './services/router-guard/router-guard.service
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'page', children: [
+    {
+      path: '',
+      loadChildren: () =>
+      import('./manage-client/manage-client.module').then((m) => m.ManageClientModule)
+    }
+  ]},
   {
     path: 'cafe',
     component: FullComponent,
