@@ -17,7 +17,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { PageHomeComponent } from './page-home/page-home.component';
+import { PageSidebarComponent } from './page-sidebar/page-sidebar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MaterialModule } from '../shared/material-module';
+import { PageFiltersComponent } from './page-filters/page-filters.component';
+import { PageProductHeaderComponent } from './page-product-header/page-product-header.component';
 
 @NgModule({
   imports: [
@@ -36,7 +43,10 @@ import { PageHomeComponent } from './page-home/page-home.component';
     MatTableModule,
     MatBadgeModule,
     MatSnackBarModule,
+    MatFormFieldModule,
+    FormsModule,
+    MaterialModule
   ],
-  declarations: [ManageClientComponent, PageHeaderComponent, PageHomeComponent],
+  declarations: [ManageClientComponent, PageHeaderComponent, PageHomeComponent, PageSidebarComponent, PageFiltersComponent, PageProductHeaderComponent],
 })
 export class ManageClientModule {}

@@ -1,16 +1,17 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-page-home',
-  templateUrl: './page-home.component.html',
-  styleUrls: ['./page-home.component.scss'],
+  selector: 'app-page-product-header',
+  templateUrl: './page-product-header.component.html',
+  styleUrls: ['./page-product-header.component.scss'],
 })
-export class PageHomeComponent implements OnInit {
+export class PageProductHeaderComponent implements OnInit {
   sort = 'tăng dần';
   @Output() columnsCountChange = new EventEmitter<number>();
   @Output() itemsCountChange = new EventEmitter<number>();
   @Output() sortChange = new EventEmitter<string>();
   itemsShowCount = 12;
+
   constructor() {}
 
   ngOnInit(): void {}

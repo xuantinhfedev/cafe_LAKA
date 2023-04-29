@@ -1,2 +1,15 @@
-<app-page-header></app-page-header>
-<router-outlet></router-outlet>
+<div class="main-container">
+  <app-page-header></app-page-header>
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+    <mat-sidenav #snav id="snav" class="dark-sidebar pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'"
+      fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches">
+      <app-page-sidebar></app-page-sidebar>
+    </mat-sidenav>
+    <mat-sidenav-content class="page-wrapper">
+      <div class="page-content">
+        <!-- <router-outlet></router-outlet> -->
+        <app-page-home (columnsCountChange)="onColumnsCountChange($event)"></app-page-home>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
