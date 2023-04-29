@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 @import 'ngx-toastr/toastr';
 @import 'material-icons/iconfont/material-icons.scss';
 @import "@fontsource/roboto";

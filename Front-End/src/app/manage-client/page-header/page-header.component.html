@@ -1,1 +1,79 @@
-<p>page-header works!</p>
+<div class="wrapper sticky">
+  <nav class="navbar-fixed-top">
+    <a href="#" class="logo" style="display:flex; align-items: center;">
+      <mat-icon>
+        local_cafe
+      </mat-icon>
+      <b><span style="font-size: 26px">Laka Cafe</span></b>
+    </a>
+    <ul style="align-items: center;">
+      <li>
+        <a style="cursor: pointer" [routerLink]="['/']">
+          Trang chủ
+        </a>
+      </li>
+      <li>
+        <a style="cursor: pointer">
+          Sản phẩm
+        </a>
+      </li>
+      <li>
+        <a style="cursor: pointer">
+          Về chúng tôi
+        </a>
+      </li>
+      <li>
+        <a style="cursor: pointer;">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon [matBadge]="3" matBadgeColor="accent">
+              shopping_cart
+            </mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <div style="padding: 14px">
+              <div style="padding-bottom: 3px; display: flex; justify-content: space-between;">
+                <span style="margin-right: 16px">3 items</span>
+                <a style="color: black" routerLink="cart">Xem giỏ hàng</a>
+              </div>
+              <hr />
+              <div class="padding-top: 3px; padding-bottom: 3px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2px; align-items: center;">
+                  <span style="margin-right: 16px"><img src="./../../../assets/img/cafe-pha-phin-4.jpg"
+                      alt="Ảnh sản phẩm" style="width: 30px"></span>
+                  <span style="margin-right: 16px">CAFE PHA PHIN</span>
+                  <span style="font-weight: 700;">{{ 50000 | number }} đồng</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2px; align-items: center;">
+                  <span style="margin-right: 16px"><img src="./../../../assets/img/cafe-pha-phin-4.jpg"
+                      alt="Ảnh sản phẩm" style="width: 30px"></span>
+                  <span style="margin-right: 16px">CAFE PHA PHIN</span>
+                  <span style="font-weight: 700;">{{ 50000 | number }} đồng</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 2px; align-items: center;">
+                  <span style="margin-right: 16px"><img src="./../../../assets/img/cafe-pha-phin-4.jpg"
+                      alt="Ảnh sản phẩm" style="width: 30px"></span>
+                  <span style="margin-right: 16px">CAFE PHA PHIN</span>
+                  <span style="font-weight: 700;">{{ 50000 | number }} đồng</span>
+                </div>
+              </div>
+              <hr />
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px; align-items: center;">
+                Total:
+                <span style="font-weight: 700">{{ 150000 | number }} đồng</span>
+              </div>
+              <hr />
+              <div style="display: flex; justify-content: space-between; padding-top: 3px;">
+                <button mat-mini-fab color="warn">
+                  <mat-icon>remove_shopping_cart</mat-icon>
+                </button>
+                <button mat-mini-fab color="primary">
+                  <mat-icon>remove_shopping_cart</mat-icon>
+                </button>
+              </div>
+            </div>
+          </mat-menu>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
