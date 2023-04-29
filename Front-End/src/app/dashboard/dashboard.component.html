@@ -18,7 +18,7 @@
     <div class="column">
       <div class="card">
         <div class="container">
-          <h2 class="title">Tổng sản phẩm:</h2>
+          <h2 class="title">Số lượng sản phẩm có thể bán:</h2>
           <h1 class="title">{{ data?.product }}</h1>
           <p><button class="button" [routerLink]="['/cafe/product']">Xem sản phẩm</button></p>
         </div>
@@ -27,9 +27,18 @@
     <div class="column">
       <div class="card">
         <div class="container">
-          <h2 class="title">Tổng hóa đơn:</h2>
+          <h2 class="title">Tổng số lượng hóa đơn:</h2>
           <h1 class="title">{{ data?.bill }}</h1>
           <p><button class="button" [routerLink]="['/cafe/bill']">Xem hóa đơn</button></p>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="card">
+        <div class="container">
+          <h2 class="title">Tổng số lượng nhân viên hoạt động:</h2>
+          <h1 class="title">{{ data?.user }}</h1>
+          <p><button class="button" [routerLink]="['/cafe/user']">Xem nhân viên</button></p>
         </div>
       </div>
     </div>
