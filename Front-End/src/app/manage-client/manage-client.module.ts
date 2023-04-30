@@ -28,6 +28,7 @@ import { PageFiltersComponent } from './page-filters/page-filters.component';
 import { PageProductHeaderComponent } from './page-product-header/page-product-header.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { PageProductBoxComponent } from './page-product-box/page-product-box.component';
+import { PageCartComponent } from './page-cart/page-cart.component';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { PageProductBoxComponent } from './page-product-box/page-product-box.com
     PageFiltersComponent,
     PageProductHeaderComponent,
     PageProductBoxComponent,
+    PageCartComponent,
   ],
 })
 export class ManageClientModule {}
