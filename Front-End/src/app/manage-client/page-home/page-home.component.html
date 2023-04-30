@@ -10,8 +10,8 @@
     </mat-carousel>
   </div>
 
-  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
-    <mat-sidenav style="width: 260px; padding: 4px;" #snav id="snav" class="dark-sidebar pl-xs"
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0" >
+    <mat-sidenav style="width: 260px; padding: 15px 8px;" #snav id="snav" class="dark-sidebar pl-xs"
       [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches"
       [disableClose]="mobileQuery.matches">
       <app-page-filters (showCategory)="onShowCategory($event)"></app-page-filters>
@@ -20,6 +20,32 @@
       <div class="page-content">
         <!-- <router-outlet></router-outlet> -->
         <app-page-product-header (columnsCountChange)="onColumnsCountChange($event)"></app-page-product-header>
+
+        <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
+          <mat-grid-tile>
+            <app-page-product-box class="w-full" [fullWidthMode]="cols == 1"></app-page-product-box>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <app-page-product-box class="w-full" [fullWidthMode]="cols == 1"></app-page-product-box>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <app-page-product-box class="w-full" [fullWidthMode]="cols == 1"></app-page-product-box>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <app-page-product-box class="w-full" [fullWidthMode]="cols == 1"></app-page-product-box>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <app-page-product-box class="w-full" [fullWidthMode]="cols == 1"></app-page-product-box>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <app-page-product-box class="w-full" [fullWidthMode]="cols == 1"></app-page-product-box>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <app-page-product-box class="w-full" [fullWidthMode]="cols == 1"></app-page-product-box>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

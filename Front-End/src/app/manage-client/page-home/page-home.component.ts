@@ -7,6 +7,11 @@ import {
 } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
+const ROWS_HEIGHT: { [id: number]: number } = {
+  1: 400,
+  3: 335,
+  4: 350,
+};
 @Component({
   selector: 'app-page-home',
   templateUrl: './page-home.component.html',
@@ -14,6 +19,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 })
 export class PageHomeComponent implements OnInit {
   cols = 3;
+  rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
   slides = [
     { image: './../../../assets/img/page-banner-1.jpg' },
@@ -35,6 +41,7 @@ export class PageHomeComponent implements OnInit {
 
   onColumnsCountChange(event: any) {
     this.cols = event;
+    this.rowHeight = ROWS_HEIGHT[this.cols];
   }
 
   mobileQuery: MediaQueryList;

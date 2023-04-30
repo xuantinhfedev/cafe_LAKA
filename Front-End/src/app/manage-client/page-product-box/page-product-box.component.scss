@@ -1,0 +1,61 @@
+.text-center {
+  text-align: center;
+}
+
+.h-200 {
+  height: 200px;
+}
+
+.h-360 {
+  height: 360px;
+}
+
+.mb-1 {
+  margin-bottom: 1px;
+}
+
+.mx-auto {
+  margin: auto
+}
+
+.px-8 {
+  padding: 8px;
+}
+
+.flex-col{
+  flex-direction: column;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.whitespace-normal:hover {
+  white-space: normal;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.text-400 {
+  font-weight: 400;
+}
+
+.text-stone-500 {
+  color: rgb(120 113 108);
+}
+
+.text-gray-500 {
+  color: rgb(107 114 128);
+}

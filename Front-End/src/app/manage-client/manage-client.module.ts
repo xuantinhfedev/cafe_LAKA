@@ -17,6 +17,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PageHomeComponent } from './page-home/page-home.component';
 import { PageSidebarComponent } from './page-sidebar/page-sidebar.component';
@@ -26,6 +27,7 @@ import { MaterialModule } from '../shared/material-module';
 import { PageFiltersComponent } from './page-filters/page-filters.component';
 import { PageProductHeaderComponent } from './page-product-header/page-product-header.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { PageProductBoxComponent } from './page-product-box/page-product-box.component';
 
 @NgModule({
   imports: [
@@ -46,6 +48,7 @@ import { MatCarouselModule } from '@ngmodule/material-carousel';
     MatSnackBarModule,
     MatFormFieldModule,
     MatCarouselModule,
+    MatTooltipModule,
     FormsModule,
     MaterialModule,
   ],
@@ -56,6 +59,7 @@ import { MatCarouselModule } from '@ngmodule/material-carousel';
     PageSidebarComponent,
     PageFiltersComponent,
     PageProductHeaderComponent,
+    PageProductBoxComponent,
   ],
 })
 export class ManageClientModule {}

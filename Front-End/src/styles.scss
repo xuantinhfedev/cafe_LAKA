@@ -6,6 +6,7 @@
 @import 'ngx-toastr/toastr';
 @import 'material-icons/iconfont/material-icons.scss';
 @import "@fontsource/roboto";
+
 html,
 body {
   height: 100%;
@@ -30,6 +31,7 @@ body {
 .mat-row {
   height: auto;
 }
+
 .mat-sort-header-container {
   justify-content: center;
 }
