@@ -10,6 +10,28 @@ export class CartService {
   cart = new BehaviorSubject<Cart>({ items: [] });
   constructor(private __toastr: Toastr) {}
 
+  removeToCart(item: CartItem) {
+    let itemForRemoval: CartItem | undefined;
+
+    let filteredItems = this.cart.value.items.map((_item) => {
+      if (_item.id === item.id) {
+        _item.quantity--;
+        if (_item.quantity === 0) {
+          itemForRemoval = _item;
+        }
+      }
+      return _item;
+    });
+
+    if (itemForRemoval) {
+      filteredItems = this.removeFromCart(itemForRemoval, false);
+    }
+
+    this.cart.next({ items: filteredItems });
+
+    this.__toastr.toastInfo('1 sản phẩm đã bỏ ra khỏi giỏ hàng', 'Thông báo');
+  }
+
   addToCart(item: CartItem) {
     const items = [...this.cart.value.items];
 
@@ -42,17 +64,20 @@ export class CartService {
     );
   }
 
-  removeFromCart(item: CartItem) {
+  removeFromCart(item: CartItem, update = true): Array<CartItem> {
     const filteredItems = this.cart.value.items.filter(
       (_item) => _item.id !== item.id
     );
 
     console.log(filteredItems);
 
-    this.cart.next({
-      items: filteredItems,
-    });
-
-    this.__toastr.toastInfo('Sản phẩm đã bị xóa khỏi giỏ hàng', 'Thông báo');
+    if (update) {
+      this.cart.next({
+        items: filteredItems,
+      });
+      this.__toastr.toastInfo('Sản phẩm đã bị xóa khỏi giỏ hàng', 'Thông báo');
+    }
+    
+    return filteredItems;
   }
 }

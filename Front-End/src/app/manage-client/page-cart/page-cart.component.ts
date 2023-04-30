@@ -62,4 +62,12 @@ export class PageCartComponent implements OnInit {
   onRemoveFromCart(item: CartItem) {
     this.cartService.removeFromCart(item);
   }
+
+  onAddQuantity(item: CartItem){
+    this.cartService.addToCart(item)
+  }
+
+  onRemoveQuantity(item: CartItem){
+    this.cartService.removeToCart(item)
+  }
 }
