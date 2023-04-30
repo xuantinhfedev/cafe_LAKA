@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Toastr } from 'src/app/services/toastr.service';
 
@@ -9,6 +9,7 @@ import { Toastr } from 'src/app/services/toastr.service';
 })
 export class PageFiltersComponent implements OnInit {
   categories: any[] = [];
+  @Output() showCategory = new EventEmitter<string>();
 
   constructor(private __category: CategoryService, private __toastr: Toastr) {}
 
@@ -16,9 +17,12 @@ export class PageFiltersComponent implements OnInit {
     this.getLstCategory();
   }
 
+  onShowCategory(category: string): void {
+    this.showCategory.emit(category);
+  }
+
   async getLstCategory() {
     let res = await this.__category.lstCategory();
-    console.log(res);
     if (res.results.responseCode == '200') {
       this.categories = res.results.data;
     } else {

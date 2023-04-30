@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
@@ -8,11 +14,14 @@ import { MediaMatcher } from '@angular/cdk/layout';
 })
 export class PageHomeComponent implements OnInit {
   cols = 3;
+  category: string | undefined;
+  slides = [
+    { image: './../../../assets/img/page-banner-1.jpg' },
+    { image: './../../../assets/img/page-banner-2.jpg' },
+    { image: './../../../assets/img/bannner.jpg' },
+  ];
 
-  constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher,
-    ) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -20,17 +29,13 @@ export class PageHomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
-
-  slides = [
-    {'image': './../../../assets/img/page-banner-1.jpg'},
-    {'image': './../../../assets/img/page-banner-2.jpg'},
-    {'image': './../../../assets/img/bannner.jpg'},
-  ];
-
-  onColumnsCountChange(event: any){
-    this.cols = event;
+  onShowCategory(event: any) {
+    this.category = event.name;
   }
 
+  onColumnsCountChange(event: any) {
+    this.cols = event;
+  }
 
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
