@@ -25,46 +25,39 @@
       <li>
         <a style="cursor: pointer;">
           <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon [matBadge]="3" matBadgeColor="accent">
+            <mat-icon [matBadge]="itemsQuantity" [matBadgeHidden]="!itemsQuantity" matBadgeColor="accent">
               shopping_cart
             </mat-icon>
           </button>
           <mat-menu #menu="matMenu">
             <div style="padding: 14px">
               <div style="padding-bottom: 3px; display: flex; justify-content: space-between;">
-                <span style="margin-right: 16px">3 items</span>
+                <span style="margin-right: 16px">{{ itemsQuantity }} sản phẩm </span>
                 <a style="color: black" routerLink="cart">Xem giỏ hàng</a>
               </div>
               <hr />
-              <div style="padding: 14px 0">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center;">
+              <div *ngIf="cart.items.length" style="padding: 14px 0">
+
+                <div
+                  *ngFor="let item of cart.items"
+                style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center;">
                   <span style="margin-right: 16px"><img src="./../../../assets/img/cafe-pha-phin-4.jpg"
                       alt="Ảnh sản phẩm" style="width: 30px"></span>
-                  <span style="margin-right: 16px">CAFE PHA PHIN</span>
-                  <span style="font-weight: 700;">{{ 50000 | number }} đồng</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center;">
-                  <span style="margin-right: 16px"><img src="./../../../assets/img/cafe-pha-phin-4.jpg"
-                      alt="Ảnh sản phẩm" style="width: 30px"></span>
-                  <span style="margin-right: 16px">CAFE PHA PHIN</span>
-                  <span style="font-weight: 700;">{{ 50000 | number }} đồng</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center;">
-                  <span style="margin-right: 16px"><img src="./../../../assets/img/cafe-pha-phin-4.jpg"
-                      alt="Ảnh sản phẩm" style="width: 30px"></span>
-                  <span style="margin-right: 16px">CAFE PHA PHIN</span>
-                  <span style="font-weight: 700;">{{ 50000 | number }} đồng</span>
+                  <span style="margin-right: 16px">{{ item.name }} x {{ item.quantity }}</span>
+                  <span style="font-weight: 700;">{{ item.price | number }} đồng</span>
                 </div>
               </div>
               <hr />
               <div
                 style="display: flex; justify-content: space-between; margin-bottom: 10px ; margin-top: 10px; align-items: center;">
                 Total:
-                <span style="font-weight: 700">{{ 150000 | number }} đồng</span>
+                <span style="font-weight: 700">{{ getTotal(cart.items) | number }} đồng</span>
               </div>
               <hr />
               <div style="display: flex; justify-content: space-between; padding-top: 22px;">
-                <button mat-mini-fab color="warn">
+                <button
+                (click)="onClearCart()"
+                mat-mini-fab color="warn">
                   <mat-icon>remove_shopping_cart</mat-icon>
                 </button>
                 <button mat-mini-fab color="primary" style="background-color: #65cc00;">

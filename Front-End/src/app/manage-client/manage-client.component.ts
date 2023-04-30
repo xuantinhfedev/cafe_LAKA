@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Cart } from './cart.model';
+import { CartService } from '../services/cart/cart.service';
 
 @Component({
   selector: 'app-manage-client',
@@ -6,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./manage-client.component.scss'],
 })
 export class ManageClientComponent implements OnInit {
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cartService.cart.subscribe((_cart) => {
+      this.cart = _cart;
+    });
+  }
 
-  constructor() {}
+  constructor(private cartService: CartService) {}
+
+  cart: Cart = { items: [] };
 }
