@@ -33,6 +33,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  slides = [
+    {'image': './../../assets/img/page-banner-1.jpg'},
+    {'image': './../../assets/img/bannner.jpg'},
+    {'image': './../../assets/img/page-banner-2.jpg'},
+  ];
+
   // Hàm thực hiện chức năng mở dialog đăng ký
   async signupAction() {
     const dialogConfig = new MatDialogConfig();
