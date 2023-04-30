@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-page-home',
@@ -6,33 +7,28 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./page-home.component.scss'],
 })
 export class PageHomeComponent implements OnInit {
-  sort = 'tăng dần';
-  @Output() columnsCountChange = new EventEmitter<number>();
-  @Output() itemsCountChange = new EventEmitter<number>();
-  @Output() sortChange = new EventEmitter<string>();
-  itemsShowCount = 12;
-  constructor() {}
+  cols = 3;
+
+  constructor(
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher,
+    ) {
+    this.mobileQuery = media.matchMedia('(min-width: 768px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
 
   ngOnInit(): void {}
 
-  onColumnsUpdated(colsNum: number): void {
-    this.columnsCountChange.emit(colsNum);
-    console.log(colsNum);
+  onColumnsCountChange(event: any){
+    this.cols = event;
   }
 
-  onItemsUpdated(count: number): void {
-    this.itemsCountChange.emit(count);
-    this.itemsShowCount = count;
-    console.log(count);
-  }
 
-  onSortUpdated(newSort: string): void {
-    if (newSort == 'desc') {
-      this.sort = 'giảm dần';
-    } else {
-      this.sort = 'tăng dần';
-    }
-    this.sortChange.emit(newSort);
-    console.log(newSort);
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 }

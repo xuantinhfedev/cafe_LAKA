@@ -130,4 +130,12 @@ export class CategoryService {
 
     return dataResponse;
   }
+
+  async getLstPageCategory() {
+    let res = await this.baseService.getService(
+      api_url + 'lstCategory',
+      ''
+    );
+    return res;
+  }
 }

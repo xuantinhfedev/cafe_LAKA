@@ -1,21 +1,15 @@
-.mb-4 {
-  margin-bottom: 4px;
-}
-
-.flex {
+.header-flex{
   display: flex;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-
-.items-center {
+  justify-content: flex-start;
   align-items: center;
 }
 
-button {
-  border: none;
-  margin: 0 2px;
-  cursor: pointer;
+.logo-flex {
+  display: flex;
+  align-items: center;
+}
+
+app-header {
+  display: flex;
+  align-items: center;
 }

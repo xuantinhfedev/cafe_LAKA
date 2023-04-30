@@ -80,7 +80,7 @@ router.get('/get', auth.authenticateToken, (req, res) => {
 
     var queryCount = "SELECT COUNT(*) as dataCount FROM category WHERE deleted='false' and (? IS NULL or name LIKE ?) ORDER BY id ASC";
     let dataCount = 0;
-    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']],(err, results) => {
+    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
         if (!err) {
             dataCount = results[0];
         } else {
@@ -93,7 +93,7 @@ router.get('/get', auth.authenticateToken, (req, res) => {
         }
     });
     var query = "SELECT * FROM category WHERE deleted='false' and (? IS NULL or name LIKE ?) order by id asc LIMIT ? OFFSET ?";
-    connection.query(query,[valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset] ,(err, results) => {
+    connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
         if (!err) {
             return res.status(200).json({
                 results: {
@@ -192,7 +192,7 @@ router.get('/trash', auth.authenticateToken, (req, res) => {
 
     var queryCount = "SELECT COUNT(*) as dataCount FROM category WHERE deleted='true' and (? IS NULL or name LIKE ?) ORDER BY id ASC";
     let dataCount = 0;
-    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']],(err, results) => {
+    connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
         if (!err) {
             dataCount = results[0];
         } else {
@@ -205,7 +205,7 @@ router.get('/trash', auth.authenticateToken, (req, res) => {
         }
     });
     var query = "SELECT * FROM category WHERE deleted='true' and (? IS NULL or name LIKE ?) order by id asc LIMIT ? OFFSET ?";
-    connection.query(query,[valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset] ,(err, results) => {
+    connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
         if (!err) {
             return res.status(200).json({
                 results: {
@@ -396,5 +396,25 @@ router.patch('/restore-all', auth.authenticateToken, checkRole.checkRole, (req, 
         }
     });
 });
+
+
+// Lấy danh sách tên sản phẩm
+router.get('/lstCategory', (req, res) => {
+    var query = "SELECT id, name FROM category WHERE deleted='false'";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            return res.status(200).json({
+                code: "200",
+                message: "Lấy danh sách danh mục thành công",
+                data: results,
+            });
+        } else {
+            return res.status(200).json({
+                responseCode: "500",
+                message: err
+            });
+        }
+    })
+})
 
 module.exports = router;

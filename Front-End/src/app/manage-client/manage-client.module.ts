@@ -45,8 +45,15 @@ import { PageProductHeaderComponent } from './page-product-header/page-product-h
     MatSnackBarModule,
     MatFormFieldModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
   ],
-  declarations: [ManageClientComponent, PageHeaderComponent, PageHomeComponent, PageSidebarComponent, PageFiltersComponent, PageProductHeaderComponent],
+  declarations: [
+    ManageClientComponent,
+    PageHeaderComponent,
+    PageHomeComponent,
+    PageSidebarComponent,
+    PageFiltersComponent,
+    PageProductHeaderComponent,
+  ],
 })
 export class ManageClientModule {}

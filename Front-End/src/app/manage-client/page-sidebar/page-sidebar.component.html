@@ -1,11 +1,6 @@
 <mat-nav-list appAccordion>
   <mat-list-item appAccordionLink routerLinkActive="selected">
-    <mat-form-field class="example-form-field">
-      <input matInput type="text" [(ngModel)]="value" placeholder="filters">
-      <button matSuffix mat-icon-button aria-label="Clear" (click)="filters()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
-    <hr>
+    <app-page-filters></app-page-filters>
+    <hr />
   </mat-list-item>
 </mat-nav-list>
