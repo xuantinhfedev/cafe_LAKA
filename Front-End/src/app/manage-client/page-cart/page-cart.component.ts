@@ -40,7 +40,11 @@ export class PageCartComponent implements OnInit {
   constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
-    this.dataSource = this.cart.items;
+    this.cartService.cart.subscribe((_cart: Cart) => {
+      this.cart = _cart;
+      this.dataSource = this.cart.items;
+
+    });
   }
 
   getTotal(element: any) {
@@ -49,5 +53,13 @@ export class PageCartComponent implements OnInit {
 
   getSumTotal(items: Array<CartItem>): number {
     return this.cartService.getTotal(items);
+  }
+
+  onClearCart() {
+    this.cartService.clearCart();
+  }
+
+  onRemoveFromCart(item: CartItem) {
+    this.cartService.removeFromCart(item);
   }
 }

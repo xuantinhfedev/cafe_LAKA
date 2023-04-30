@@ -1,5 +1,5 @@
-<div style="margin-top: 80px">
-
+<!-- <div style="margin-top: 80px"> -->
+<div>
   <mat-card class="max-w-7xl mx-auto" *ngIf="cart.items.length">
     <table mat-table [dataSource]="dataSource" style="width: 100%">
       <ng-container matColumnDef="product">
@@ -62,12 +62,12 @@
 
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>
-          <button mat-raised-button color="warn" class="float-right">
+          <button (click)="onClearCart()" mat-raised-button color="warn" class="float-right">
             Xóa tất cả
           </button>
         </th>
         <td mat-cell *matCellDef="let element">
-          <button mat-mini-fab color="warn" class="float-right">
+          <button (click)="onRemoveFromCart(element)" mat-mini-fab color="warn" class="float-right">
             <mat-icon>close</mat-icon>
           </button>
         </td>

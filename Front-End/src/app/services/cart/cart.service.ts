@@ -36,9 +36,23 @@ export class CartService {
 
   clearCart() {
     this.cart.next({ items: [] });
-    this.__toastr.toastSuccess(
+    this.__toastr.toastInfo(
       'Không có sản phẩm nào còn trong giỏ hàng',
       'Thông báo'
     );
+  }
+
+  removeFromCart(item: CartItem) {
+    const filteredItems = this.cart.value.items.filter(
+      (_item) => _item.id !== item.id
+    );
+
+    console.log(filteredItems);
+
+    this.cart.next({
+      items: filteredItems,
+    });
+
+    this.__toastr.toastInfo('Sản phẩm đã bị xóa khỏi giỏ hàng', 'Thông báo');
   }
 }

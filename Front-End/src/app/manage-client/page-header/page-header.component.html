@@ -1,4 +1,4 @@
-<div class="wrapper sticky">
+<div class="wrapper">
   <nav class="navbar-fixed-top">
     <a href="#" class="logo" style="display:flex; align-items: center;">
       <mat-icon>
@@ -13,13 +13,18 @@
         </a>
       </li>
       <li>
-        <a style="cursor: pointer">
+        <a style="cursor: pointer" routerLink="/page/home">
           Sản phẩm
         </a>
       </li>
       <li>
         <a style="cursor: pointer">
           Về chúng tôi
+        </a>
+      </li>
+      <li>
+        <a style="cursor: pointer" routerLink="/page/cart">
+          Giỏ hàng
         </a>
       </li>
       <li>
@@ -38,9 +43,8 @@
               <hr />
               <div *ngIf="cart.items.length" style="padding: 14px 0">
 
-                <div
-                  *ngFor="let item of cart.items"
-                style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center;">
+                <div *ngFor="let item of cart.items"
+                  style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center;">
                   <span style="margin-right: 16px"><img src="./../../../assets/img/cafe-pha-phin-4.jpg"
                       alt="Ảnh sản phẩm" style="width: 30px"></span>
                   <span style="margin-right: 16px">{{ item.name }} x {{ item.quantity }}</span>
@@ -55,9 +59,7 @@
               </div>
               <hr />
               <div style="display: flex; justify-content: space-between; padding-top: 22px;">
-                <button
-                (click)="onClearCart()"
-                mat-mini-fab color="warn">
+                <button (click)="onClearCart()" mat-mini-fab color="warn">
                   <mat-icon>remove_shopping_cart</mat-icon>
                 </button>
                 <button mat-mini-fab color="primary" style="background-color: #65cc00;">
