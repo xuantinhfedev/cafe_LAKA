@@ -25,6 +25,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material-module';
 import { PageFiltersComponent } from './page-filters/page-filters.component';
 import { PageProductHeaderComponent } from './page-product-header/page-product-header.component';
+import { MatCarouselModule } from '@ngmodule/material-carousel';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { PageProductHeaderComponent } from './page-product-header/page-product-h
     MatBadgeModule,
     MatSnackBarModule,
     MatFormFieldModule,
+    MatCarouselModule,
     FormsModule,
     MaterialModule,
   ],

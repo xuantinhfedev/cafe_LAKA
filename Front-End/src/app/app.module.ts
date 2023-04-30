@@ -25,7 +25,7 @@ import {
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { TokenInterceptorInterceptor } from './services/token-interceptor/token-interceptor.interceptor';
-
+import { MatCarouselModule } from '@ngmodule/material-carousel';
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   text: 'Loading...',
   textColor: '#FFFFFF',
@@ -61,10 +61,11 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FlexLayoutModule,
     SharedModule,
     HttpClientModule,
+    MatCarouselModule.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-      countDuplicates: true
+      countDuplicates: true,
     }),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],

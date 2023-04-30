@@ -13,3 +13,13 @@ app-header {
   display: flex;
   align-items: center;
 }
+
+
+.page-banner {
+  background-image: url('./../../../assets/img/page-banner.jpg');
+  height: 500px;
+  opacity: 0.8;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: 15%;
+}

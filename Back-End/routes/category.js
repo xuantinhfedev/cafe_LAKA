@@ -404,14 +404,18 @@ router.get('/lstCategory', (req, res) => {
     connection.query(query, (err, results) => {
         if (!err) {
             return res.status(200).json({
-                code: "200",
-                message: "Lấy danh sách danh mục thành công",
-                data: results,
+                results: {
+                    responseCode: "200",
+                    message: "Lấy danh sách danh mục thành công",
+                    data: results,
+                }
             });
         } else {
             return res.status(200).json({
-                responseCode: "500",
-                message: err
+                results: {
+                    responseCode: "500",
+                    message: err
+                }
             });
         }
     })

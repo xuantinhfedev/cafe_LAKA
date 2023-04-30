@@ -131,7 +131,7 @@ export class CategoryService {
     return dataResponse;
   }
 
-  async getLstPageCategory() {
+  async lstCategory() {
     let res = await this.baseService.getService(
       api_url + 'lstCategory',
       ''

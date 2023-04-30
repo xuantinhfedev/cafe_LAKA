@@ -20,6 +20,13 @@ export class PageHomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
+
+  slides = [
+    {'image': './../../../assets/img/page-banner-1.jpg'},
+    {'image': './../../../assets/img/page-banner-2.jpg'},
+    {'image': './../../../assets/img/bannner.jpg'},
+  ];
+
   onColumnsCountChange(event: any){
     this.cols = event;
   }
