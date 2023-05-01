@@ -14,7 +14,8 @@ export class StoreService {
     pageSize: number,
     pageIndex: number,
     value: string,
-    sort: string
+    sort: string,
+    categoryId: any
   ) {
     let dataResponse = await this._base.getService(
       api_url +
@@ -25,9 +26,12 @@ export class StoreService {
         '&value=' +
         value +
         '&sort=' +
-        sort,
+        sort +
+        '&categoryId=' +
+        categoryId,
       ''
     );
     return dataResponse;
   }
+
 }

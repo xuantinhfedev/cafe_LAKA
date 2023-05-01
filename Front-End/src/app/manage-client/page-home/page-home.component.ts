@@ -13,6 +13,7 @@ import { StoreService } from 'src/app/services/store/store.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { PageEvent } from '@angular/material/paginator';
+import Swal from 'sweetalert2';
 
 const ROWS_HEIGHT: { [id: number]: number } = {
   1: 400,
@@ -44,6 +45,7 @@ export class PageHomeComponent implements OnInit {
   search = '';
   pageSize = 12;
   pageIndex = 0;
+  categoryId = '';
   total = 0;
   pageSizeOptions = [12, 24, 36];
   productSubscription: Subscription | undefined;
@@ -77,7 +79,8 @@ export class PageHomeComponent implements OnInit {
       this.pageSize,
       this.pageIndex,
       this.search,
-      this.sort
+      this.sort,
+      this.categoryId
     );
     if (res.results.responseCode == '200') {
       this.ngX.stop();
@@ -110,7 +113,10 @@ export class PageHomeComponent implements OnInit {
   }
 
   onShowCategory(event: any) {
+    console.log(event);
     this.category = event.name;
+    this.categoryId = event.id;
+    this.getProducts();
   }
 
   onColumnsCountChange(event: any) {
@@ -121,6 +127,24 @@ export class PageHomeComponent implements OnInit {
   onItemsCountChange(event: any) {
     this.pageSize = event;
     this.getProducts();
+  }
+
+  onSearchChange(event: any) {
+    this.search = event;
+    this.getProducts().then(() => {
+      if (this.products?.length == 0) {
+        Swal.fire(
+          `Thông báo`,
+          `Không tìm thấy sản phẩm ${event} trong danh sách sản phẩm`,
+          'info'
+        );
+        this.search = '';
+        this.sort = 'asc';
+        this.pageSize = 12;
+        this.pageIndex = 0;
+        this.getProducts();
+      }
+    });
   }
 
   onSortChange(event: any) {

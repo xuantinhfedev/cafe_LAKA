@@ -21,16 +21,20 @@
       <div class="page-content">
         <!-- <router-outlet></router-outlet> -->
         <app-page-product-header (columnsCountChange)="onColumnsCountChange($event)"
-          (itemsCountChange)="onItemsCountChange($event)" (sortChange)="onSortChange($event)"></app-page-product-header>
+          (itemsCountChange)="onItemsCountChange($event)" (sortChange)="onSortChange($event)"
+          (searchChange)="onSearchChange($event)"></app-page-product-header>
 
         <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
+          <mat-card *ngIf="products?.length == 0">
+            Danh mục chưa có sản phẩm
+          </mat-card>
           <mat-grid-tile *ngFor="let product of products">
             <app-page-product-box [product]="product" (addToCart)="onAddToCart($event)" class="w-full"
               [fullWidthMode]="cols == 1"></app-page-product-box>
           </mat-grid-tile>
         </mat-grid-list>
         <mat-paginator class="flex justify-center" appStylePage (page)="pageChangeEvent($event)" [length]="total"
-          [pageSize]="pageSize" [pageIndex]="pageIndex" showFirstLastButtons >
+          [pageSize]="pageSize" [pageIndex]="pageIndex" showFirstLastButtons>
         </mat-paginator>
       </div>
     </mat-sidenav-content>

@@ -1,5 +1,5 @@
 <mat-card class="mb-4">
-  <div class="flex justify-between">
+  <div class="flex justify-between items-center">
     <div>
       <button mat-button [matMenuTriggerFor]="sortByMenu">
         Sắp xếp giá sản phẩm {{ sort }}
@@ -10,8 +10,16 @@
         <button (click)="onSortUpdated('asc')" mat-menu-item>tăng dần</button>
       </mat-menu>
     </div>
-
     <div class="flex items-center">
+      <div>
+        <mat-form-field class="example-form-field">
+          <mat-label>Tìm kiểm sản phẩm</mat-label>
+          <input matInput type="text" [(ngModel)]="search">
+          <button matSuffix mat-icon-button (click)="onSearch()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
       <div>
         <button mat-button [matMenuTriggerFor]="menu">
           HIển thị: {{ itemsShowCount }}

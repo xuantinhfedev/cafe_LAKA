@@ -10,11 +10,17 @@ export class PageProductHeaderComponent implements OnInit {
   @Output() columnsCountChange = new EventEmitter<number>();
   @Output() itemsCountChange = new EventEmitter<number>();
   @Output() sortChange = new EventEmitter<string>();
+  @Output() searchChange = new EventEmitter<string>();
   itemsShowCount = 12;
+  search = '';
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  onSearch() {
+    this.searchChange.emit(this.search);
+  }
 
   onColumnsUpdated(colsNum: number): void {
     this.columnsCountChange.emit(colsNum);

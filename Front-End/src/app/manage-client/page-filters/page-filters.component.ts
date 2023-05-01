@@ -25,6 +25,10 @@ export class PageFiltersComponent implements OnInit {
     let res = await this.__category.lstCategory();
     if (res.results.responseCode == '200') {
       this.categories = res.results.data;
+      this.categories.unshift({
+        id: '',
+        name: 'Tất cả',
+      });
     } else {
       this.__toastr.toastWarning('Không có danh mục nào', 'Cảnh báo');
     }
