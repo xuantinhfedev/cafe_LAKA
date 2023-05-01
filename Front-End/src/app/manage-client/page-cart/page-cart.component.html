@@ -1,7 +1,7 @@
 <!-- <div style="margin-top: 80px"> -->
 <div style="margin-top: 100px">
   <mat-card class="max-w-7xl mx-auto" style="margin-bottom: 24px">
-    
+
   </mat-card>
   <mat-card class="max-w-7xl mx-auto" *ngIf="cart.items.length">
     <table mat-table [dataSource]="dataSource" style="width: 100%">
@@ -87,10 +87,11 @@
 
 
   <mat-card class="max-w-7xl mx-auto" *ngIf="!cart.items.length">
-    <p>
-      Giỏ hàng của bạn đang trống
+    <div style="display: flex;
+    align-items: center; flex-direction: column; ">
+      <img style="width: 600px" src="./../../../assets/img/cart-empty.jpg" alt="Giỏ hàng trống">
       <button mat-raised-button routerLink="/page/home">Bắt đầu mua hàng nào</button>
-    </p>
+    </div>
   </mat-card>
 
 
