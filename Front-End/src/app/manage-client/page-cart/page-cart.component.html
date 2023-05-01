@@ -5,7 +5,7 @@
       <ng-container matColumnDef="product">
         <th mat-header-cell *matHeaderCellDef>Hình ảnh</th>
         <td mat-cell *matCellDef="let element">
-          <img src="{{ element.product }}" alt="Ảnh sản phẩm" class="w-100 my-5">
+          <img src="http://localhost:8080/uploads/{{ element.product }}" alt="Ảnh sản phẩm" class="w-100 my-5">
         </td>
         <td mat-footer-cell *matFooterCellDef style="padding: 0 8px 0 15px; margin: 5px auto">
           <div class="flex justify-center">
@@ -34,17 +34,13 @@
         <th mat-header-cell *matHeaderCellDef>Số lượng sản phẩm</th>
         <td mat-cell *matCellDef="let element">
           <div class="flex justify-center align-center">
-            <button
-              (click)="onRemoveQuantity(element)"
-            mat-button-icon class="flex align-center">
+            <button (click)="onRemoveQuantity(element)" mat-button-icon class="flex align-center">
               <mat-icon>remove</mat-icon>
             </button>
             &nbsp;
             <span class="fs-16">{{ element.quantity | number }}</span>
             &nbsp;
-            <button
-              (click)="onAddQuantity(element)"
-            mat-button-icon class="flex align-center">
+            <button (click)="onAddQuantity(element)" mat-button-icon class="flex align-center">
               <mat-icon>add</mat-icon>
             </button>
           </div>

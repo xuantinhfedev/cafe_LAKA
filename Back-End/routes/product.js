@@ -137,7 +137,7 @@ router.get('/getByCategory/:id', auth.authenticateToken, (req, res, next) => {
       return res.status(500).json(err);
     }
   });
-}); 
+});
 
 // API lấy id, name, description, price của sản phẩm bằng id
 router.get('/getById/:id', auth.authenticateToken, (req, res, next) => {
@@ -341,30 +341,30 @@ router.delete('/destroy', auth.authenticateToken, checkRole.checkRole, (req, res
   let product = req.query.id;
   var query = "DELETE FROM product where id=?";
   connection.query(query, [product], (err, results) => {
-      if (!err) {
-          if (results.affectedRows == 0) {
-              return res.status(200).json({
-                  results: {
-                      responseCode: "404",
-                      message: "Sản phẩm không được tìm thấy"
-                  }
-              });
-          } else {
-              return res.status(200).json({
-                  results: {
-                      responseCode: "200",
-                      message: "Sản phẩm đã bị xóa hoàn toàn."
-                  }
-              });
+    if (!err) {
+      if (results.affectedRows == 0) {
+        return res.status(200).json({
+          results: {
+            responseCode: "404",
+            message: "Sản phẩm không được tìm thấy"
           }
+        });
       } else {
-          return res.status(200).json({
-              results: {
-                  responseCode: "500",
-                  message: err
-              }
-          });
+        return res.status(200).json({
+          results: {
+            responseCode: "200",
+            message: "Sản phẩm đã bị xóa hoàn toàn."
+          }
+        });
       }
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
   });
 });
 
@@ -373,30 +373,30 @@ router.patch('/restore', auth.authenticateToken, checkRole.checkRole, (req, res)
   let product = req.body;
   var query = "UPDATE product SET deleted='false' WHERE id=?";
   connection.query(query, [product.id], (err, results) => {
-      if (!err) {
-          if (results.affectedRows == 0) {
-              return res.status(200).json({
-                  results: {
-                      responseCode: "404",
-                      message: "Sản phẩm không được tìm thấy."
-                  }
-              });
-          } else {
-              return res.status(200).json({
-                  results: {
-                      responseCode: "200",
-                      message: "Khôi phục sản phẩm thành công."
-                  }
-              });
+    if (!err) {
+      if (results.affectedRows == 0) {
+        return res.status(200).json({
+          results: {
+            responseCode: "404",
+            message: "Sản phẩm không được tìm thấy."
           }
+        });
       } else {
-          return res.status(200).json({
-              results: {
-                  responseCode: "500",
-                  message: err
-              }
-          });
+        return res.status(200).json({
+          results: {
+            responseCode: "200",
+            message: "Khôi phục sản phẩm thành công."
+          }
+        });
       }
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
   });
 });
 
@@ -404,30 +404,30 @@ router.patch('/restore', auth.authenticateToken, checkRole.checkRole, (req, res)
 router.delete('/clear', auth.authenticateToken, checkRole.checkRole, (req, res) => {
   var query = "DELETE FROM product where deleted='true'";
   connection.query(query, (err, results) => {
-      if (!err) {
-          if (results.affectedRows == 0) {
-              return res.status(200).json({
-                  results: {
-                      responseCode: "404",
-                      message: "Sản phẩm không được tìm thấy."
-                  }
-              });
-          } else {
-              return res.status(200).json({
-                  results: {
-                      responseCode: "200",
-                      message: "Tất cả sản phẩm đã được xóa khỏi thùng rác"
-                  }
-              });
+    if (!err) {
+      if (results.affectedRows == 0) {
+        return res.status(200).json({
+          results: {
+            responseCode: "404",
+            message: "Sản phẩm không được tìm thấy."
           }
+        });
       } else {
-          return res.status(200).json({
-              results: {
-                  responseCode: "500",
-                  message: err
-              }
-          });
+        return res.status(200).json({
+          results: {
+            responseCode: "200",
+            message: "Tất cả sản phẩm đã được xóa khỏi thùng rác"
+          }
+        });
       }
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
   });
 });
 
@@ -437,31 +437,80 @@ router.delete('/clear', auth.authenticateToken, checkRole.checkRole, (req, res) 
 router.patch('/restore-all', auth.authenticateToken, checkRole.checkRole, (req, res) => {
   var query = "UPDATE product SET deleted='false'";
   connection.query(query, (err, results) => {
-      if (!err) {
-          if (results.affectedRows == 0) {
-              return res.status(200).json({
-                  results: {
-                      responseCode: "404",
-                      message: "Sản phẩm không được tìm thấy."
-                  }
-              });
-          } else {
-              return res.status(200).json({
-                  results: {
-                      responseCode: "200",
-                      message: "Khôi phục tất cả sản phẩm từ thùng rác thành công."
-                  }
-              });
+    if (!err) {
+      if (results.affectedRows == 0) {
+        return res.status(200).json({
+          results: {
+            responseCode: "404",
+            message: "Sản phẩm không được tìm thấy."
           }
+        });
       } else {
-          return res.status(200).json({
-              results: {
-                  responseCode: "500",
-                  message: err
-              }
-          });
+        return res.status(200).json({
+          results: {
+            responseCode: "200",
+            message: "Khôi phục tất cả sản phẩm từ thùng rác thành công."
+          }
+        });
       }
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
   });
 });
+
+
+// API lấy danh sách sản phẩm phía client
+router.get('/pageAllProduct', (req, res, next) => {
+
+  let valueSearch = req.query.value;
+  let pageSize = Number(req.query.pageSize);
+  let pageIndex = Number(req.query.pageIndex);
+  let valueLimit = pageSize;
+  let valueOffset = pageSize * pageIndex;
+  let valueSort = req.query.sort;
+
+  var queryCount = `SELECT COUNT(*) as dataCount FROM product WHERE deleted='false' and (? IS NULL or name LIKE ?)  ORDER BY price ${valueSort}`;
+  let dataCount = 0;
+  connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
+    if (!err) {
+      dataCount = results[0];
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  })
+
+  var query = `select p.id, p.name, p.description, p.file_src, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'false' and (? IS NULL or p.name LIKE ?) order by p.price ${valueSort} LIMIT ? OFFSET ? `;
+  connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
+    if (!err) {
+      return res.status(200).json({
+        results: {
+          responseCode: "200",
+          message: "Lấy danh sách sản phẩm thành công.",
+          data: results,
+          dataCount: dataCount.dataCount
+        }
+      });
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  });
+});
+
 
 module.exports = router;

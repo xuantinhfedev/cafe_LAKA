@@ -8,12 +8,26 @@ import {
 import { MediaMatcher } from '@angular/cdk/layout';
 import { CartService } from 'src/app/services/cart/cart.service';
 import { Product } from '../product.model';
+import { Subscription } from 'rxjs';
+import { StoreService } from 'src/app/services/store/store.service';
+import { Toastr } from 'src/app/services/toastr.service';
 
 const ROWS_HEIGHT: { [id: number]: number } = {
   1: 400,
   3: 335,
   4: 350,
 };
+
+interface data {
+  id: number;
+  name: string;
+  description: string;
+  file_src: string;
+  price: number;
+  status: string;
+  categoryId: number;
+  categoryName: string;
+}
 @Component({
   selector: 'app-page-home',
   templateUrl: './page-home.component.html',
@@ -23,6 +37,14 @@ export class PageHomeComponent implements OnInit {
   cols = 3;
   rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
+  products: Array<data> | undefined;
+  sort = 'desc';
+  search = '';
+  pageSize = 12;
+  pageIndex = 0;
+  total = 0;
+  productSubscription: Subscription | undefined;
+
   slides = [
     { image: './../../../assets/img/page-banner-1.jpg' },
     { image: './../../../assets/img/page-banner-2.jpg' },
@@ -32,19 +54,41 @@ export class PageHomeComponent implements OnInit {
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private cartService: CartService
+    private cartService: CartService,
+    private storeService: StoreService,
+    private toastrService: Toastr
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getProducts();
+  }
 
-  onAddToCart(product: Product) {
+  async getProducts() {
+    let res = await this.storeService.pageAllProducts(
+      this.pageSize,
+      this.pageIndex,
+      this.search,
+      this.sort
+    );
+    if (res.results.responseCode == '200') {
+      this.products = res.results.data;
+      this.total = res.results.dataCount;
+    } else {
+      this.toastrService.toastWarning(
+        'Đã có lỗi xảy ra trong quá trình tải trang',
+        'Cảnh báo'
+      );
+    }
+  }
+
+  onAddToCart(product: data) {
     this.cartService.addToCart({
-      product: product.image,
-      name: product.title,
+      product: product.file_src,
+      name: product.name,
       price: product.price,
       quantity: 1,
       id: product.id,

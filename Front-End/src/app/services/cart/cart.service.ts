@@ -43,11 +43,10 @@ export class CartService {
     }
 
     this.cart.next({ items });
-    this.__toastr.toastSuccess(
-      'Sản phẩm được thêm vào giỏ hàng thành công',
+    this.__toastr.toastInfo(
+      '1 sản phẩm được thêm vào giỏ hàng',
       'Thông báo'
     );
-    // console.log(this.cart.value);
   }
 
   getTotal(items: Array<CartItem>): number {
@@ -68,16 +67,13 @@ export class CartService {
     const filteredItems = this.cart.value.items.filter(
       (_item) => _item.id !== item.id
     );
-
-    console.log(filteredItems);
-
     if (update) {
       this.cart.next({
         items: filteredItems,
       });
       this.__toastr.toastInfo('Sản phẩm đã bị xóa khỏi giỏ hàng', 'Thông báo');
     }
-    
+
     return filteredItems;
   }
 }

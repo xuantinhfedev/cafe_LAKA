@@ -18,13 +18,11 @@ export class PageProductHeaderComponent implements OnInit {
 
   onColumnsUpdated(colsNum: number): void {
     this.columnsCountChange.emit(colsNum);
-    console.log(colsNum);
   }
 
   onItemsUpdated(count: number): void {
     this.itemsCountChange.emit(count);
     this.itemsShowCount = count;
-    console.log(count);
   }
 
   onSortUpdated(newSort: string): void {
@@ -34,6 +32,5 @@ export class PageProductHeaderComponent implements OnInit {
       this.sort = 'tăng dần';
     }
     this.sortChange.emit(newSort);
-    console.log(newSort);
   }
 }

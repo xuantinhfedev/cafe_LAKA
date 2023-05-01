@@ -29,6 +29,7 @@ import { PageProductHeaderComponent } from './page-product-header/page-product-h
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { PageProductBoxComponent } from './page-product-box/page-product-box.component';
 import { PageCartComponent } from './page-cart/page-cart.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { PageCartComponent } from './page-cart/page-cart.component';
     MatTooltipModule,
     FormsModule,
     MaterialModule,
+    HttpClientModule,
   ],
   declarations: [
     ManageClientComponent,

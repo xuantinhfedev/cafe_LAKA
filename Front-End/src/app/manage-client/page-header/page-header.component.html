@@ -42,13 +42,12 @@
               </div>
               <hr />
               <div *ngIf="cart.items.length" style="padding: 14px 0">
-
                 <div *ngFor="let item of cart.items"
                   style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center;">
-                  <span style="margin-right: 16px"><img src="./../../../assets/img/cafe-pha-phin-4.jpg"
-                      alt="Ảnh sản phẩm" style="width: 30px"></span>
+                  <span style="margin-right: 16px"><img src="http://localhost:8080/uploads/{{ item.product }}"
+                      alt="Ảnh sản phẩm" style="max-width: 50px"></span>
                   <span style="margin-right: 16px">{{ item.name }} x {{ item.quantity }}</span>
-                  <span style="font-weight: 700;">{{ item.price | number }} đồng</span>
+                  <span style="font-weight: 700; text-align: right;">{{ item.price | number }} đồng</span>
                 </div>
               </div>
               <hr />
