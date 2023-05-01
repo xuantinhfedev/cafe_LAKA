@@ -27,11 +27,13 @@ import { MaterialModule } from '../shared/material-module';
 import { PageFiltersComponent } from './page-filters/page-filters.component';
 import { PageProductHeaderComponent } from './page-product-header/page-product-header.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { PageProductBoxComponent } from './page-product-box/page-product-box.component';
 import { PageCartComponent } from './page-cart/page-cart.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialExampleModule } from '../shared/material.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { StylePaginatorDirective } from './style-paginator.directive';
 @NgModule({
   imports: [
     CommonModule,
@@ -56,9 +58,11 @@ import { MaterialExampleModule } from '../shared/material.module';
     MaterialModule,
     HttpClientModule,
     MatStepperModule,
-    MaterialExampleModule
+    MaterialExampleModule,
+    MatPaginatorModule,
   ],
   declarations: [
+    StylePaginatorDirective,
     ManageClientComponent,
     PageHeaderComponent,
     PageHomeComponent,

@@ -21,8 +21,7 @@
       <div class="page-content">
         <!-- <router-outlet></router-outlet> -->
         <app-page-product-header (columnsCountChange)="onColumnsCountChange($event)"
-        (itemsCountChange)="onItemsCountChange($event)"
-        (sortChange)="onSortChange($event)"></app-page-product-header>
+          (itemsCountChange)="onItemsCountChange($event)" (sortChange)="onSortChange($event)"></app-page-product-header>
 
         <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
           <mat-grid-tile *ngFor="let product of products">
@@ -30,7 +29,9 @@
               [fullWidthMode]="cols == 1"></app-page-product-box>
           </mat-grid-tile>
         </mat-grid-list>
-
+        <mat-paginator class="flex justify-center" appStylePage (page)="pageChangeEvent($event)" [length]="total"
+          [pageSize]="pageSize" [pageIndex]="pageIndex" showFirstLastButtons >
+        </mat-paginator>
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

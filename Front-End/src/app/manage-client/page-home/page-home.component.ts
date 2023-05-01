@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { StoreService } from 'src/app/services/store/store.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { PageEvent } from '@angular/material/paginator';
 
 const ROWS_HEIGHT: { [id: number]: number } = {
   1: 400,
@@ -44,6 +45,7 @@ export class PageHomeComponent implements OnInit {
   pageSize = 12;
   pageIndex = 0;
   total = 0;
+  pageSizeOptions = [12, 24, 36];
   productSubscription: Subscription | undefined;
 
   slides = [
@@ -88,6 +90,13 @@ export class PageHomeComponent implements OnInit {
         'Cảnh báo'
       );
     }
+  }
+
+  pageChangeEvent(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.getProducts();
+    // console.log('Phân trang: ',event)
   }
 
   onAddToCart(product: data) {
