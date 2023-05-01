@@ -26,6 +26,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { LoginComponent } from './login/login.component';
 import { TokenInterceptorInterceptor } from './services/token-interceptor/token-interceptor.interceptor';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { MatStepperModule } from '@angular/material/stepper';
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   text: 'Loading...',
   textColor: '#FFFFFF',
@@ -58,6 +59,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    MatStepperModule,
     FlexLayoutModule,
     SharedModule,
     HttpClientModule,

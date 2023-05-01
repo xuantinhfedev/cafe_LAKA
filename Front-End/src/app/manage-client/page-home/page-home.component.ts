@@ -11,6 +11,7 @@ import { Product } from '../product.model';
 import { Subscription } from 'rxjs';
 import { StoreService } from 'src/app/services/store/store.service';
 import { Toastr } from 'src/app/services/toastr.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 const ROWS_HEIGHT: { [id: number]: number } = {
   1: 400,
@@ -38,7 +39,7 @@ export class PageHomeComponent implements OnInit {
   rowHeight = ROWS_HEIGHT[this.cols];
   category: string | undefined;
   products: Array<data> | undefined;
-  sort = 'desc';
+  sort = 'asc';
   search = '';
   pageSize = 12;
   pageIndex = 0;
@@ -56,7 +57,8 @@ export class PageHomeComponent implements OnInit {
     media: MediaMatcher,
     private cartService: CartService,
     private storeService: StoreService,
-    private toastrService: Toastr
+    private toastrService: Toastr,
+    private ngX: NgxUiLoaderService
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -68,6 +70,7 @@ export class PageHomeComponent implements OnInit {
   }
 
   async getProducts() {
+    this.ngX.start();
     let res = await this.storeService.pageAllProducts(
       this.pageSize,
       this.pageIndex,
@@ -75,9 +78,11 @@ export class PageHomeComponent implements OnInit {
       this.sort
     );
     if (res.results.responseCode == '200') {
+      this.ngX.stop();
       this.products = res.results.data;
       this.total = res.results.dataCount;
     } else {
+      this.ngX.stop();
       this.toastrService.toastWarning(
         'Đã có lỗi xảy ra trong quá trình tải trang',
         'Cảnh báo'
@@ -102,6 +107,16 @@ export class PageHomeComponent implements OnInit {
   onColumnsCountChange(event: any) {
     this.cols = event;
     this.rowHeight = ROWS_HEIGHT[this.cols];
+  }
+
+  onItemsCountChange(event: any) {
+    this.pageSize = event;
+    this.getProducts();
+  }
+
+  onSortChange(event: any) {
+    this.sort = event;
+    this.getProducts();
   }
 
   mobileQuery: MediaQueryList;

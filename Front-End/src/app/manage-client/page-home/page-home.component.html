@@ -20,7 +20,9 @@
     <mat-sidenav-content class="page-wrapper">
       <div class="page-content">
         <!-- <router-outlet></router-outlet> -->
-        <app-page-product-header (columnsCountChange)="onColumnsCountChange($event)"></app-page-product-header>
+        <app-page-product-header (columnsCountChange)="onColumnsCountChange($event)"
+        (itemsCountChange)="onItemsCountChange($event)"
+        (sortChange)="onSortChange($event)"></app-page-product-header>
 
         <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
           <mat-grid-tile *ngFor="let product of products">
