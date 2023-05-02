@@ -18,8 +18,8 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.dashboardData();
-    this.startDate = sessionStorage.getItem("start");
-    this.endDate = sessionStorage.getItem("end");
+    this.startDate = sessionStorage.getItem('start');
+    this.endDate = sessionStorage.getItem('end');
   }
 
   constructor(
@@ -65,9 +65,27 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     ],
   };
 
+  option3: any = {
+    xAxis: {
+      type: 'category',
+      data: [],
+    },
+    tooltip: {},
+    yAxis: {
+      type: 'value',
+    },
+    series: [
+      {
+        data: [],
+        type: 'line',
+      },
+    ],
+  };
+
   temp: any;
   total: any = 0;
   total2: any = 0;
+  total3: any = 0;
   async statistics() {
     // Tạo một object để lưu tổng tiền của từng tháng
     let data = {
@@ -76,11 +94,14 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     };
     let res = await this.dashboardService.getLstBill(data);
     let res2 = await this.dashboardService.getBillCreditCard(data);
+    let res3 = await this.dashboardService.getAllStatistic(data);
     this.temp = res.results.data;
     this.option.xAxis.data = [];
     this.option.series[0].data = [];
     this.option2.xAxis.data = [];
     this.option2.series[0].data = [];
+    this.option3.xAxis.data = [];
+    this.option3.series[0].data = [];
     for (const month in this.temp) {
       this.total += this.temp[month];
       this.option.xAxis.data.push(`Tháng ${month}`);
@@ -91,6 +112,12 @@ export class DashboardComponent implements AfterViewInit, OnInit {
       this.total2 += res2.results.data[month];
       this.option2.xAxis.data.push(`Tháng ${month}`);
       this.option2.series[0].data.push(res2.results.data[month]);
+    }
+
+    for (const month in res3.results.data) {
+      this.total3 += res3.results.data[month];
+      this.option3.xAxis.data.push(`Tháng ${month}`);
+      this.option3.series[0].data.push(res3.results.data[month]);
     }
   }
 
@@ -120,10 +147,17 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   startDate: any = null;
   endDate: any = null;
   async process() {
-    if (this.range.value.start)
+    if (this.range.value.start) {
       this.startDate = moment(this.range.value.start).format('YYYY-MM-DD');
-    if (this.range.value.end)
+    } else {
+      this.startDate = null;
+    }
+
+    if (this.range.value.end) {
       this.endDate = moment(this.range.value.end).format('YYYY-MM-DD');
+    } else {
+      this.endDate = null;
+    }
 
     sessionStorage.setItem('start', this.startDate);
     sessionStorage.setItem('end', this.endDate);

@@ -61,8 +61,8 @@
   </div>
   <div style="display: flex; justify-content: space-between;">
     <div>
-      <p style="margin: 0; padding: 0;">Từ: {{ startDate }}</p>
-      <p style="margin: 0; padding: 0;">Đến: {{ endDate }}</p>
+      <!-- <p style="margin: 0; padding: 0;">Từ: {{ startDate }}</p>
+      <p style="margin: 0; padding: 0;">Đến: {{ endDate }}</p> -->
     </div>
     <button mat-raised-button (click)="process()" color="primary">
       <mat-icon>
@@ -72,8 +72,26 @@
   </div>
   <mat-card>
     <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2><b><span>Thống kê doanh thu tổng</span></b></h2>
+      <h2><b>Tổng doanh thu: {{ total3 | number }} đồng</b></h2>
+    </div>
+    <div>
+      <p style="margin: 0; padding: 0;">Từ: <span *ngIf="startDate!=='null'">{{ startDate }}</span></p>
+      <p style="margin: 0; padding: 0;">Đến: <span *ngIf="endDate!=='null'">{{ endDate }}</span></p>
+    </div>
+    <div>
+      <div echarts [options]="option3"></div>
+    </div>
+  </mat-card>
+  <br />
+  <mat-card>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
       <h2><b><span>Thống kê doanh thu tiền mặt</span></b></h2>
       <h2><b>Tổng doanh thu: {{ total | number }} đồng</b></h2>
+    </div>
+    <div>
+      <p style="margin: 0; padding: 0;">Từ: <span *ngIf="startDate!=='null'">{{ startDate }}</span></p>
+      <p style="margin: 0; padding: 0;">Đến: <span *ngIf="endDate!=='null'">{{ endDate }}</span></p>
     </div>
     <div>
       <div echarts [options]="option"></div>
@@ -82,8 +100,12 @@
   <br />
   <mat-card>
     <div style="display: flex; justify-content: space-between; align-items: center;">
-      <h2><b><span>Thống kê doanh thu tiền mặt</span></b></h2>
+      <h2><b><span>Thống kê doanh thu chuyển khoản</span></b></h2>
       <h2><b>Tổng doanh thu: {{ total2 | number }} đồng</b></h2>
+    </div>
+    <div>
+      <p style="margin: 0; padding: 0;">Từ: <span *ngIf="startDate!=='null'">{{ startDate }}</span></p>
+      <p style="margin: 0; padding: 0;">Đến: <span *ngIf="endDate!=='null'">{{ endDate }}</span></p>
     </div>
     <div>
       <div echarts [options]="option2"></div>

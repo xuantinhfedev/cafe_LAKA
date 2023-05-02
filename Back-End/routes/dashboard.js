@@ -306,4 +306,128 @@ router.post('/getBillCreditCard', (req, res) => {
 });
 
 
+// API lấy danh sách tất cả bill
+router.post('/getAllStatistic', (req, res) => {
+
+    start = req.body.start;
+    end = req.body.end;
+
+    var query = "";
+    if (end == "null" && start == "null") {
+        query = "SELECT * FROM bill WHERE  deleted='false' ";
+        connection.query(query, (err, results) => {
+            if (!err) {
+                const totalByMonth = {};
+                results.forEach((ele) => {
+                    // Tách ra ngày/tháng/năm để lấy tháng
+                    const [year, month, day] = JSON.stringify(ele.createdAt).split("-");
+
+                    // Nếu chưa có phần tử nào cho tháng này, khởi tạo bằng 0
+                    if (!totalByMonth[month]) {
+                        totalByMonth[month] = 0;
+                    }
+                    // Cộng giá tiền vào tổng tiền của tháng
+                    totalByMonth[month] += ele.total;
+                });
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Thành công",
+                        data: totalByMonth
+                    }
+                })
+            }
+            else {
+                return res.status(500).json(err);
+            }
+        })
+    }
+    else if (end == "null") {
+        query = "SELECT * FROM bill WHERE  deleted='false' AND createdAt >= ?"
+        connection.query(query, [start], (err, results) => {
+            if (!err) {
+                const totalByMonth = {};
+                results.forEach((ele) => {
+                    // Tách ra ngày/tháng/năm để lấy tháng
+                    const [year, month, day] = JSON.stringify(ele.createdAt).split("-");
+
+                    // Nếu chưa có phần tử nào cho tháng này, khởi tạo bằng 0
+                    if (!totalByMonth[month]) {
+                        totalByMonth[month] = 0;
+                    }
+                    // Cộng giá tiền vào tổng tiền của tháng
+                    totalByMonth[month] += ele.total;
+                });
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Thành công",
+                        data: totalByMonth
+                    }
+                })
+            }
+            else {
+                return res.status(500).json(err);
+            }
+        })
+    } else if (start == "null") {
+        query = "SELECT * FROM bill WHERE  deleted='false' AND createdAt <= ?"
+        connection.query(query, [end], (err, results) => {
+            if (!err) {
+                const totalByMonth = {};
+                results.forEach((ele) => {
+                    // Tách ra ngày/tháng/năm để lấy tháng
+                    const [year, month, day] = JSON.stringify(ele.createdAt).split("-");
+
+                    // Nếu chưa có phần tử nào cho tháng này, khởi tạo bằng 0
+                    if (!totalByMonth[month]) {
+                        totalByMonth[month] = 0;
+                    }
+                    // Cộng giá tiền vào tổng tiền của tháng
+                    totalByMonth[month] += ele.total;
+                });
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Thành công",
+                        data: totalByMonth
+                    }
+                })
+            }
+            else {
+                return res.status(500).json(err);
+            }
+        })
+    } else {
+        query = "SELECT * FROM bill WHERE  deleted='false' AND (createdAt BETWEEN ? AND ?)";
+        connection.query(query, [start, end], (err, results) => {
+            if (!err) {
+                const totalByMonth = {};
+                results.forEach((ele) => {
+                    // Tách ra ngày/tháng/năm để lấy tháng
+                    const [year, month, day] = JSON.stringify(ele.createdAt).split("-");
+
+                    // Nếu chưa có phần tử nào cho tháng này, khởi tạo bằng 0
+                    if (!totalByMonth[month]) {
+                        totalByMonth[month] = 0;
+                    }
+                    // Cộng giá tiền vào tổng tiền của tháng
+                    totalByMonth[month] += ele.total;
+                });
+                return res.status(200).json({
+                    results: {
+                        responseCode: "200",
+                        message: "Thành công",
+                        data: totalByMonth
+                    }
+                })
+            }
+            else {
+                return res.status(500).json(err);
+            }
+        })
+    }
+});
+
+
 module.exports = router;

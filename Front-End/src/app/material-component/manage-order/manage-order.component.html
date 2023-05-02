@@ -130,7 +130,7 @@
     <ng-container matColumnDef="image">
       <th class="table-br" mat-header-cell *matHeaderCellDef> Hình ảnh </th>
       <td class="table-br" mat-cell *matCellDef="let element">
-        <img *ngIf="element.file !== ''" style="width: 200px; padding: 15px 7px 7px 0"
+        <img *ngIf="element.file !== ''" style="width: 200px; margin: auto"
           src="http://localhost:8080/uploads/{{ element.file }}" alt="">
       </td>
     </ng-container>

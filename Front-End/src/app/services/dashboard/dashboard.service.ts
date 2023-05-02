@@ -36,4 +36,13 @@ export class DashboardService {
     );
     return res;
   }
+
+  async getAllStatistic(data: any){
+    let res = await this.baseService.postService(
+      data,
+      api_url + 'getAllStatistic',
+      ''
+    );
+    return res;
+  }
 }
