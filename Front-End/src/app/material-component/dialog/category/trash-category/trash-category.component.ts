@@ -83,7 +83,6 @@ export class TrashCategoryComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.tableData(this.pageSize, this.pageIndex, this.valueSearch)
-    console.log('Phân trang: ',event)
   }
 
   async handleRestoreAllAction() {

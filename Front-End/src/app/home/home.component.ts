@@ -23,7 +23,6 @@ export class HomeComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    console.log(sessionStorage.getItem('token'))
     if (sessionStorage.getItem('token') != null) {
       let response = await this.userService.checkToken();
       if (response.results.responseCode == 200) {

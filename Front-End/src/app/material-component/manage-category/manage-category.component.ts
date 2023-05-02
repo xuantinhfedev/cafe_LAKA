@@ -60,7 +60,6 @@ export class ManageCategoryComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.tableData(this.pageSize, this.pageIndex, this.valueSearch)
-    console.log('Phân trang: ',event)
   }
 
   // Hàm thực hiện lấy danh sách bản ghi
@@ -76,7 +75,7 @@ export class ManageCategoryComponent implements OnInit {
       this.length = response.results.dataCount;
       this.dataSource.sort = this.sort;
       this.responseMessage = response.results.message;
-      this.toastr.toastSuccess(this.responseMessage, 'Thành công');
+      // this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
       this.ngxService.stop();
       if (response.results.message) {

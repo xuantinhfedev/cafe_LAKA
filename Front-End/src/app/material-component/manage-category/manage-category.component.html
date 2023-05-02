@@ -1,9 +1,13 @@
 <mat-card class="category-header">
-  <b><h2 style="margin: 0">Quản lý danh mục</h2></b>
-  <div>
-    <button mat-flat-button color="primary" class="float-right" (click)="handleAddAction()">Thêm danh mục	<mat-icon>add</mat-icon></button>
+  <b>
+    <h2 style="margin: 0">Quản lý danh mục</h2>
+  </b>
+  <div style="display: flex;">
+    <button mat-flat-button color="primary" class="float-right" (click)="handleAddAction()">Thêm danh mục
+      <mat-icon>add</mat-icon></button>
     &nbsp; &nbsp; &nbsp;
-    <button mat-flat-button color="primary" (click)="handleRouterToTrash()">Thùng rác<mat-icon>delete_forever</mat-icon></button>
+    <button mat-flat-button color="primary" (click)="handleRouterToTrash()">Thùng
+      rác<mat-icon>delete_forever</mat-icon></button>
   </div>
 </mat-card>
 <hr>
@@ -36,7 +40,8 @@
         <button mat-icon-button color="primary" matTooltip="Cập nhật danh mục" (click)="handleEditAction(element)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="primary" matTooltip="Chuyển danh mục vào thùng rác" (click)="handleDeleteAction(element)">
+        <button mat-icon-button color="primary" matTooltip="Chuyển danh mục vào thùng rác"
+          (click)="handleDeleteAction(element)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

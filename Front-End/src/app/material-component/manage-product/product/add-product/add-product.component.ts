@@ -78,7 +78,6 @@ export class AddProductComponent implements OnInit {
     formData.append('categoryId', this.productForm.get('categoryId')!.value);
     formData.append('description', this.productForm.get('description')!.value);
     formData.append('price', this.productForm.get('price')!.value);
-    console.log(this.productForm.get('image').value);
     formData.append('image', this.productForm.get('image')!.value);
 
     let response = await this.productService.add(formData);

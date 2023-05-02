@@ -40,6 +40,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   pbDirection: PB_DIRECTION.leftToRight,
   pbThickness: 3,
 };
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SignupComponent,
     ForgotPasswordComponent,
     LoginComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +63,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    MatTooltipModule,
     MatStepperModule,
     FlexLayoutModule,
     SharedModule,

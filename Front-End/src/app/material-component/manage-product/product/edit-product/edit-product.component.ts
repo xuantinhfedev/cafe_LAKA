@@ -36,7 +36,6 @@ export class EditProductComponent implements OnInit {
     });
     this.productForm.get('image')!.updateValueAndValidity();
     this.nameFile = filePatch.name;
-    console.log(filePatch);
   }
 
   ngOnInit() {

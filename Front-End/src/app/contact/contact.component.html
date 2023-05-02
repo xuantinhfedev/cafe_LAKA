@@ -1,0 +1,66 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row">
+    <span class="title-center">Liên hệ</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="contactForm">
+    <div fxFlex fxLayout="column">
+      <mat-form-field appearance="fill" fxFlex="80px">
+        <mat-label>Nhập họ và tên</mat-label>
+        <input matInput formControlName="name" required [(ngModel)]="name">
+        <mat-error *ngIf="contactForm.controls.name.touched && contactForm.controls.name.invalid">
+          <span *ngIf="contactForm.controls.name.errors.required">Họ và tên không được bỏ trống</span>
+        </mat-error>
+        <button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" fxFlex="80px">
+        <mat-label>Nhập Email</mat-label>
+        <input matInput formControlName="email" required [(ngModel)]="email">
+        <mat-error *ngIf="contactForm.controls.email.touched && contactForm.controls.email.invalid">
+          <span *ngIf="contactForm.controls.email.errors.required">Email không được bỏ trống</span>
+          <span *ngIf="contactForm.controls.email.errors.pattern">Email không hợp lệ</span>
+        </mat-error>
+        <button mat-button *ngIf="email" matSuffix mat-icon-button aria-label="Clear" (click)="email=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="fill" fxFlex="80px">
+        <mat-label>Nhập số diện thoại</mat-label>
+        <input maxlength="10"  matInput type="number" formControlName="contactNumber" required [(ngModel)]="contactNumber">
+        <mat-error *ngIf="contactForm.controls.contactNumber.touched && contactForm.controls.contactNumber.invalid">
+          <span *ngIf="contactForm.controls.contactNumber.errors.required">Số điện thoại không được bỏ trống</span>
+        </mat-error>
+        <button mat-button *ngIf="contactNumber" matSuffix mat-icon-button aria-label="Clear"
+          (click)="contactNumber=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" fxFlex="80px">
+        <mat-label>Nhập nội dung</mat-label>
+        <textarea  matInput formControlName="message" required [(ngModel)]="message" rows="5"></textarea>
+        <mat-error *ngIf="contactForm.controls.message.touched && contactForm.controls.message.invalid">
+          <span *ngIf="contactForm.controls.message.errors.required">Bạn chưa nhập nội dung</span>
+        </mat-error>
+        <button mat-button *ngIf="message" matSuffix mat-icon-button aria-label="Clear" (click)="message=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button style="background-color: #333; color: white;" mat-dialog-close>Đóng</button>
+  <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()"
+    [disabled]="!(contactForm.valid && contactForm.dirty)">
+    Gửi
+  </button>
+</mat-dialog-actions>

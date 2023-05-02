@@ -7,6 +7,7 @@ const categoryRoute = require('./routes/category');
 const productRoute = require('./routes/product');
 const billRoute = require('./routes/bill');
 const dashboardRoute = require('./routes/dashboard');
+const contactRoute = require('./routes/contact');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/category', categoryRoute);
 app.use('/product', productRoute);
 app.use('/bill', billRoute);
 app.use('/dashboard', dashboardRoute);
+app.use('/contact', contactRoute);
 
 // Stripe - Xử lý thanh toán
 const bodyparser = require("body-parser");
@@ -34,14 +36,13 @@ const stripe = require("stripe")("sk_test_51MtO0CCDpSxvrGONrUKuLXanfodvJEay1dTYc
 
 app.post("/checkout", async (req, res, next) => {
     try {
-        console.log(req.body)
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             shipping_address_collection: {
                 allowed_countries: ['VN'],
             },
             shipping_options: [
-                { 
+                {
                     shipping_rate_data: {
                         type: 'fixed_amount',
                         fixed_amount: {

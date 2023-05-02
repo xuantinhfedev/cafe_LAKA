@@ -44,3 +44,11 @@ create table bill(
     createdBy varchar(255) NOT NULL,
     primary key(id)
 );
+
+create table contact (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255),
+    contactNumber varchar(20),
+    email varchar(255),
+    message varchar(255),
+)

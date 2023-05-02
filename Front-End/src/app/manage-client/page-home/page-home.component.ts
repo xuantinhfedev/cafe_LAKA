@@ -113,7 +113,6 @@ export class PageHomeComponent implements OnInit {
   }
 
   onShowCategory(event: any) {
-    console.log(event);
     this.category = event.name;
     this.categoryId = event.id;
     this.getProducts();

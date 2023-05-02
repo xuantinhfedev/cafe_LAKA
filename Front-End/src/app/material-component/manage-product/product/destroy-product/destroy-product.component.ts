@@ -23,7 +23,6 @@ export class DestroyProductComponent implements OnInit {
   ngOnInit() {
     if(this.dialogData) {
       this.details = this.dialogData;
-      console.log(this.dialogData)
     }
   }
 
@@ -31,7 +30,6 @@ export class DestroyProductComponent implements OnInit {
     var data = {
       id: this.dialogData.data.id,
     };
-    console.log(this.dialogData.data.id)
     let response = await this.productService.destroy(data.id);
     if (response.results.responseCode == '200') {
       this.dialogRef.close();
