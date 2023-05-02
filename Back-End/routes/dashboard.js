@@ -59,4 +59,37 @@ router.get('/details', auth.authenticateToken, (req, res, next) => {
     });
 });
 
+
+// API lấy danh sách tất cả bill
+router.get('/getBillDBoard', (req, res) => {
+
+    var query = "SELECT * FROM bill WHERE deleted='false' ORDER BY createdAt ASC";
+    connection.query(query, (err, results) => {
+        if (!err) {
+            const totalByMonth = {};
+            results.forEach((ele) => {
+                // Tách ra ngày/tháng/năm để lấy tháng
+                const [year, month, day] = JSON.stringify(ele.createdAt).split("-");
+
+                // Nếu chưa có phần tử nào cho tháng này, khởi tạo bằng 0
+                if (!totalByMonth[month]) {
+                    totalByMonth[month] = 0;
+                }
+                // Cộng giá tiền vào tổng tiền của tháng
+                totalByMonth[month] += ele.total;
+            });
+            return res.status(200).json({
+                results: {
+                    responseCode: "200",
+                    message: "Thành công",
+                    data: totalByMonth
+                }
+            })
+        }
+        else {
+            return res.status(500).json(err);
+        }
+    })
+});
+
 module.exports = router;

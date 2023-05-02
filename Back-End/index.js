@@ -36,6 +36,32 @@ app.post("/checkout", async (req, res, next) => {
     try {
         console.log(req.body)
         const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            shipping_address_collection: {
+                allowed_countries: ['VN'],
+            },
+            shipping_options: [
+                { 
+                    shipping_rate_data: {
+                        type: 'fixed_amount',
+                        fixed_amount: {
+                            amount: 0,
+                            currency: 'vnd',
+                        },
+                        display_name: 'Miễn phí vận chuyển',
+                        // delivery_estimate: {
+                        //     minimum:{
+                        //         unit: 'day',
+                        //         value: 1
+                        //     },
+                        //     maximum: {
+                        //         unit: 'day',
+                        //         value: 1
+                        //     }
+                        // }
+                    }
+                }
+            ],
             line_items: req.body.items.map((item) => ({
                 price_data: {
                     currency: 'vnd',

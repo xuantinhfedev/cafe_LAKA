@@ -27,6 +27,7 @@ import { LoginComponent } from './login/login.component';
 import { TokenInterceptorInterceptor } from './services/token-interceptor/token-interceptor.interceptor';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { MatStepperModule } from '@angular/material/stepper';
+import { NgxEchartsModule } from 'ngx-echarts';
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   text: 'Loading...',
   textColor: '#FFFFFF',
@@ -70,6 +71,9 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
       countDuplicates: true,
     }),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
   ],
   providers: [
     HttpClientModule,

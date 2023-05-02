@@ -19,4 +19,11 @@ constructor(private baseService: BaseService) { }
     );
     return dataResponse;
   }
+
+  async getLstBill() {
+    let res = await this.baseService.getService(
+      api_url + 'getBillDBoard',''
+    )
+    return res;
+  }
 }
