@@ -113,3 +113,8 @@ input[type="file"]::-webkit-file-upload-button {
 input[type="file"]::-webkit-file-upload-button:hover {
   background-color: #6d4c41;
 }
+
+.mat-form-field-type-mat-date-range-input .mat-form-field-infix {
+  width: 300px;
+  display: flex;
+}

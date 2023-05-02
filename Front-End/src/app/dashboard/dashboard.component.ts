@@ -5,6 +5,7 @@ import { Toastr } from '../services/toastr.service';
 import { GlobalConstants } from '../shared/global-constants';
 import { EChartsOption } from 'echarts';
 import { FormControl, FormGroup } from '@angular/forms';
+import * as moment from 'moment';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -17,6 +18,8 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.dashboardData();
+    this.startDate = sessionStorage.getItem("start");
+    this.endDate = sessionStorage.getItem("end");
   }
 
   constructor(
@@ -25,7 +28,7 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     private toastr: Toastr
   ) {
     this.ngxService.start();
-    this.test();
+    this.statistics();
   }
 
   option: any = {
@@ -39,27 +42,56 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     },
     series: [
       {
-        data: [405000, 70000],
+        data: [],
+        type: 'line',
+      },
+    ],
+  };
+
+  option2: any = {
+    xAxis: {
+      type: 'category',
+      data: [],
+    },
+    tooltip: {},
+    yAxis: {
+      type: 'value',
+    },
+    series: [
+      {
+        data: [],
         type: 'line',
       },
     ],
   };
 
   temp: any;
-
-  async test() {
+  total: any = 0;
+  total2: any = 0;
+  async statistics() {
     // Tạo một object để lưu tổng tiền của từng tháng
-    const totalByMonth: any = {};
-    let res = await this.dashboardService.getLstBill();
+    let data = {
+      start: sessionStorage.getItem('start'),
+      end: sessionStorage.getItem('end'),
+    };
+    let res = await this.dashboardService.getLstBill(data);
+    let res2 = await this.dashboardService.getBillCreditCard(data);
     this.temp = res.results.data;
-    console.log(this.temp);
     this.option.xAxis.data = [];
     this.option.series[0].data = [];
+    this.option2.xAxis.data = [];
+    this.option2.series[0].data = [];
     for (const month in this.temp) {
+      this.total += this.temp[month];
       this.option.xAxis.data.push(`Tháng ${month}`);
       this.option.series[0].data.push(this.temp[month]);
     }
-    console.log(this.option);
+
+    for (const month in res2.results.data) {
+      this.total2 += res2.results.data[month];
+      this.option2.xAxis.data.push(`Tháng ${month}`);
+      this.option2.series[0].data.push(res2.results.data[month]);
+    }
   }
 
   // Hàm xử lý nghiệp vụ lấy thông tin đashboard
@@ -85,7 +117,16 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     end: new FormControl(null),
   });
 
-  process() {
-    console.log(this.range);
+  startDate: any = null;
+  endDate: any = null;
+  async process() {
+    if (this.range.value.start)
+      this.startDate = moment(this.range.value.start).format('YYYY-MM-DD');
+    if (this.range.value.end)
+      this.endDate = moment(this.range.value.end).format('YYYY-MM-DD');
+
+    sessionStorage.setItem('start', this.startDate);
+    sessionStorage.setItem('end', this.endDate);
+    window.location.reload();
   }
 }
