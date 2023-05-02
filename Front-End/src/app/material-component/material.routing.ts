@@ -9,6 +9,7 @@ import { ManageOrderComponent } from './manage-order/manage-order.component';
 import { ViewBillComponent } from './view-bill/view-bill.component';
 import { TrashBillComponent } from './view-bill/trash-bill/trash-bill.component';
 import { ManageUserComponent } from './manage-user/manage-user/manage-user.component';
+import { ManageContactComponent } from './manage-contact/manage-contact/manage-contact.component';
 
 
 export const MaterialRoutes: Routes = [
@@ -74,6 +75,14 @@ export const MaterialRoutes: Routes = [
     canActivate:[RouterGuardService],
     data: {
       expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'contact',
+    component: ManageContactComponent,
+    canActivate:[RouterGuardService],
+    data: {
+      expectedRole: ['admin', 'user']
     }
   },
 ];

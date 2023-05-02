@@ -14,9 +14,9 @@ import { ConfirmationComponent } from './dialog/confirmation/confirmation.compon
 import { ChangePasswordComponent } from './dialog/change-password/change-password.component';
 import { ManageCategoryComponent } from './manage-category/manage-category.component';
 import { CategoryComponent } from './dialog/category/category.component';
-import { DeleteCategoryComponent } from './dialog/category/delete-category/delete-category.component'
+import { DeleteCategoryComponent } from './dialog/category/delete-category/delete-category.component';
 
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { StylePaginatorDirective } from './style-paginator.directive';
 import { TrashCategoryComponent } from './dialog/category/trash-category/trash-category.component';
@@ -35,6 +35,7 @@ import { ManageOrderComponent } from './manage-order/manage-order.component';
 import { ViewBillComponent } from './view-bill/view-bill.component';
 import { TrashBillComponent } from './view-bill/trash-bill/trash-bill.component';
 import { ManageUserComponent } from './manage-user/manage-user/manage-user.component';
+import { ManageContactComponent } from './manage-contact/manage-contact/manage-contact.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -71,8 +72,9 @@ import { ManageUserComponent } from './manage-user/manage-user/manage-user.compo
     ManageOrderComponent,
     ViewBillComponent,
     TrashBillComponent,
-    ManageUserComponent
+    ManageUserComponent,
+    ManageContactComponent,
   ],
-  exports: []
+  exports: [],
 })
 export class MaterialComponentsModule {}

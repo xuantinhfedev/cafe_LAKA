@@ -10,11 +10,11 @@ import { GlobalConstants } from '../shared/global-constants';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm: any = FormGroup;
-  responseMessage: string = "";
+  responseMessage: string = '';
   hide = true;
 
   constructor(
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     private toastr: Toastr,
     private dialogRef: MatDialogRef<LoginComponent>,
     private ngxService: NgxUiLoaderService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({

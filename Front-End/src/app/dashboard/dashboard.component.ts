@@ -18,8 +18,15 @@ export class DashboardComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     this.dashboardData();
+    if (sessionStorage.getItem('start') == null) {
+      sessionStorage.setItem('start', this.startDate);
+    }
+    if (sessionStorage.getItem('end') == null) {
+      sessionStorage.setItem('end', this.endDate);
+    }
     this.startDate = sessionStorage.getItem('start');
     this.endDate = sessionStorage.getItem('end');
+    this.statistics();
   }
 
   constructor(
@@ -28,7 +35,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     private toastr: Toastr
   ) {
     this.ngxService.start();
-    this.statistics();
   }
 
   option: any = {
@@ -43,7 +49,11 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     series: [
       {
         data: [],
-        type: 'line',
+        type: 'bar',
+        showBackground: false,
+        backgroundStyle: {
+          color: 'rgba(180, 180, 180, 0.2)',
+        },
       },
     ],
   };
@@ -60,7 +70,11 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     series: [
       {
         data: [],
-        type: 'line',
+        type: 'bar',
+        showBackground: false,
+        backgroundStyle: {
+          color: 'rgba(180, 180, 180, 0.2)',
+        },
       },
     ],
   };
@@ -77,7 +91,11 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     series: [
       {
         data: [],
-        type: 'line',
+        type: 'bar',
+        showBackground: false,
+        backgroundStyle: {
+          color: 'rgba(180, 180, 180, 0.2)',
+        },
       },
     ],
   };

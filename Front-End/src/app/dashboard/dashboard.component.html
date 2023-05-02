@@ -76,8 +76,10 @@
       <h2><b>Tổng doanh thu: {{ total3 | number }} đồng</b></h2>
     </div>
     <div>
-      <p style="margin: 0; padding: 0;">Từ: <span *ngIf="startDate!=='null'">{{ startDate }}</span></p>
-      <p style="margin: 0; padding: 0;">Đến: <span *ngIf="endDate!=='null'">{{ endDate }}</span></p>
+      <p style="margin: 0; padding: 0;">Từ: <span *ngIf="startDate!=='null'">{{ startDate | date: 'dd-MM-YYYY' }}</span>
+      </p>
+      <p style="margin: 0; padding: 0;">Đến: <span *ngIf="endDate!=='null'">{{ endDate | date: 'dd-MM-YYYY' }}</span>
+      </p>
     </div>
     <div>
       <div echarts [options]="option3"></div>
@@ -90,8 +92,10 @@
       <h2><b>Tổng doanh thu: {{ total | number }} đồng</b></h2>
     </div>
     <div>
-      <p style="margin: 0; padding: 0;">Từ: <span *ngIf="startDate!=='null'">{{ startDate }}</span></p>
-      <p style="margin: 0; padding: 0;">Đến: <span *ngIf="endDate!=='null'">{{ endDate }}</span></p>
+      <p style="margin: 0; padding: 0;">Từ: <span *ngIf="startDate!=='null'">{{ startDate | date: 'dd-MM-YYYY' }}</span>
+      </p>
+      <p style="margin: 0; padding: 0;">Đến: <span *ngIf="endDate!=='null'">{{ endDate | date: 'dd-MM-YYYY' }}</span>
+      </p>
     </div>
     <div>
       <div echarts [options]="option"></div>
@@ -104,8 +108,10 @@
       <h2><b>Tổng doanh thu: {{ total2 | number }} đồng</b></h2>
     </div>
     <div>
-      <p style="margin: 0; padding: 0;">Từ: <span *ngIf="startDate!=='null'">{{ startDate }}</span></p>
-      <p style="margin: 0; padding: 0;">Đến: <span *ngIf="endDate!=='null'">{{ endDate }}</span></p>
+      <p style="margin: 0; padding: 0;">Từ: <span *ngIf="startDate!=='null'">{{ startDate | date: 'dd-MM-YYYY' }}</span>
+      </p>
+      <p style="margin: 0; padding: 0;">Đến: <span *ngIf="endDate!=='null'">{{ endDate | date: 'dd-MM-YYYY' }}</span>
+      </p>
     </div>
     <div>
       <div echarts [options]="option2"></div>

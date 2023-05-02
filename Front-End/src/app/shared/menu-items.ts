@@ -44,6 +44,12 @@ const MENUITEMS = [
     icon: 'people',
     role: 'admin',
   },
+  {
+    state: 'contact',
+    name: 'Quản lý liên lạc',
+    icon: 'mail',
+    role: '',
+  },
 ];
 
 @Injectable()
