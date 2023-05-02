@@ -14,6 +14,9 @@ import { Toastr } from 'src/app/services/toastr.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { PageEvent } from '@angular/material/paginator';
 import Swal from 'sweetalert2';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ContactComponent } from 'src/app/contact/contact.component';
+import { Router } from '@angular/router';
 
 const ROWS_HEIGHT: { [id: number]: number } = {
   1: 400,
@@ -62,7 +65,9 @@ export class PageHomeComponent implements OnInit {
     private cartService: CartService,
     private storeService: StoreService,
     private toastrService: Toastr,
-    private ngX: NgxUiLoaderService
+    private ngX: NgxUiLoaderService,
+    private dialog: MatDialog,
+    private router: Router
   ) {
     this.mobileQuery = media.matchMedia('(min-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -149,6 +154,36 @@ export class PageHomeComponent implements OnInit {
   onSortChange(event: any) {
     this.sort = event;
     this.getProducts();
+  }
+
+  onClick() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'Add',
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(ContactComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
+
+    const sub = dialogRef.componentInstance.onContact.subscribe((response) => {
+      Swal.fire(
+        'Thành công',
+        'Cảm ơn bạn đã sử dụng sản phẩm của chúng tôi, hãy kiểm tra Email của bạn thường xuyên khi chúng tôi liên lạc lại nhé',
+        'success'
+      );
+    });
+  }
+
+  check = 0;
+  showButton() {
+    if (this.check == 0) {
+      this.check = 1;
+    } else {
+      this.check = 0;
+    }
+    console.log(this.check);
   }
 
   mobileQuery: MediaQueryList;

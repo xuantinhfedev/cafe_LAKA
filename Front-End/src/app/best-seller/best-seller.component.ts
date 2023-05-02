@@ -33,4 +33,14 @@ export class BestSellerComponent implements OnInit {
       );
     });
   }
+
+  check = 0;
+  showButton() {
+    if (this.check == 0) {
+      this.check = 1;
+    } else {
+      this.check = 0;
+    }
+    console.log(this.check);
+  }
 }

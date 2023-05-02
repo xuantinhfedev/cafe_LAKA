@@ -1,4 +1,4 @@
-.header-flex{
+.header-flex {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -35,4 +35,31 @@ app-header {
 
 .justify-center {
   justify-content: center;
+}
+
+
+.example-container {}
+
+.mine {
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.tel {
+  bottom: 120px;
+}
+
+.zalo {
+  bottom: 280px;
+}
+
+.live-chat {
+  bottom: 360px;
+}
+
+.contact {
+  bottom: 200px;
+
 }
