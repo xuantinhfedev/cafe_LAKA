@@ -19,6 +19,13 @@ create table category (
     primary key(id)
 );
 
+-- Create table Category for Sales
+create table categorySale (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    primary key(id)
+);
+
 -- Create table Product
 create table product(
     id int NOT NULL AUTO_INCREMENT,
@@ -26,6 +33,23 @@ create table product(
     categoryId integer NOT NULL,
     description varchar(255),
     price integer,
+    status varchar(20),
+    deleted varchar(20),
+    primary key(id)
+);
+
+
+-- Create table Product for Sales
+create table productSale (
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    categorySaleId integer NOT NULL,
+    description varchar(255),
+    price integer,
+    sale integer,
+    hot integer,
+    quantity integer,
+    image longtext,
     status varchar(20),
     deleted varchar(20),
     primary key(id)
