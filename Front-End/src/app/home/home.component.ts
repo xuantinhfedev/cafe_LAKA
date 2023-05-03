@@ -32,6 +32,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  onRouteCart() {
+    this.router.navigate(['/page'])
+  }
+
   slides = [
     {'image': './../../assets/img/page-banner-1.jpg'},
     {'image': './../../assets/img/bannner.jpg'},

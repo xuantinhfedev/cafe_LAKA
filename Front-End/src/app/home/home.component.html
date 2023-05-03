@@ -18,7 +18,7 @@
     </a>
     <ul>
       <li>
-        <a style="cursor: pointer;" routerLink="page">Đặt hàng</a>
+        <a style="cursor: pointer;" (click)="onRouteCart()">Đặt hàng</a>
       </li>
       <li>`
         <a style="cursor: pointer;" (click)="loginAction()">Đăng nhập</a>
@@ -35,7 +35,7 @@
 
 <div class="bg-footer">
 
-  <mat-card class="max-w-7xl mx-auto" style="background-color: #6d4c41; color: #fff">
+  <mat-card class="max-w-7xl mx-auto" style="background-color: #6d4c41; color: #fff; opacity: 0.7">
     <div class="flex justify-evenly">
       <div>
         <h2>THÔNG TIN LIÊN HỆ</h2>

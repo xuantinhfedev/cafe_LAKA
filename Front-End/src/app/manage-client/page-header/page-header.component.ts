@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Cart, CartItem } from '../cart.model';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-page-header',
@@ -32,5 +33,9 @@ export class PageHeaderComponent {
     this.cartService.clearCart();
   }
 
-  constructor(private cartService: CartService) {}
+  onRouteCart() {
+    this.router.navigate(['/page/cart'])
+  }
+
+  constructor(private cartService: CartService, private router: Router,) {}
 }

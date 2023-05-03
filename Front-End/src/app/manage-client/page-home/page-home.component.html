@@ -20,10 +20,15 @@
     <mat-sidenav-content style="padding: 24px">
       <div class="page-content">
         <!-- <router-outlet></router-outlet> -->
+        <mat-card class="mx-auto" style="margin-bottom: 8px">
+          <div style="display: flex; align-items: center;">
+            <h3 style="margin: 0; color: #aaa"><a href="">Trang chủ</a></h3>&nbsp;/&nbsp;<h4 style="margin: 0">Sản phẩm
+            </h4>
+          </div>
+        </mat-card>
         <app-page-product-header (columnsCountChange)="onColumnsCountChange($event)"
           (itemsCountChange)="onItemsCountChange($event)" (sortChange)="onSortChange($event)"
           (searchChange)="onSearchChange($event)"></app-page-product-header>
-
         <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
           <mat-card *ngIf="products?.length == 0">
             Danh mục chưa có sản phẩm
