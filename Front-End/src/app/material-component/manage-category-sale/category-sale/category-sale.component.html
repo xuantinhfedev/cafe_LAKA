@@ -1,0 +1,33 @@
+<!-- Header -->
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxlayout="row">
+    <span class="title-center">{{ labelMessage }} danh mục</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<!-- End header -->
+
+<!-- Content -->
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="categoryForm">
+    <div fxFlex fxLayout="column">
+      <div fxLayout="row wrap">
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Tên danh mục</mat-label>
+          <input  matInput formControlName="name" required>
+          <mat-error *ngIf="categoryForm.controls.name.touched && categoryForm.controls.name.invalid">
+            <span *ngIf="categoryForm.controls.name.errors.required">Tên danh mục không được để trống</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<!-- End contnet -->
+
+<!-- Footer -->
+<mat-dialog-actions align="end">
+  <button mat-raised-button style="background-color: #333; color: white;" mat-dialog-close>Đóng</button>
+  <button mat-raised-button color="primary" type="submit" (click)="handleSubmit()"
+    [disabled]="!(categoryForm.valid && categoryForm.dirty)">{{ labelMessage }}</button>
+</mat-dialog-actions>
+<!-- End footer -->

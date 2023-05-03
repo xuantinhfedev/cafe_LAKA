@@ -7,7 +7,6 @@ var checkRole = require('../services/checkRole');
 
 // API thêm Category bán hàng
 router.post('/add', auth.authenticateToken, checkRole.checkRole, (req, res) => {
-
     let category = req.body;
     var query = "insert into categorySale (name, deleted) values(?, 0)";
     connection.query(query, [category.name], (err, results) => {

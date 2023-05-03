@@ -10,6 +10,8 @@ import { ViewBillComponent } from './view-bill/view-bill.component';
 import { TrashBillComponent } from './view-bill/trash-bill/trash-bill.component';
 import { ManageUserComponent } from './manage-user/manage-user/manage-user.component';
 import { ManageContactComponent } from './manage-contact/manage-contact/manage-contact.component';
+import { ManageCategorySaleComponent } from './manage-category-sale/manage-category-sale/manage-category-sale.component';
+import { TrashCategorySaleComponent } from './manage-category-sale/trash-category-sale/trash-category-sale.component';
 
 
 export const MaterialRoutes: Routes = [
@@ -85,4 +87,20 @@ export const MaterialRoutes: Routes = [
       expectedRole: ['admin', 'user']
     }
   },
+  {
+    path: 'category-sales',
+    component: ManageCategorySaleComponent,
+    canActivate:[RouterGuardService],
+    data: {
+      expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'category-sales/trash-category-sales',
+    component: TrashCategorySaleComponent,
+    canActivate:[RouterGuardService],
+    data: {
+      expectedRole: ['admin']
+    }
+  }
 ];

@@ -1,36 +1,35 @@
-import { Component, EventEmitter, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, EventEmitter,Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CategoryService } from 'src/app/services/category/category.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
+import { CategorySaleService } from 'src/app/services/category-sale/category-sale.service';
 
 @Component({
-  selector: 'app-all-trash-category',
-  templateUrl: './all-trash-category.component.html',
-  styleUrls: ['./all-trash-category.component.scss'],
+  selector: 'app-trash-one-category-sale',
+  templateUrl: './trash-one-category-sale.component.html',
+  styleUrls: ['./trash-one-category-sale.component.scss']
 })
-export class AllTrashCategoryComponent implements OnInit {
-  onRestoreAllCategory = new EventEmitter();
-  onDestroyAllCategory = new EventEmitter();
-  dialogAction: any = 'restoreAll';
-  action: any = 'restoreAll';
+export class TrashOneCategorySaleComponent implements OnInit {
+  onRestoreCategory = new EventEmitter();
+  onDestroyCategory = new EventEmitter();
+  dialogAction: any = 'restore';
+  action: any = 'restore';
   responseMessage: any;
-  details: any = {};
+  details: any = {}
 
-  labelMessage: string = 'Khôi phục tất cả';
-
+  labelMessage: string = 'Khôi phục';
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private categoryService: CategoryService,
-    public dialogRef: MatDialogRef<AllTrashCategoryComponent>,
+    private categorySaleService: CategorySaleService,
+    public dialogRef: MatDialogRef<TrashOneCategorySaleComponent>,
     private toastr: Toastr
   ) {}
 
   ngOnInit() {
-    if (this.dialogData.action === 'destroyAll') {
-      this.labelMessage = 'Xóa tất cả';
-      this.dialogAction = 'destroyAll';
-      this.action = 'destroyAll';
+    if (this.dialogData.action === 'destroy') {
+      this.labelMessage = "Xóa"
+      this.dialogAction = 'destroy';
+      this.action = 'destroy';
     }
 
     if (this.dialogData) {
@@ -39,21 +38,23 @@ export class AllTrashCategoryComponent implements OnInit {
   }
 
   handleChangeAction() {
-    if (this.dialogAction === 'restoreAll') {
-      this.restoreAll();
-    } else {
-      this.destroyAll();
+    if(this.dialogAction === 'restore'){
+      this.restore();
+    }else{
+      this.destroy();
     }
   }
 
-  async restoreAll() {
+
+  async restore() {
+
     var data = {
-      id: 1,
+      id: this.dialogData.data.id,
     };
-    let response = await this.categoryService.restoreAll(data);
+    let response = await this.categorySaleService.restore(data);
     if (response.results.responseCode == '200') {
       this.dialogRef.close();
-      this.onRestoreAllCategory.emit();
+      this.onRestoreCategory.emit();
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
@@ -67,11 +68,11 @@ export class AllTrashCategoryComponent implements OnInit {
     }
   }
 
-  async destroyAll() {
-    let response = await this.categoryService.destroyAll();
+  async destroy() {
+    let response = await this.categorySaleService.destroy(this.dialogData.data.id);
     if (response.results.responseCode == '200') {
       this.dialogRef.close();
-      this.onDestroyAllCategory.emit();
+      this.onDestroyCategory.emit();
       this.responseMessage = response.results.message;
       this.toastr.toastSuccess(this.responseMessage, 'Thành công');
     } else {
@@ -84,4 +85,5 @@ export class AllTrashCategoryComponent implements OnInit {
       this.toastr.toastError(this.responseMessage, 'Lỗi');
     }
   }
+
 }

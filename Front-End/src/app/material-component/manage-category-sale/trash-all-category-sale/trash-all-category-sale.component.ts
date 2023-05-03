@@ -1,28 +1,27 @@
 import { Component, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CategoryService } from 'src/app/services/category/category.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
+import { CategorySaleService } from 'src/app/services/category-sale/category-sale.service';
 
 @Component({
-  selector: 'app-all-trash-category',
-  templateUrl: './all-trash-category.component.html',
-  styleUrls: ['./all-trash-category.component.scss'],
+  selector: 'app-trash-all-category-sale',
+  templateUrl: './trash-all-category-sale.component.html',
+  styleUrls: ['./trash-all-category-sale.component.scss'],
 })
-export class AllTrashCategoryComponent implements OnInit {
+export class TrashAllCategorySaleComponent implements OnInit {
   onRestoreAllCategory = new EventEmitter();
   onDestroyAllCategory = new EventEmitter();
   dialogAction: any = 'restoreAll';
   action: any = 'restoreAll';
   responseMessage: any;
   details: any = {};
-
   labelMessage: string = 'Khôi phục tất cả';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    private categoryService: CategoryService,
-    public dialogRef: MatDialogRef<AllTrashCategoryComponent>,
+    private categorySaleService: CategorySaleService,
+    public dialogRef: MatDialogRef<TrashAllCategorySaleComponent>,
     private toastr: Toastr
   ) {}
 
@@ -50,7 +49,7 @@ export class AllTrashCategoryComponent implements OnInit {
     var data = {
       id: 1,
     };
-    let response = await this.categoryService.restoreAll(data);
+    let response = await this.categorySaleService.restoreAll(data);
     if (response.results.responseCode == '200') {
       this.dialogRef.close();
       this.onRestoreAllCategory.emit();
@@ -68,7 +67,7 @@ export class AllTrashCategoryComponent implements OnInit {
   }
 
   async destroyAll() {
-    let response = await this.categoryService.destroyAll();
+    let response = await this.categorySaleService.destroyAll();
     if (response.results.responseCode == '200') {
       this.dialogRef.close();
       this.onDestroyAllCategory.emit();

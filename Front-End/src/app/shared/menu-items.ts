@@ -10,7 +10,7 @@ export interface Menu {
 const MENUITEMS = [
   {
     state: 'dashboard',
-    name: 'dashboard',
+    name: 'Dashboard',
     icon: 'monitoring',
     role: '',
   },
@@ -49,6 +49,18 @@ const MENUITEMS = [
     name: 'Quản lý liên lạc',
     icon: 'mail',
     role: '',
+  },
+  {
+    state: 'category-sales',
+    name: 'Quản lý danh mục bán hàng',
+    icon: 'receipt_long',
+    role: 'admin',
+  },
+  {
+    state: 'product-sales',
+    name: 'Quản lý sản phẩm bán hàng',
+    icon: 'coffee',
+    role: 'admin',
   },
 ];
 

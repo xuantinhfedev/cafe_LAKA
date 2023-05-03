@@ -1,0 +1,14 @@
+<!-- Header -->
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxlayout="row">
+    <span class="title-center">Thông báo xác nhận</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-dialog-content class="mat-typography">
+  <h5 style="font-size: 18px;">Bạn có chắc chắn muốn {{ details.message }} không?</h5>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button style="background-color: #333; color: white;" mat-dialog-close>Đóng</button>
+  <button mat-raised-button color="primary" type="submit" (click)="handleChangeAction()">Xác nhận</button>
+</mat-dialog-actions>

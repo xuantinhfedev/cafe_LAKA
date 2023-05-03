@@ -8,6 +8,7 @@ const productRoute = require('./routes/product');
 const billRoute = require('./routes/bill');
 const dashboardRoute = require('./routes/dashboard');
 const contactRoute = require('./routes/contact');
+const categorySaleRoute = require('./routes/categorySale');
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/product', productRoute);
 app.use('/bill', billRoute);
 app.use('/dashboard', dashboardRoute);
 app.use('/contact', contactRoute);
+app.use('/category-sale', categorySaleRoute);
 
 // Stripe - Xử lý thanh toán
 const bodyparser = require("body-parser");

@@ -36,6 +36,12 @@ import { ViewBillComponent } from './view-bill/view-bill.component';
 import { TrashBillComponent } from './view-bill/trash-bill/trash-bill.component';
 import { ManageUserComponent } from './manage-user/manage-user/manage-user.component';
 import { ManageContactComponent } from './manage-contact/manage-contact/manage-contact.component';
+import { ManageCategorySaleComponent } from './manage-category-sale/manage-category-sale/manage-category-sale.component';
+import { CategorySaleComponent } from './manage-category-sale/category-sale/category-sale.component';
+import { DeleteCategorySaleComponent } from './manage-category-sale/delete-category-sale/delete-category-sale.component';
+import { TrashCategorySaleComponent } from './manage-category-sale/trash-category-sale/trash-category-sale.component';
+import { TrashAllCategorySaleComponent } from './manage-category-sale/trash-all-category-sale/trash-all-category-sale.component';
+import { TrashOneCategorySaleComponent } from './manage-category-sale/trash-one-category-sale/trash-one-category-sale.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -74,6 +80,12 @@ import { ManageContactComponent } from './manage-contact/manage-contact/manage-c
     TrashBillComponent,
     ManageUserComponent,
     ManageContactComponent,
+    ManageCategorySaleComponent,
+    CategorySaleComponent,
+    DeleteCategorySaleComponent,
+    TrashCategorySaleComponent,
+    TrashAllCategorySaleComponent,
+    TrashOneCategorySaleComponent
   ],
   exports: [],
 })
