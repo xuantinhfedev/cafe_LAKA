@@ -61,10 +61,12 @@ export class PageCartComponent implements OnInit {
         items: this.cart.items,
       })
       .subscribe(async (res: any) => {
-        let stripe = await loadStripe('pk_test_51MtO0CCDpSxvrGONe1PuenYrLa4gVAXoX8uoFX3n208hNk8cqEaOqFfEGSNryS3Cu4ptKAtiFlB44oiYtRQWWf5J00iaEOq7qt');
+        let stripe = await loadStripe(
+          'pk_test_51MtO0CCDpSxvrGONe1PuenYrLa4gVAXoX8uoFX3n208hNk8cqEaOqFfEGSNryS3Cu4ptKAtiFlB44oiYtRQWWf5J00iaEOq7qt'
+        );
         stripe?.redirectToCheckout({
-          sessionId: res.id
-        })
+          sessionId: res.id,
+        });
       });
   }
 

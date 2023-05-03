@@ -42,6 +42,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ContactComponent } from './contact/contact.component';
+import { PageFooterComponent } from './manage-client/page-footer/page-footer.component';
 
 @NgModule({
   declarations: [

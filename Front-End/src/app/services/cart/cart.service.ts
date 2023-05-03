@@ -8,7 +8,12 @@ import { Toastr } from '../toastr.service';
 })
 export class CartService {
   cart = new BehaviorSubject<Cart>({ items: [] });
-  constructor(private __toastr: Toastr) {}
+  constructor(private __toastr: Toastr) {
+    let getItems = sessionStorage.getItem('items');
+    if (getItems) {
+      this.cart.value.items = JSON.parse(getItems);
+    }
+  }
 
   removeToCart(item: CartItem) {
     let itemForRemoval: CartItem | undefined;
@@ -26,6 +31,7 @@ export class CartService {
     if (itemForRemoval) {
       filteredItems = this.removeFromCart(itemForRemoval, false);
     }
+    sessionStorage.setItem('items', JSON.stringify(filteredItems));
 
     this.cart.next({ items: filteredItems });
 
@@ -42,11 +48,10 @@ export class CartService {
       items.push(item);
     }
 
+    sessionStorage.setItem('items', JSON.stringify(items));
+
     this.cart.next({ items });
-    this.__toastr.toastInfo(
-      '1 sản phẩm được thêm vào giỏ hàng',
-      'Thông báo'
-    );
+    this.__toastr.toastInfo('1 sản phẩm được thêm vào giỏ hàng', 'Thông báo');
   }
 
   getTotal(items: Array<CartItem>): number {
@@ -56,6 +61,7 @@ export class CartService {
   }
 
   clearCart() {
+    sessionStorage.removeItem('items');
     this.cart.next({ items: [] });
     this.__toastr.toastInfo(
       'Không có sản phẩm nào còn trong giỏ hàng',
@@ -68,6 +74,7 @@ export class CartService {
       (_item) => _item.id !== item.id
     );
     if (update) {
+      sessionStorage.setItem('items', JSON.stringify(filteredItems));
       this.cart.next({
         items: filteredItems,
       });

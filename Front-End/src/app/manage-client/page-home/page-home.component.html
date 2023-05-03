@@ -17,7 +17,7 @@
       [disableClose]="mobileQuery.matches">
       <app-page-filters (showCategory)="onShowCategory($event)"></app-page-filters>
     </mat-sidenav>
-    <mat-sidenav-content class="page-wrapper">
+    <mat-sidenav-content style="padding: 24px">
       <div class="page-content">
         <!-- <router-outlet></router-outlet> -->
         <app-page-product-header (columnsCountChange)="onColumnsCountChange($event)"
@@ -39,47 +39,4 @@
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
-</div>
-
-<div class="example-container">
-  <a href="tel:+856529972" style="color: white">
-    <button *ngIf="check" matTooltip="Liện hệ chúng tôi qua số điện thoại - 0856529972" class="mine tel" mat-fab
-      color="primary" style="border-radius: 50%;">
-      <mat-icon>phone</mat-icon>
-    </button>
-  </a>
-
-  <a href="https://zalo.me/0856529972" target="_blank">
-    <button *ngIf="check" matTooltip="Liên hệ với chúng tôi bằng Zalo" class="mine zalo" mat-fab color="primary"
-      style="border-radius: 50%;">
-      <mat-icon>message</mat-icon>
-    </button>
-  </a>
-
-  <a href="#" target="_blank">
-    <button *ngIf="check" matTooltip="Nhắn cho chúng tôi ngay bây giờ" class="mine live-chat" mat-fab color="primary"
-      style="border-radius: 50%;">
-      <mat-icon>
-        connect_without_contact</mat-icon>
-    </button>
-  </a>
-
-  <button *ngIf="check" matTooltip="Đăng ký thông tin và để lại lời nhắn" class="mine contact" mat-fab color="primary"
-    style="border-radius: 50%;" (click)="onClick()">
-    <mat-icon>
-      mail</mat-icon>
-  </button>
-
-
-  <button *ngIf="check == 0" matTooltip="Ẩn hiện liên hệ" class="mine" mat-fab color="primary"
-    style="border-radius: 50%;" (click)="showButton()">
-    <mat-icon>
-      add</mat-icon>
-  </button>
-
-  <button *ngIf="check == 1" matTooltip="Ẩn hiện liên hệ" class="mine" mat-fab color="primary"
-    style="border-radius: 50%;" (click)="showButton()">
-    <mat-icon>
-      remove</mat-icon>
-  </button>
 </div>
