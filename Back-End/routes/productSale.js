@@ -331,7 +331,7 @@ router.get('/trash-product', auth.authenticateToken, (req, res, next) => {
   let valueLimit = pageSize;
   let valueOffset = pageSize * pageIndex;
 
-  var queryCount = "SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0";
+  var queryCount = "SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=1";
   let dataCount = 0;
   connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
     if (!err) {
@@ -346,7 +346,7 @@ router.get('/trash-product', auth.authenticateToken, (req, res, next) => {
     }
   })
 
-  var query = "select p.id, p.name, p.description, p.image, p.price, p.status, p.sale, p.hot, p.quantity, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categoryId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) order by categorySaleId asc LIMIT ? OFFSET ? ";
+  var query = "select p.id, p.name, p.description, p.image, p.price, p.status, p.sale, p.hot, p.quantity, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 1 and (? IS NULL or p.name LIKE ?) order by categorySaleId asc LIMIT ? OFFSET ? ";
   connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
     if (!err) {
       return res.status(200).json({

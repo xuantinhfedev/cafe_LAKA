@@ -109,7 +109,7 @@ export class ManageProductSaleComponent implements OnInit {
   }
 
   async handleRouterToTrash() {
-    this.router.navigate(['/cafe/product-sales/product-sales-trash']);
+    this.router.navigate(['/cafe/product-sales/trash-product-sales']);
   }
 
   async searchNameProduct() {

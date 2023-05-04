@@ -64,7 +64,7 @@
 
       <mat-form-field appearance="fill" fxFlex="80px">
         <mat-label>Mô tả sản phẩm</mat-label>
-        <textarea matInput formControlName="description" required [(ngModel)]="valueDesc" rows="4"> </textarea>
+        <textarea matInput formControlName="description" required [(ngModel)]="valueDesc" rows="2"> </textarea>
         <mat-error *ngIf="productForm.controls.description.touched && productForm.controls.description.invalid">
           <span *ngIf="productForm.controls.description.errors.required">Tên sản phẩm không được bỏ trống</span>
         </mat-error>
