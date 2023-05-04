@@ -1,7 +1,8 @@
 <mat-card *ngIf="product" [ngClass]="{'text-center': !fullWidthMode}">
   <div [ngClass]="{flex: fullWidthMode}">
-    <img class="mb-1 mx-auto h-200" [ngClass]="{'h-200': !fullWidthMode, 'h-360': fullWidthMode}"
+    <img class="mb-4 mt-4 mx-auto h-200" [ngClass]="{'h-200': !fullWidthMode, 'h-360': fullWidthMode}"
       src="http://localhost:8080/uploads/{{ product.image }}" alt="Ảnh sản phẩm">
+
     <div class="w-full" [ngClass]="{'px-8 flex flex-col justify-between': fullWidthMode}">
       <div>
         <h5>{{ product.categoryName }}</h5>
@@ -9,24 +10,28 @@
         <p *ngIf="fullWidthMode">{{ product.description }}</p>
         <!-- <p>Số lượng còn: {{ product.quantity }}</p> -->
       </div>
+      <div *ngIf="product.sale">
+        <span style="padding: 10px; background-color: red; color: #fff; border-radius: 5px;">
+          Giảm giá: {{ product.sale }} %
+        </span>
+      </div>
       <div class="flex justify-between p10">
         <div *ngIf="product.sale">
-          <span class="text-red-500">
+          <span class="text-red-500" style="font-size: 16px;">
             {{ (product.price - product.price * product.sale / 100) | number }} đồng
           </span>
-          <span *ngIf="product.sale" style="font-size: 10; color: #ccc; text-decoration: line-through;">
-            {{ product.price }} đồng
+          <span *ngIf="product.sale" style="font-size: 10px; color: #ccc; text-decoration: line-through;">
+            {{ product.price | number }} đồng
           </span>
-          <span style="padding: 10px; background-color: red; color: #fff; border-radius: 5px;">
-            Giảm giá: {{ product.sale }} %
-          </span>
+
         </div>
         <div *ngIf="!product.sale">
-          <span class="text-red-500">
+          <span class="text-red-500" style="font-size: 16px;">
             {{ (product.price) | number }} đồng
           </span>
         </div>
-        <button (click)="onAddToCart()">
+        <button (click)="onAddToCart()" mat-raised-button >
+          <!-- Thêm giỏ hàng -->
           <mat-icon class="text-gray-500" matTooltip="Thêm sản phẩm vào giỏ hàng">shopping_cart</mat-icon>
         </button>
       </div>

@@ -19,6 +19,7 @@ interface data {
 })
 export class PageProductBoxComponent implements OnInit {
   @Input() fullWidthMode = false;
+  @Input() cols4 = false;
   @Input() product: data | undefined;
   @Output() addToCart = new EventEmitter();
 

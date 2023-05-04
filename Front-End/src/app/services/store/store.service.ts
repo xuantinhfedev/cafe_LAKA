@@ -34,4 +34,52 @@ export class StoreService {
     return dataResponse;
   }
 
+  async pageProductsHot(
+    pageSize: number,
+    pageIndex: number,
+    value: string,
+    sort: string,
+    categoryId: any
+  ) {
+    let dataResponse = await this._base.getService(
+      api_url +
+        'pageProductHot?pageSize=' +
+        pageSize +
+        '&pageIndex=' +
+        pageIndex +
+        '&value=' +
+        value +
+        '&sort=' +
+        sort +
+        '&categoryId=' +
+        categoryId,
+      ''
+    );
+    return dataResponse;
+  }
+
+  async pageProductsSale(
+    pageSize: number,
+    pageIndex: number,
+    value: string,
+    sort: string,
+    categoryId: any
+  ) {
+    let dataResponse = await this._base.getService(
+      api_url +
+        'pageProductSale?pageSize=' +
+        pageSize +
+        '&pageIndex=' +
+        pageIndex +
+        '&value=' +
+        value +
+        '&sort=' +
+        sort +
+        '&categoryId=' +
+        categoryId,
+      ''
+    );
+    return dataResponse;
+  }
+
 }

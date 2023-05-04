@@ -37,6 +37,7 @@ export class PageCartComponent implements OnInit {
     'product',
     'name',
     'price',
+    'sale',
     'quantityRemain',
     'quantity',
     'total',

@@ -16,12 +16,26 @@
       [mode]="mobileQuery.matches ? 'side' : 'over'" fixedTopGap="0" [opened]="mobileQuery.matches"
       [disableClose]="mobileQuery.matches">
       <app-page-filters (showCategory)="onShowCategory($event)"></app-page-filters>
+      <div style="margin-top:24px">
+        <button mat-raised-button style="width: 100%" (click)="onHot()">Sản phẩm HOT</button>
+      </div>
+      <div style="margin-top:24px">
+        <button mat-raised-button style="width: 100%" (click)="onSale()">Sản phẩm SALE</button>
+      </div>
     </mat-sidenav>
     <mat-sidenav-content style="padding: 24px">
       <div class="page-content">
         <!-- <router-outlet></router-outlet> -->
         <mat-card class="mx-auto">
-          <div style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center;" *ngIf="checkHot">
+            <h3 style="margin: 0; color: #aaa"><a href="">Trang chủ</a></h3>&nbsp;/&nbsp;<h4 style="margin: 0">Sản phẩm HOT
+            </h4>
+          </div>
+          <div style="display: flex; align-items: center;" *ngIf="checkSale">
+            <h3 style="margin: 0; color: #aaa"><a href="">Trang chủ</a></h3>&nbsp;/&nbsp;<h4 style="margin: 0">Sản phẩm SALE
+            </h4>
+          </div>
+          <div style="display: flex; align-items: center;" *ngIf="checkCategory">
             <h3 style="margin: 0; color: #aaa"><a href="">Trang chủ</a></h3>&nbsp;/&nbsp;<h4 style="margin: 0">Sản phẩm
             </h4>
           </div>
@@ -36,12 +50,12 @@
           <mat-card *ngIf="products?.length == 0">
             <div style="display: flex; flex-direction: column; align-items: center;">
               <img src="./../../../assets/img/52634_box_empty_product_shipment_icon.png" alt="">
-              <p>Danh mục chưa có sản phẩm</p>
+              <p>Chưa có sản phẩm</p>
             </div>
           </mat-card>
           <mat-grid-tile *ngFor="let product of products">
             <app-page-product-box [product]="product" (addToCart)="onAddToCart($event)" class="w-full"
-              [fullWidthMode]="cols == 1"></app-page-product-box>
+              [fullWidthMode]="cols == 1"  [cols4]="cols == 4"></app-page-product-box>
           </mat-grid-tile>
         </mat-grid-list>
         <br/>

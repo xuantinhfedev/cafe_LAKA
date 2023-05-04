@@ -54,6 +54,10 @@ export class PageHomeComponent implements OnInit {
   total = 0;
   pageSizeOptions = [12, 24, 36];
   productSubscription: Subscription | undefined;
+  checkCategory: any = true;
+  checkHot: any = false;
+  checkSale: any = false;
+
 
   slides = [
     { image: './../../../assets/img/page-banner-1.jpg' },
@@ -105,7 +109,13 @@ export class PageHomeComponent implements OnInit {
   pageChangeEvent(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
-    this.getProducts();
+    if(this.checkHot){
+      this.getProductHot()
+    }else if(this.checkSale){
+      this.getProductSale()
+    }else{
+      this.getProducts();
+    }
     // console.log('Phân trang: ',event)
   }
 
@@ -122,9 +132,11 @@ export class PageHomeComponent implements OnInit {
   }
 
   onShowCategory(event: any) {
+    this.checkCategory = true;
+    this.checkHot = false;
+    this.checkSale = false;
     this.category = event.name;
     this.categoryId = event.id;
-    console.log(event.id);
     this.getProducts();
   }
 
@@ -140,25 +152,134 @@ export class PageHomeComponent implements OnInit {
 
   onSearchChange(event: any) {
     this.search = event;
-    this.getProducts().then(() => {
-      if (this.products?.length == 0) {
-        Swal.fire(
-          `Thông báo`,
-          `Không tìm thấy sản phẩm ${event} trong danh sách sản phẩm`,
-          'info'
-        );
-        this.search = '';
-        this.sort = 'asc';
-        this.pageSize = 12;
-        this.pageIndex = 0;
-        this.getProducts();
-      }
-    });
+    if(this.checkHot){
+      this.getProductHot().then(() => {
+        if (this.products?.length == 0) {
+          Swal.fire(
+            `Thông báo`,
+            `Không tìm thấy sản phẩm ${event} trong danh sách sản phẩm`,
+            'info'
+          );
+          this.search = '';
+          this.sort = 'asc';
+          this.pageSize = 12;
+          this.pageIndex = 0;
+          this.getProductHot();
+        }
+      })
+    }else if(this.checkSale){
+      this.getProductSale().then(() => {
+        if (this.products?.length == 0) {
+          Swal.fire(
+            `Thông báo`,
+            `Không tìm thấy sản phẩm ${event} trong danh sách sản phẩm`,
+            'info'
+          );
+          this.search = '';
+          this.sort = 'asc';
+          this.pageSize = 12;
+          this.pageIndex = 0;
+          this.getProductSale();
+        }
+      })
+    }else{
+      this.getProducts().then(() => {
+        if (this.products?.length == 0) {
+          Swal.fire(
+            `Thông báo`,
+            `Không tìm thấy sản phẩm ${event} trong danh sách sản phẩm`,
+            'info'
+          );
+          this.search = '';
+          this.sort = 'asc';
+          this.pageSize = 12;
+          this.pageIndex = 0;
+          this.getProducts();
+        }
+      });
+    }
   }
 
   onSortChange(event: any) {
     this.sort = event;
-    this.getProducts();
+
+    if(this.checkHot){
+      this.getProductHot()
+    }else if(this.checkSale){
+      this.getProductSale()
+    }else{
+      this.getProducts();
+    }
+  }
+
+  async getProductHot() {
+    this.ngX.start();
+
+    let res = await this.storeService.pageProductsHot(
+      this.pageSize,
+      this.pageIndex,
+      this.search,
+      this.sort,
+      this.categoryId
+    );
+    if (res.results.responseCode == '200') {
+      this.ngX.stop();
+      this.products = res.results.data;
+      this.total = res.results.dataCount;
+    } else {
+      this.ngX.stop();
+      this.toastrService.toastWarning(
+        'Đã có lỗi xảy ra trong quá trình tải trang',
+        'Cảnh báo'
+      );
+    }
+  }
+  async onHot() {
+    this.checkCategory = false;
+    this.checkHot = true;
+    this.checkSale = false;
+    this.pageSize = 12;
+    this.pageIndex = 0;
+    this.search = '';
+    this.sort = 'asc';
+    this.categoryId = ''
+    this.getProductHot();
+  }
+
+  async getProductSale() {
+    this.ngX.start();
+    let res = await this.storeService.pageProductsSale(
+      this.pageSize,
+      this.pageIndex,
+      this.search,
+      this.sort,
+      this.categoryId
+    );
+    if (res.results.responseCode == '200') {
+      this.ngX.stop();
+      this.products = res.results.data;
+      this.total = res.results.dataCount;
+    } else {
+      this.ngX.stop();
+      this.toastrService.toastWarning(
+        'Đã có lỗi xảy ra trong quá trình tải trang',
+        'Cảnh báo'
+      );
+    }
+  }
+  async onSale() {
+    this.checkCategory = false;
+    this.checkHot = true;
+    this.checkSale = false;
+    this.pageSize = 12;
+    this.pageIndex = 0;
+    this.search = '';
+    this.sort = 'asc';
+    this.categoryId = ''
+    this.checkCategory = false;
+    this.checkHot = false;
+    this.checkSale = true;
+    this.getProductSale();
   }
 
   onClick() {

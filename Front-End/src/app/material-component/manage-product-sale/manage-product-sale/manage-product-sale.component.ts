@@ -131,8 +131,7 @@ export class ManageProductSaleComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onEdit.subscribe(
       (response) => {
-        this.pageSize = 10;
-        this.pageIndex = 0;
+        
         this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );

@@ -572,8 +572,106 @@ router.get('/pageAllProduct', (req, res, next) => {
       }
     });
   }
+});
+
+// API lấy danh sách sản phẩm phía client
+router.get('/pageProductHot', (req, res, next) => {
+
+  let valueSearch = req.query.value;
+  let pageSize = Number(req.query.pageSize);
+  let pageIndex = Number(req.query.pageIndex);
+  let valueLimit = pageSize;
+  let valueOffset = pageSize * pageIndex;
+  let valueSort = req.query.sort;
+  let categoryID = req.query.categoryId;
+  var queryCount = '';
+  queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and (? IS NULL or name LIKE ?) AND hot='true' ORDER BY price ${valueSort}`;
+  let dataCount = 0;
+  connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%'], categoryID, categoryID], (err, results) => {
+    if (!err) {
+      dataCount = results[0];
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  })
+
+  var query = '';
+  query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) AND hot='true' order by p.price ${valueSort} LIMIT ? OFFSET ? `;
+  connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
+    if (!err) {
+      return res.status(200).json({
+        results: {
+          responseCode: "200",
+          message: "Lấy danh sách sản phẩm thành công.",
+          data: results,
+          dataCount: dataCount.dataCount
+        }
+      });
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  });
+});
 
 
+// API lấy danh sách sản phẩm phía client
+router.get('/pageProductSale', (req, res, next) => {
+
+  let valueSearch = req.query.value;
+  let pageSize = Number(req.query.pageSize);
+  let pageIndex = Number(req.query.pageIndex);
+  let valueLimit = pageSize;
+  let valueOffset = pageSize * pageIndex;
+  let valueSort = req.query.sort;
+  let categoryID = req.query.categoryId;
+  var queryCount = '';
+
+  queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and (? IS NULL or name LIKE ?) AND sale > 0 ORDER BY price ${valueSort}`;
+  let dataCount = 0;
+  connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%'], categoryID, categoryID], (err, results) => {
+    if (!err) {
+      dataCount = results[0];
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  })
+
+  var query = '';
+  query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) AND sale > 0 order by p.price ${valueSort} LIMIT ? OFFSET ? `;
+  connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
+    if (!err) {
+      return res.status(200).json({
+        results: {
+          responseCode: "200",
+          message: "Lấy danh sách sản phẩm thành công.",
+          data: results,
+          dataCount: dataCount.dataCount
+        }
+      });
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  });
 });
 
 module.exports = router;
