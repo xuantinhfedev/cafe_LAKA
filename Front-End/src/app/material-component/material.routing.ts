@@ -12,6 +12,8 @@ import { ManageUserComponent } from './manage-user/manage-user/manage-user.compo
 import { ManageContactComponent } from './manage-contact/manage-contact/manage-contact.component';
 import { ManageCategorySaleComponent } from './manage-category-sale/manage-category-sale/manage-category-sale.component';
 import { TrashCategorySaleComponent } from './manage-category-sale/trash-category-sale/trash-category-sale.component';
+import { ManageProductSaleComponent } from './manage-product-sale/manage-product-sale/manage-product-sale.component';
+import { TrashProductSaleComponent } from './manage-product-sale/trash-product-sale/trash-product-sale.component';
 
 
 export const MaterialRoutes: Routes = [
@@ -98,6 +100,22 @@ export const MaterialRoutes: Routes = [
   {
     path: 'category-sales/trash-category-sales',
     component: TrashCategorySaleComponent,
+    canActivate:[RouterGuardService],
+    data: {
+      expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'product-sales',
+    component: ManageProductSaleComponent,
+    canActivate:[RouterGuardService],
+    data: {
+      expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'product-sales/trash-product-sales',
+    component: TrashProductSaleComponent,
     canActivate:[RouterGuardService],
     data: {
       expectedRole: ['admin']

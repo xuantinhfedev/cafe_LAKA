@@ -37,8 +37,8 @@ router.post('/add', upload.single('image'), auth.authenticateToken, checkRole.ch
 
   let product = req.body;
   if (!req.file) {
-    var query = "insert into product (name, categoryId, description ,price, status, deleted) values(?, ?, ?, ?, 'true', 'false')";
-    connection.query(query, [product.name, product.categoryId, product.description, product.price], (err, results) => {
+    var query = "insert into productSale (name, categorySaleId, description ,price, sale, hot, quantity, status, deleted) values(?, ?, ?, ?, ?, 'false', ?, 'true', 0)";
+    connection.query(query, [product.name, product.categorySaleId, product.description, product.price, product.sale, product.quantity], (err, results) => {
       if (!err) {
         return res.status(200).json({
           results: {
@@ -57,8 +57,8 @@ router.post('/add', upload.single('image'), auth.authenticateToken, checkRole.ch
     });
   } else {
     var imgsrc = req.file.filename;
-    var query = "insert into product (name, categoryId, description, file_src ,price, status, deleted) values(?, ?, ?, ?, ?, 'true', 'false')";
-    connection.query(query, [product.name, product.categoryId, product.description, imgsrc, product.price], (err, results) => {
+    var query = "insert into productSale (name, categorySaleId, description, image ,price, sale, hot, quantity, status, deleted) values(?, ?, ?, ?, ?, ?, 'false', ?, 'true', 0)";
+    connection.query(query, [product.name, product.categorySaleId, product.description, imgsrc, product.price, product.sale, product.quantity], (err, results) => {
       if (!err) {
         return res.status(200).json({
           results: {
@@ -88,9 +88,9 @@ router.get('/get', auth.authenticateToken, (req, res, next) => {
   let valueLimit = pageSize;
   let valueOffset = pageSize * pageIndex;
 
-  var queryCount = "SELECT COUNT(*) as dataCount FROM product WHERE deleted='false' and (? IS NULL or name LIKE ?)  ORDER BY categoryId ASC";
+  var queryCount = "SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0";
   let dataCount = 0;
-  connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
+  connection.query(queryCount, (err, results) => {
     if (!err) {
       dataCount = results[0];
     } else {
@@ -103,7 +103,7 @@ router.get('/get', auth.authenticateToken, (req, res, next) => {
     }
   })
 
-  var query = "select p.id, p.name, p.description, p.file_src, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'false' and (? IS NULL or p.name LIKE ?) order by categoryId asc LIMIT ? OFFSET ? ";
+  var query = "select p.id, p.name, p.description, p.image, p.price, p.status, p.sale, p.hot, p.quantity, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) order by categorySaleId asc LIMIT ? OFFSET ? ";
   connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
     if (!err) {
       return res.status(200).json({
@@ -129,7 +129,7 @@ router.get('/get', auth.authenticateToken, (req, res, next) => {
 router.get('/getByCategory/:id', auth.authenticateToken, (req, res, next) => {
 
   const id = req.params.id;
-  var query = "select id, name from product where categoryId = ? and status = 'true' and deleted = 'false'";
+  var query = "select id, name from productSale where categorySaleId = ? and status = 'true' and deleted = 0";
   connection.query(query, [id], (err, results) => {
     if (!err) {
       return res.status(200).json(results);
@@ -144,7 +144,7 @@ router.get('/getByCategory/:id', auth.authenticateToken, (req, res, next) => {
 router.get('/getById/:id', auth.authenticateToken, (req, res, next) => {
 
   const id = req.params.id;
-  var query = "select id, name, description, price, file_src from product where id = ? and deleted = 'false'";
+  var query = "select id, name, description, price, image, sale, hot, quantity from productSale where id = ? and deleted = 0";
   connection.query(query, [id], (err, results) => {
     if (!err) {
       if (results.length <= 0) {
@@ -164,8 +164,8 @@ router.post('/update', upload.single('image'), auth.authenticateToken, checkRole
 
   let product = req.body;
   if (!req.file) {
-    var query = "update product set name=?, categoryId=?, description=?, price=? where id=? and deleted='false'";
-    connection.query(query, [product.name, product.categoryId, product.description, product.price, product.id], (err, results) => {
+    var query = "update productSale set name=?, categorySaleId=?, description=?, price=?, sale=?, quantity=? where id=? and deleted=0";
+    connection.query(query, [product.name, product.categorySaleId, product.description, product.price, product.sale, product.quantity, product.id], (err, results) => {
       if (!err) {
         return res.status(200).json({
           results: {
@@ -184,8 +184,8 @@ router.post('/update', upload.single('image'), auth.authenticateToken, checkRole
     });
   } else {
     var imgsrc = req.file.filename;
-    var query = "update product set name=?, categoryId=?, description=?,file_src=?, price=? where id=? and deleted='false'";
-    connection.query(query, [product.name, product.categoryId, product.description, imgsrc, product.price, product.id], (err, results) => {
+    var query = "update productSale set name=?, categorySaleId=?, description=?,image=?, price=?, sale=?, quantity=? where id=? and deleted=0";
+    connection.query(query, [product.name, product.categorySaleId, product.description, imgsrc, product.price, product.sale, product.quantity, product.id], (err, results) => {
       if (!err) {
         return res.status(200).json({
           results: {
@@ -209,7 +209,7 @@ router.delete('/delete/:id', auth.authenticateToken, checkRole.checkRole, (req, 
 
   const id = req.params.id;
   // var query = "delete from product where id=?";
-  var query = "update product set deleted='true' where id=? and deleted='false'";
+  var query = "update productSale set deleted=1 where id=? and deleted=0";
   connection.query(query, [id], (err, results) => {
     if (!err) {
       if (results.affectedRows == 0) {
@@ -240,7 +240,7 @@ router.delete('/delete/:id', auth.authenticateToken, checkRole.checkRole, (req, 
 router.patch('/updateStatus', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
 
   let user = req.body;
-  var query = "update product set status=? where id=? and deleted = 'false'";
+  var query = "update productSale set status=? where id=? and deleted = 0";
   connection.query(query, [user.status, user.id], (err, results) => {
     if (!err) {
       if (results.affectedRows == 0) {
@@ -268,8 +268,39 @@ router.patch('/updateStatus', auth.authenticateToken, checkRole.checkRole, (req,
   });
 });
 
+router.patch('/updateHot', auth.authenticateToken, checkRole.checkRole, (req, res, next) => {
+
+  let user = req.body;
+  var query = "update productSale set hot=? where id=? and deleted = 0";
+  connection.query(query, [user.hot, user.id], (err, results) => {
+    if (!err) {
+      if (results.affectedRows == 0) {
+        return res.status(200).json({
+          results: {
+            responseCode: "404",
+            message: "Không tìm thấy sản phẩm hoặc sản phẩm đã bị xóa."
+          }
+        });
+      }
+      return res.status(200).json({
+        results: {
+          responseCode: "200",
+          message: "Độ hot sản phẩm đã được cập nhật thành công."
+        }
+      });
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  });
+});
+
 router.get('/getCategories', auth.authenticateToken, (req, res, next) => {
-  var query = "SELECT * FROM category WHERE deleted='false'";
+  var query = "SELECT * FROM categorySale WHERE deleted=0";
   connection.query(query, (err, results) => {
     if (!err) {
       return res.status(200).json({
@@ -300,7 +331,7 @@ router.get('/trash-product', auth.authenticateToken, (req, res, next) => {
   let valueLimit = pageSize;
   let valueOffset = pageSize * pageIndex;
 
-  var queryCount = "SELECT COUNT(*) as dataCount FROM product WHERE deleted='true' and (? IS NULL or name LIKE ?)";
+  var queryCount = "SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0";
   let dataCount = 0;
   connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%']], (err, results) => {
     if (!err) {
@@ -315,7 +346,7 @@ router.get('/trash-product', auth.authenticateToken, (req, res, next) => {
     }
   })
 
-  var query = "select p.id, p.name, p.description, p.file_src, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'true' and (? IS NULL or p.name LIKE ?) order by categoryId asc LIMIT ? OFFSET ? ";
+  var query = "select p.id, p.name, p.description, p.image, p.price, p.status, p.sale, p.hot, p.quantity, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categoryId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) order by categorySaleId asc LIMIT ? OFFSET ? ";
   connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
     if (!err) {
       return res.status(200).json({
@@ -340,7 +371,7 @@ router.get('/trash-product', auth.authenticateToken, (req, res, next) => {
 // API xóa hoàn toàn khỏi Sản phẩm
 router.delete('/destroy', auth.authenticateToken, checkRole.checkRole, (req, res) => {
   let product = req.query.id;
-  var query = "DELETE FROM product where id=?";
+  var query = "DELETE FROM productSale where id=?";
   connection.query(query, [product], (err, results) => {
     if (!err) {
       if (results.affectedRows == 0) {
@@ -372,7 +403,7 @@ router.delete('/destroy', auth.authenticateToken, checkRole.checkRole, (req, res
 // API khôi phục Sản phẩm từ thùng rác
 router.patch('/restore', auth.authenticateToken, checkRole.checkRole, (req, res) => {
   let product = req.body;
-  var query = "UPDATE product SET deleted='false' WHERE id=?";
+  var query = "UPDATE productSale SET deleted=0 WHERE id=?";
   connection.query(query, [product.id], (err, results) => {
     if (!err) {
       if (results.affectedRows == 0) {
@@ -403,7 +434,7 @@ router.patch('/restore', auth.authenticateToken, checkRole.checkRole, (req, res)
 
 // API xóa hoàn toàn tất cả danh mục khỏi danh sách Sản phẩm
 router.delete('/clear', auth.authenticateToken, checkRole.checkRole, (req, res) => {
-  var query = "DELETE FROM product where deleted='true'";
+  var query = "DELETE FROM productSale where deleted=1";
   connection.query(query, (err, results) => {
     if (!err) {
       if (results.affectedRows == 0) {
@@ -436,7 +467,7 @@ router.delete('/clear', auth.authenticateToken, checkRole.checkRole, (req, res) 
 
 // API khôi phục tất cả Sản phẩm từ thùng rác
 router.patch('/restore-all', auth.authenticateToken, checkRole.checkRole, (req, res) => {
-  var query = "UPDATE product SET deleted='false'";
+  var query = "UPDATE productSale SET deleted=0";
   connection.query(query, (err, results) => {
     if (!err) {
       if (results.affectedRows == 0) {
@@ -478,9 +509,9 @@ router.get('/pageAllProduct', (req, res, next) => {
   let categoryID = req.query.categoryId;
   var queryCount = '';
   if (categoryID) {
-    queryCount = `SELECT COUNT(*) as dataCount FROM product WHERE deleted='false' and (? IS NULL or name LIKE ?) and categoryId = ? ORDER BY price ${valueSort}`;
+    queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and (? IS NULL or name LIKE ?) and categoryId = ? ORDER BY price ${valueSort}`;
   } else {
-    queryCount = `SELECT COUNT(*) as dataCount FROM product WHERE deleted='false' and (? IS NULL or name LIKE ?) ORDER BY price ${valueSort}`;
+    queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and (? IS NULL or name LIKE ?) ORDER BY price ${valueSort}`;
   }
   let dataCount = 0;
   connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%'], categoryID, categoryID], (err, results) => {
@@ -498,7 +529,7 @@ router.get('/pageAllProduct', (req, res, next) => {
 
   var query = '';
   if (categoryID) {
-    query = `select p.id, p.name, p.description, p.file_src, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'false' and (? IS NULL or p.name LIKE ?) and categoryId = ? ORDER BY p.price ${valueSort} LIMIT ? OFFSET ? `;
+    query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from product as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) and categoryId = ? ORDER BY p.price ${valueSort} LIMIT ? OFFSET ? `;
     connection.query(query, [valueSearch, ['%' + valueSearch + '%'], categoryID, valueLimit, valueOffset], (err, results) => {
       if (!err) {
         return res.status(200).json({
@@ -519,7 +550,7 @@ router.get('/pageAllProduct', (req, res, next) => {
       }
     });
   } else {
-    query = `select p.id, p.name, p.description, p.file_src, p.price, p.status, c.id as categoryId, c.name as categoryName from product as p INNER JOIN category as c ON p.categoryId = c.id where p.deleted = 'false' and (? IS NULL or p.name LIKE ?) order by p.price ${valueSort} LIMIT ? OFFSET ? `;
+    query = `select p.id, p.name, p.description, p.file_src, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) order by p.price ${valueSort} LIMIT ? OFFSET ? `;
     connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
       if (!err) {
         return res.status(200).json({

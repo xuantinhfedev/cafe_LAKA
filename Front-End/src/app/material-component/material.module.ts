@@ -42,6 +42,15 @@ import { DeleteCategorySaleComponent } from './manage-category-sale/delete-categ
 import { TrashCategorySaleComponent } from './manage-category-sale/trash-category-sale/trash-category-sale.component';
 import { TrashAllCategorySaleComponent } from './manage-category-sale/trash-all-category-sale/trash-all-category-sale.component';
 import { TrashOneCategorySaleComponent } from './manage-category-sale/trash-one-category-sale/trash-one-category-sale.component';
+import { ManageProductSaleComponent } from './manage-product-sale/manage-product-sale/manage-product-sale.component';
+import { TrashProductSaleComponent } from './manage-product-sale/trash-product-sale/trash-product-sale.component';
+import { AddProductSaleComponent } from './manage-product-sale/add-product-sale/add-product-sale.component';
+import { EditProductSaleComponent } from './manage-product-sale/edit-product-sale/edit-product-sale.component';
+import { DeleteProductSaleComponent } from './manage-product-sale/delete-product-sale/delete-product-sale.component';
+import { ClearProductSaleComponent } from './manage-product-sale/clear-product-sale/clear-product-sale.component';
+import { DestroyProductSaleComponent } from './manage-product-sale/destroy-product-sale/destroy-product-sale.component';
+import { RestoreAllProductSaleComponent } from './manage-product-sale/restore-all-product-sale/restore-all-product-sale.component';
+import { RestoreProductSaleComponent } from './manage-product-sale/restore-product-sale/restore-product-sale.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -85,7 +94,16 @@ import { TrashOneCategorySaleComponent } from './manage-category-sale/trash-one-
     DeleteCategorySaleComponent,
     TrashCategorySaleComponent,
     TrashAllCategorySaleComponent,
-    TrashOneCategorySaleComponent
+    TrashOneCategorySaleComponent,
+    ManageProductSaleComponent,
+    TrashProductSaleComponent,
+    AddProductSaleComponent,
+    EditProductSaleComponent,
+    ClearProductSaleComponent,
+    DeleteProductSaleComponent,
+    DestroyProductSaleComponent,
+    RestoreAllProductSaleComponent,
+    RestoreProductSaleComponent
   ],
   exports: [],
 })
