@@ -8,13 +8,13 @@ import { GlobalConstants } from 'src/app/shared/global-constants';
 @Component({
   selector: 'app-add-product-sale',
   templateUrl: './add-product-sale.component.html',
-  styleUrls: ['./add-product-sale.component.scss']
+  styleUrls: ['./add-product-sale.component.scss'],
 })
 export class AddProductSaleComponent implements OnInit {
   onAdd = new EventEmitter();
   productForm: any = FormGroup;
-  dialogAction: any = "Add";
-  action: any = "Add";
+  dialogAction: any = 'Add';
+  action: any = 'Add';
   responseMessage: string = '';
   categories: any = [];
   constructor(
@@ -24,20 +24,19 @@ export class AddProductSaleComponent implements OnInit {
     public dialogRef: MatDialogRef<AddProductSaleComponent>,
     private categorySaleService: CategorySaleService,
     private toastr: Toastr
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.productForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       categoryId: [null, Validators.required],
       description: [null, Validators.required],
-      price: [null, Validators.required],
-      sale: [null, Validators.required],
-      quantity: [null, Validators.required],
-      image: [null]
+      price: [null, [Validators.required, Validators.min(0)]],
+      sale: [null, [Validators.required, Validators.max(90), Validators.min(0)]],
+      quantity: [null, [Validators.required, Validators.min(0)]],
+      image: [null],
     });
     this.getCategories();
-
   }
 
   async getCategories() {
@@ -54,8 +53,7 @@ export class AddProductSaleComponent implements OnInit {
     }
   }
 
-
-  handleSubmit(){
+  handleSubmit() {
     this.add();
   }
 
@@ -75,10 +73,13 @@ export class AddProductSaleComponent implements OnInit {
     this.nameFile = filePatch.name;
   }
 
-  async add(){
+  async add() {
     var formData: FormData = new FormData();
     formData.append('name', this.productForm.get('name')!.value);
-    formData.append('categorySaleId', this.productForm.get('categoryId')!.value);
+    formData.append(
+      'categorySaleId',
+      this.productForm.get('categoryId')!.value
+    );
     formData.append('description', this.productForm.get('description')!.value);
     formData.append('price', this.productForm.get('price')!.value);
     formData.append('sale', this.productForm.get('sale')!.value);
@@ -101,5 +102,4 @@ export class AddProductSaleComponent implements OnInit {
       this.toastr.toastError(this.responseMessage, 'Lỗi');
     }
   }
-
 }

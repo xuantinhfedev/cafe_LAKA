@@ -47,9 +47,9 @@ export class EditProductSaleComponent implements OnInit {
       name: [null, [Validators.required]],
       categorySaleId: [null, Validators.required],
       description: [null, Validators.required],
-      price: [null, Validators.required],
-      sale: [null, Validators.required],
-      quantity: [null, Validators.required],
+      price: [null, [Validators.required, Validators.min(0)]],
+      sale: [null, [Validators.required, Validators.max(90), Validators.min(0)]],
+      quantity: [null, [Validators.required, Validators.min(0)]],
       image: [null],
     });
     this.productForm.patchValue(this.dialogData.data);

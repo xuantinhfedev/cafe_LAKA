@@ -21,6 +21,7 @@
           <input type="number" matInput formControlName="price" required>
           <mat-error *ngIf="productForm.controls.price.touched && productForm.controls.price.invalid">
             <span *ngIf="productForm.controls.price.errors.required">Giá sản phẩm không được bỏ trống</span>
+            <span *ngIf="productForm.controls.sale.errors.min">% khuyến mãi không được nhỏ hơn 0</span>
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" fxFlex>
@@ -39,6 +40,8 @@
           <input type="number" matInput formControlName="sale" required>
           <mat-error *ngIf="productForm.controls.sale.touched && productForm.controls.sale.invalid">
             <span *ngIf="productForm.controls.sale.errors.required">% khuyến mãi không được bỏ trống</span>
+            <span *ngIf="productForm.controls.sale.errors.min">% khuyến mãi không được nhỏ hơn 0</span>
+            <span *ngIf="productForm.controls.sale.errors.max">% khuyến mãi không được lớn hơn 90</span>
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill" fxFlex>
@@ -46,22 +49,25 @@
           <input type="number" matInput formControlName="quantity" required>
           <mat-error *ngIf="productForm.controls.quantity.touched && productForm.controls.quantity.invalid">
             <span *ngIf="productForm.controls.quantity.errors.required">Số lượng sản phẩm không được bỏ trống</span>
+            <span *ngIf="productForm.controls.sale.errors.min">% khuyến mãi không được nhỏ hơn 0</span>
+
           </mat-error>
         </mat-form-field>
       </div>
 
-      <mat-form-field appearance="fill" fxFlex="80px">
-        <mat-label>Mô tả sản phẩm</mat-label>
-        <input matInput formControlName="description" required>
-        <mat-error *ngIf="productForm.controls.description.touched && productForm.controls.description.invalid">
-          <span *ngIf="productForm.controls.description.errors.required">Tên sản phẩm không được bỏ trống</span>
-        </mat-error>
-      </mat-form-field>
+      <div>
+        <mat-form-field appearance="fill" fxFlex>
+          <mat-label>Mô tả sản phẩm</mat-label>
+          <textarea matInput formControlName="description" required> </textarea>
+          <mat-error *ngIf="productForm.controls.description.touched && productForm.controls.description.invalid">
+            <span *ngIf="productForm.controls.description.errors.required">Tên sản phẩm không được bỏ trống</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
       <div>
         <div>
           <input (change)="uploadFile($event)" #fileInput type="file" id="image" accept=".jpeg, .png, .jpg">
-
         </div>
         <div *ngIf="!nameFile">
           Ảnh cũ: <img style="width: 200px" src="http://localhost:8080/uploads/{{ image }}" alt="Ảnh sản phẩm">
