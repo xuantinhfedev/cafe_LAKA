@@ -42,8 +42,7 @@
           <mat-label>Phương thức thanh toán</mat-label>
           <mat-select matInput formControlName="paymentMethod" required>
             <mat-option value="Cash">Tiền mặt</mat-option>
-            <mat-option value="Credit Card">Thẻ tín dụng</mat-option>
-            <mat-option value="Debit Card">Thẻ ghi nợ</mat-option>
+            <mat-option value="Credit Card">Chuyển khoản</mat-option>
           </mat-select>
           <mat-error
             *ngIf="manageOrderForm.controls.paymentMethod.touched && manageOrderForm.controls.paymentMethod.invalid">

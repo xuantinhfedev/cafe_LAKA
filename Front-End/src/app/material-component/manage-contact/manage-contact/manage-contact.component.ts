@@ -14,7 +14,7 @@ import { GlobalConstants } from 'src/app/shared/global-constants';
   styleUrls: ['./manage-contact.component.scss'],
 })
 export class ManageContactComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'email', 'contactNumber', 'status'];
+  displayedColumns: string[] = ['name', 'email', 'contactNumber', 'message','status'];
   dataSource: any;
   responseMessage: any;
   valueSearch: string = '';

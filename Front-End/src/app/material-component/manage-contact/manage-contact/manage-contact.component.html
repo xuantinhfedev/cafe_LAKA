@@ -31,6 +31,11 @@
       <td class="table-br" mat-cell *matCellDef="let element"> {{element.contactNumber}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="message">
+      <th class="table-br" mat-header-cell *matHeaderCellDef>Tin nhắn</th>
+      <td class="table-br" mat-cell *matCellDef="let element"> {{element.message}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="status">
       <th class="table-w150" mat-header-cell *matHeaderCellDef>Thao tác</th>
       <td class="table-w150" mat-cell *matCellDef="let element" class="action-link">
