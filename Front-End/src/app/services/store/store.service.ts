@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base.service';
 
-const api_url = 'product/';
+const api_url = 'product-sale/';
 
 @Injectable({
   providedIn: 'root',

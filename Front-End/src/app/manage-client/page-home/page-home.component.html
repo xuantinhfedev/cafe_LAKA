@@ -20,24 +20,31 @@
     <mat-sidenav-content style="padding: 24px">
       <div class="page-content">
         <!-- <router-outlet></router-outlet> -->
-        <mat-card class="mx-auto" style="margin-bottom: 8px">
+        <mat-card class="mx-auto">
           <div style="display: flex; align-items: center;">
             <h3 style="margin: 0; color: #aaa"><a href="">Trang chủ</a></h3>&nbsp;/&nbsp;<h4 style="margin: 0">Sản phẩm
             </h4>
           </div>
         </mat-card>
+        <br/>
         <app-page-product-header (columnsCountChange)="onColumnsCountChange($event)"
           (itemsCountChange)="onItemsCountChange($event)" (sortChange)="onSortChange($event)"
-          (searchChange)="onSearchChange($event)"></app-page-product-header>
+          (searchChange)="onSearchChange($event)">
+        </app-page-product-header>
+        <br/>
         <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
           <mat-card *ngIf="products?.length == 0">
-            Danh mục chưa có sản phẩm
+            <div style="display: flex; flex-direction: column; align-items: center;">
+              <img src="./../../../assets/img/52634_box_empty_product_shipment_icon.png" alt="">
+              <p>Danh mục chưa có sản phẩm</p>
+            </div>
           </mat-card>
           <mat-grid-tile *ngFor="let product of products">
             <app-page-product-box [product]="product" (addToCart)="onAddToCart($event)" class="w-full"
               [fullWidthMode]="cols == 1"></app-page-product-box>
           </mat-grid-tile>
         </mat-grid-list>
+        <br/>
         <mat-paginator class="flex justify-center" appStylePage (page)="pageChangeEvent($event)" [length]="total"
           [pageSize]="pageSize" [pageIndex]="pageIndex" showFirstLastButtons>
         </mat-paginator>

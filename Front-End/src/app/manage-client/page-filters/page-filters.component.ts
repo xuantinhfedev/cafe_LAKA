@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { CategorySaleService } from 'src/app/services/category-sale/category-sale.service';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { Toastr } from 'src/app/services/toastr.service';
 
@@ -11,7 +12,7 @@ export class PageFiltersComponent implements OnInit {
   categories: any[] = [];
   @Output() showCategory = new EventEmitter<string>();
 
-  constructor(private __category: CategoryService, private __toastr: Toastr) {}
+  constructor(private __category: CategoryService, private __toastr: Toastr, private categorySaleService: CategorySaleService) {}
 
   ngOnInit(): void {
     this.getLstCategory();
@@ -22,7 +23,7 @@ export class PageFiltersComponent implements OnInit {
   }
 
   async getLstCategory() {
-    let res = await this.__category.lstCategory();
+    let res = await this.categorySaleService.lstCategory();
     if (res.results.responseCode == '200') {
       this.categories = res.results.data;
       this.categories.unshift({

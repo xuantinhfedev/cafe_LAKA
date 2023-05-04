@@ -28,8 +28,10 @@ interface data {
   id: number;
   name: string;
   description: string;
-  file_src: string;
+  image: string;
   price: number;
+  quantity: number;
+  sale: number;
   status: string;
   categoryId: number;
   categoryName: string;
@@ -109,9 +111,11 @@ export class PageHomeComponent implements OnInit {
 
   onAddToCart(product: data) {
     this.cartService.addToCart({
-      product: product.file_src,
+      product: product.image,
       name: product.name,
       price: product.price,
+      sale: product.sale,
+      quantityRemain: product.quantity,
       quantity: 1,
       id: product.id,
     });
@@ -120,6 +124,7 @@ export class PageHomeComponent implements OnInit {
   onShowCategory(event: any) {
     this.category = event.name;
     this.categoryId = event.id;
+    console.log(event.id);
     this.getProducts();
   }
 

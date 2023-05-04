@@ -39,6 +39,7 @@ app.use(bodyparser.json());
 const stripe = require("stripe")("sk_test_51MtO0CCDpSxvrGONrUKuLXanfodvJEay1dTYc3DCFOI7E40ezylv0ub4uQAUBhfrFlHaICkQNsgpbBRdO28VuUie00KDfW2yct");
 
 app.post("/checkout", async (req, res, next) => {
+    console.log(req.body)
     try {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -74,7 +75,7 @@ app.post("/checkout", async (req, res, next) => {
                         name: item.name,
                         // images: [`http://localhost:8080/uploads/${item.product}`]
                     },
-                    unit_amount: item.price
+                    unit_amount: item.price - (item.price * item.sale / 100)
                 },
                 quantity: item.quantity
             })),

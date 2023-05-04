@@ -4,8 +4,10 @@ interface data {
   id: number;
   name: string;
   description: string;
-  file_src: string;
+  image: string;
   price: number;
+  sale: number;
+  quantity: number;
   status: string;
   categoryId: number;
   categoryName: string;
@@ -17,7 +19,7 @@ interface data {
 })
 export class PageProductBoxComponent implements OnInit {
   @Input() fullWidthMode = false;
-  @Input() product: data | undefined;   
+  @Input() product: data | undefined;
   @Output() addToCart = new EventEmitter();
 
   constructor() {}
@@ -25,6 +27,7 @@ export class PageProductBoxComponent implements OnInit {
   ngOnInit(): void {}
 
   onAddToCart() {
+
     this.addToCart.emit(this.product);
   }
 }
