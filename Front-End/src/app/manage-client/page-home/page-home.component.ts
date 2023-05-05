@@ -120,12 +120,12 @@ export class PageHomeComponent implements OnInit {
   }
 
   onAddToCart(product: data) {
-    this.cartService.addToCart({
+    this.cartService.adưdToCart({
       product: product.image,
       name: product.name,
       price: product.price,
       sale: product.sale,
-      quantityRemain: product.quantity,
+      quantityRemain: product.quantity - 1,
       quantity: 1,
       id: product.id,
     });

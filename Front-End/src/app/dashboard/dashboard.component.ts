@@ -17,7 +17,6 @@ export class DashboardComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {}
 
   ngOnInit(): void {
-    this.dashboardData();
     if (sessionStorage.getItem('start') == null) {
       sessionStorage.setItem('start', this.startDate);
     }
@@ -26,7 +25,9 @@ export class DashboardComponent implements AfterViewInit, OnInit {
     }
     this.startDate = sessionStorage.getItem('start');
     this.endDate = sessionStorage.getItem('end');
-    this.statistics();
+    this.statistics().then(()=>{
+      this.dashboardData();
+    });
   }
 
   constructor(

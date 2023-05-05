@@ -509,9 +509,9 @@ router.get('/pageAllProduct', (req, res, next) => {
   let categoryID = req.query.categoryId;
   var queryCount = '';
   if (categoryID) {
-    queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and (? IS NULL or name LIKE ?) and categorySaleId = ? ORDER BY price ${valueSort}`;
+    queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and status='true' and (? IS NULL or name LIKE ?) and categorySaleId = ? ORDER BY price ${valueSort}`;
   } else {
-    queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and (? IS NULL or name LIKE ?) ORDER BY price ${valueSort}`;
+    queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and status='true' and (? IS NULL or name LIKE ?) ORDER BY price ${valueSort}`;
   }
   let dataCount = 0;
   connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%'], categoryID, categoryID], (err, results) => {
@@ -530,7 +530,7 @@ router.get('/pageAllProduct', (req, res, next) => {
   var query = '';
   console.log(categoryID)
   if (categoryID) {
-    query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) and categorySaleId = ? ORDER BY p.price ${valueSort} LIMIT ? OFFSET ? `;
+    query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and p.status='true' and  (? IS NULL or p.name LIKE ?) and categorySaleId = ? ORDER BY p.price ${valueSort} LIMIT ? OFFSET ? `;
     connection.query(query, [valueSearch, ['%' + valueSearch + '%'], categoryID, valueLimit, valueOffset], (err, results) => {
       if (!err) {
         return res.status(200).json({
@@ -551,7 +551,7 @@ router.get('/pageAllProduct', (req, res, next) => {
       }
     });
   } else {
-    query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) order by p.price ${valueSort} LIMIT ? OFFSET ? `;
+    query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and p.status='true' and (? IS NULL or p.name LIKE ?) order by p.price ${valueSort} LIMIT ? OFFSET ? `;
     connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
       if (!err) {
         return res.status(200).json({
@@ -585,7 +585,7 @@ router.get('/pageProductHot', (req, res, next) => {
   let valueSort = req.query.sort;
   let categoryID = req.query.categoryId;
   var queryCount = '';
-  queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and (? IS NULL or name LIKE ?) AND hot='true' ORDER BY price ${valueSort}`;
+  queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and  status='true' and (? IS NULL or name LIKE ?) AND hot='true' ORDER BY price ${valueSort}`;
   let dataCount = 0;
   connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%'], categoryID, categoryID], (err, results) => {
     if (!err) {
@@ -601,7 +601,7 @@ router.get('/pageProductHot', (req, res, next) => {
   })
 
   var query = '';
-  query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) AND hot='true' order by p.price ${valueSort} LIMIT ? OFFSET ? `;
+  query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0  and status='true' and  (? IS NULL or p.name LIKE ?) AND hot='true' order by p.price ${valueSort} LIMIT ? OFFSET ? `;
   connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
     if (!err) {
       return res.status(200).json({
@@ -636,7 +636,7 @@ router.get('/pageProductSale', (req, res, next) => {
   let categoryID = req.query.categoryId;
   var queryCount = '';
 
-  queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and (? IS NULL or name LIKE ?) AND sale > 0 ORDER BY price ${valueSort}`;
+  queryCount = `SELECT COUNT(*) as dataCount FROM productSale WHERE deleted=0 and status='true' and (? IS NULL or name LIKE ?) AND sale > 0 ORDER BY price ${valueSort}`;
   let dataCount = 0;
   connection.query(queryCount, [valueSearch, ['%' + valueSearch + '%'], categoryID, categoryID], (err, results) => {
     if (!err) {
@@ -652,7 +652,7 @@ router.get('/pageProductSale', (req, res, next) => {
   })
 
   var query = '';
-  query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 and (? IS NULL or p.name LIKE ?) AND sale > 0 order by p.price ${valueSort} LIMIT ? OFFSET ? `;
+  query = `select p.id, p.name, p.description, p.image, p.price, p.sale, p.hot, p.quantity, p.status, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0  and status='true' and  (? IS NULL or p.name LIKE ?) AND sale > 0 order by p.price ${valueSort} LIMIT ? OFFSET ? `;
   connection.query(query, [valueSearch, ['%' + valueSearch + '%'], valueLimit, valueOffset], (err, results) => {
     if (!err) {
       return res.status(200).json({

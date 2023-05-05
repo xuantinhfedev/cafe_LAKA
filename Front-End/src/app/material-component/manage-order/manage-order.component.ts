@@ -7,6 +7,7 @@ import { ProductService } from 'src/app/services/product/product.service';
 import { Toastr } from 'src/app/services/toastr.service';
 import { GlobalConstants } from 'src/app/shared/global-constants';
 import { saveAs } from 'file-saver';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manage-order',
@@ -176,7 +177,7 @@ export class ManageOrderComponent implements OnInit {
         quantity: formData.quantity,
         price: formData.price,
         total: formData.total,
-        file: this.file
+        file: this.file,
       });
       this.dataSource = [...this.dataSource];
       this.toastr.toastSuccess(GlobalConstants.productAdded, 'Thành công');
@@ -203,6 +204,11 @@ export class ManageOrderComponent implements OnInit {
       productDetails: JSON.stringify(this.dataSource),
     };
     this.ngxService.stop();
+    Swal.fire(
+      'Thông tin',
+      'Hóa đơn đang được xử lý, vui lòng đợi trong giây lát',
+      'info'
+    );
     this.billService.generateReport(data).subscribe(
       (res: any) => {
         this.downloadFile(res?.uuid);

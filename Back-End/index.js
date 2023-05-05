@@ -1,6 +1,7 @@
 const express = require('express');
 var cors = require('cors');
 const connection = require('./connection');
+const mysql = require('mysql');
 
 const userRoute = require('./routes/user');
 const categoryRoute = require('./routes/category');
@@ -38,8 +39,40 @@ app.use(bodyparser.json());
 
 const stripe = require("stripe")("sk_test_51MtO0CCDpSxvrGONrUKuLXanfodvJEay1dTYc3DCFOI7E40ezylv0ub4uQAUBhfrFlHaICkQNsgpbBRdO28VuUie00KDfW2yct");
 
+app.put('/productSale/subtract', function (req, res) {
+    const products = req.body;
+
+    if (!Array.isArray(products)) {
+        return res.status(200).json({ results: {
+            responseCode: '400',
+            message: 'Body # type'
+        } });
+    }
+
+    const ids = products.map(product => product.id);
+
+    const query = `
+    UPDATE productSale
+    SET quantity = quantity - CASE WHEN id IN (${mysql.escape(ids)}) THEN ? ELSE 0 END
+    WHERE id IN (${mysql.escape(ids)})
+  `;
+
+    const values = [
+        ...products.filter(product => product.quantity > 0).map(product => product.quantity),
+        ...ids
+    ];
+
+    connection.query(query, values, function (error, results, fields) {
+        if (error) throw error;
+        res.status(200).json({ results: {
+            responseCode: '200',    
+            message: 'Cập nhật số lượng sản phẩm'
+        } });
+    });
+});
+
 app.post("/checkout", async (req, res, next) => {
-    console.log(req.body)
+    // console.log(req.body)
     try {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -83,7 +116,7 @@ app.post("/checkout", async (req, res, next) => {
             success_url: "http://localhost:8080/success.html",
             cancel_url: "http://localhost:8080/cancel.html",
         });
-
+        // console.log(session);
         res.status(200).json(session);
     } catch (error) {
         next(error);

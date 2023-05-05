@@ -10,6 +10,8 @@ router.get('/details', auth.authenticateToken, (req, res, next) => {
 
     var categoryCount;
     var productCount;
+    var categorySale;
+    var productSale;
     var billCount;
     var userCount;
     var query = "SELECT count(id) as categoryCount FROM category where deleted='false'";
@@ -36,6 +38,22 @@ router.get('/details', auth.authenticateToken, (req, res, next) => {
             return res.status(500).json(err);
         }
     });
+    var queryCategorySale = "SELECT COUNT(id) as categorySale FROM categorySale where deleted=0";
+    connection.query(queryCategorySale, (err, results) => {
+        if (!err) {
+            categorySale = results[0].categorySale;
+        } else {
+            return res.status(500).json(err);
+        }
+    });
+    var queryProductSale = "SELECT COUNT(id) as productSale FROM productSale where deleted=0 AND status='true'";
+    connection.query(queryProductSale, (err, results) => {
+        if (!err) {
+            productSale = results[0].productSale;
+        } else {
+            return res.status(500).json(err);
+        }
+    });
     var queryBill = "SELECT count(id) as billCount FROM bill where deleted='false'";
     connection.query(queryBill, (err, results) => {
         if (!err) {
@@ -44,7 +62,9 @@ router.get('/details', auth.authenticateToken, (req, res, next) => {
                 category: categoryCount,
                 product: productCount,
                 bill: billCount,
-                user: userCount
+                user: userCount,
+                categorySale: categorySale,
+                productSale: productSale,
             }
             return res.status(200).json({
                 results: {

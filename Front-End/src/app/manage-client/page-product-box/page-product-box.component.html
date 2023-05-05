@@ -10,12 +10,12 @@
         <p *ngIf="fullWidthMode">{{ product.description }}</p>
         <!-- <p>Số lượng còn: {{ product.quantity }}</p> -->
       </div>
-      <div *ngIf="product.sale">
+      <div *ngIf="product.sale > 0 && product.quantity != 0">
         <span style="padding: 10px; background-color: red; color: #fff; border-radius: 5px;">
           Giảm giá: {{ product.sale }} %
         </span>
       </div>
-      <div class="flex justify-between p10">
+      <div *ngIf="product.quantity != 0" class="flex justify-between p10">
         <div *ngIf="product.sale">
           <span class="text-red-500" style="font-size: 16px;">
             {{ (product.price - product.price * product.sale / 100) | number }} đồng
@@ -34,6 +34,12 @@
           <!-- Thêm giỏ hàng -->
           <mat-icon class="text-gray-500" matTooltip="Thêm sản phẩm vào giỏ hàng">shopping_cart</mat-icon>
         </button>
+      </div>
+      <div *ngIf="product.quantity == 0">
+        <!-- <span style="padding: 10px; background-color: red; color: #fff; border-radius: 5px;">
+
+        </span> -->
+        <button disabled mat-raised-button style="color: black"> Sản phẩm tạm thời hết hàng</button>
       </div>
     </div>
   </div>
