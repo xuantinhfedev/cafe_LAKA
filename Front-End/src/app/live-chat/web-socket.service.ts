@@ -22,8 +22,6 @@ export class SocketioService {
     let message = '';
     if (!this.socket) return true;
     this.socket.on('message', (msg) => {
-      console.log('Room event received!');
-      console.log(msg)
       return cb(null, msg);
     });
     return true;
@@ -38,6 +36,7 @@ export class SocketioService {
   };
 
   disconnect() {
+    // console.log(this.socket)
     if (this.socket) {
       this.socket.disconnect();
     }

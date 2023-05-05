@@ -51,6 +51,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
+    
     socket.on('my message', (msg) => {
         console.log('message: ' + msg);
         io.emit('my broadcast', `server: ${msg}`);
