@@ -1,0 +1,37 @@
+<!-- <div class="App">
+  <form [formGroup]="tokenForm" (submit)="submitToken()">
+    <input type="text" placeholder="Enter token" formControlName="token" />
+    <button type="submit">Submit</button>
+  </form>
+  <div class="box">
+    <div class="messages">
+      <div *ngFor="let user of messages">
+        {{user.name}}: {{user.message}}
+      </div>
+    </div>
+    <form [formGroup]="messageForm" class="input-div" (submit)="submitMessage()">
+      <input type="text" placeholder="Type in text" formControlName="message" />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div> -->
+
+
+<div style=" display: flex; align-items: center; flex-direction: column;">
+  <mat-card style="width: 100%">
+    <h2 style="margin: 0">Tin nhắn trực tuyến</h2>
+  </mat-card>
+  <mat-card style="width: 100%; height: 400px;">
+    <div class="messages">
+      <div *ngFor="let user of messages">
+        {{user.name}}: {{user.message}}
+      </div>
+    </div>
+  </mat-card>
+  <mat-card style="width: 100%;">
+    <form [formGroup]="messageForm" class="input-div" (submit)="submitMessage()">
+      <input style="width: 100%" mat-input type="text" placeholder="Nhập tin nhắn" formControlName="message" />
+      <button type="submit" mat-raised-button color="primary">Gửi</button>
+    </form>
+  </mat-card>
+</div>

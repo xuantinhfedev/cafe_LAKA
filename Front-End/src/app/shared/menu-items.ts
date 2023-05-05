@@ -62,6 +62,13 @@ const MENUITEMS = [
     icon: 'coffee',
     role: 'admin',
   },
+  {
+    state: 'live-chat',
+    name: 'Tin nhắn',
+    icon: 'forum',
+    role: '',
+  },
+
 ];
 
 @Injectable()

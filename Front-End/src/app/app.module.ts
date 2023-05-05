@@ -43,6 +43,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ContactComponent } from './contact/contact.component';
 import { PageFooterComponent } from './manage-client/page-footer/page-footer.component';
+import { LiveChatComponent } from './live-chat/live-chat.component';
+import { SocketioService } from './live-chat/web-socket.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { PageFooterComponent } from './manage-client/page-footer/page-footer.com
     ForgotPasswordComponent,
     LoginComponent,
     ContactComponent,
-  ],
+    LiveChatComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -87,6 +90,7 @@ import { PageFooterComponent } from './manage-client/page-footer/page-footer.com
       useClass: TokenInterceptorInterceptor,
       multi: true,
     },
+    SocketioService
   ],
   bootstrap: [AppComponent],
 })

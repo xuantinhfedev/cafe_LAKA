@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ContactComponent } from '../contact/contact.component';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { LiveChatComponent } from '../live-chat/live-chat.component';
 
 @Component({
   selector: 'app-best-seller',
@@ -34,7 +35,27 @@ export class BestSellerComponent implements OnInit {
     });
   }
 
-  check = 0;
+  liveChat(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'live-chat',
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.dialog.open(LiveChatComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
+
+    const sub = dialogRef.componentInstance.onChat.subscribe((response) => {
+      Swal.fire(
+        'Thành công',
+        'Cảm ơn bạn đã sử dụng sản phẩm của chúng tôi, hãy kiểm tra Email của bạn thường xuyên khi chúng tôi liên lạc lại nhé',
+        'success'
+      );
+    });
+  }
+
+  check = 1;
   showButton() {
     if (this.check == 0) {
       this.check = 1;

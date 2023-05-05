@@ -14,6 +14,7 @@ import { ManageCategorySaleComponent } from './manage-category-sale/manage-categ
 import { TrashCategorySaleComponent } from './manage-category-sale/trash-category-sale/trash-category-sale.component';
 import { ManageProductSaleComponent } from './manage-product-sale/manage-product-sale/manage-product-sale.component';
 import { TrashProductSaleComponent } from './manage-product-sale/trash-product-sale/trash-product-sale.component';
+import { LiveChatComponent } from '../live-chat/live-chat.component';
 
 
 export const MaterialRoutes: Routes = [
@@ -119,6 +120,14 @@ export const MaterialRoutes: Routes = [
     canActivate:[RouterGuardService],
     data: {
       expectedRole: ['admin']
+    }
+  },
+  {
+    path: 'live-chat',
+    component: LiveChatComponent,
+    canActivate:[RouterGuardService],
+    data: {
+      expectedRole: ['admin', 'user']
     }
   }
 ];

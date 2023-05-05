@@ -74,5 +74,7 @@ import { PageFooterComponent } from './page-footer/page-footer.component';
     PageCartComponent,
     PageFooterComponent,
   ],
+  providers: [
+  ]
 })
 export class ManageClientModule {}

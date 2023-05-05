@@ -13,13 +13,11 @@
     </button>
   </a>
 
-  <a href="#" target="_blank">
     <button *ngIf="check==1" matTooltip="Nhắn cho chúng tôi ngay bây giờ" class="mine live-chat" mat-fab color="primary"
-      style="border-radius: 50%;">
+      style="border-radius: 50%;" (click)="liveChat()">
       <mat-icon>
         connect_without_contact</mat-icon>
     </button>
-  </a>
 
   <button *ngIf="check==1" matTooltip="Đăng ký thông tin và để lại lời nhắn" class="mine contact" mat-fab color="primary"
     style="border-radius: 50%;" (click)="onClick()">
