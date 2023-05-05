@@ -47,11 +47,11 @@ io.on('connection', (socket) => {
     socket.join(socket.user.id);
     socket.join('myRandomChatRoomId');
     // find user's all channels from the database and call join event on all of them.
-    console.log('a user connected');
+    console.log(`${socket.user.name} connected`);
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
-    
+
     socket.on('my message', (msg) => {
         console.log('message: ' + msg);
         io.emit('my broadcast', `server: ${msg}`);
