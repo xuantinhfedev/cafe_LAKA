@@ -62,7 +62,7 @@ export class CartService {
     sessionStorage.setItem('items', JSON.stringify(items));
 
     this.cart.next({ items });
-    this.__toastr.toastInfo('1 sản phẩm được thêm vào giỏ hàng', 'Thông báo');
+    this.__toastr.toastSuccess('1 sản phẩm được thêm vào giỏ hàng', 'Thông báo');
   }
 
   getTotal(items: Array<CartItem>): number {
@@ -76,8 +76,8 @@ export class CartService {
   clearCart() {
     sessionStorage.removeItem('items');
     this.cart.next({ items: [] });
-    this.__toastr.toastInfo(
-      'Không có sản phẩm nào còn trong giỏ hàng',
+    this.__toastr.toastError(
+      'Đã xóa tất cả sản phẩm trong giỏ hàng',
       'Thông báo'
     );
   }
@@ -91,7 +91,7 @@ export class CartService {
       this.cart.next({
         items: filteredItems,
       });
-      this.__toastr.toastInfo('Sản phẩm đã bị xóa khỏi giỏ hàng', 'Thông báo');
+      this.__toastr.toastError('Sản phẩm đã bị xóa khỏi giỏ hàng', 'Thông báo');
     }
 
     return filteredItems;

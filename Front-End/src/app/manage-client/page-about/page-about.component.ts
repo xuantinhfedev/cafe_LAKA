@@ -23,14 +23,6 @@ export class PageAboutComponent implements OnInit {
 
   dataSource: any = [];
   ngOnInit() {
-    this.getApi();
-  }
-
-  async getApi() {
-    let res = await this.productSaleService.getRandom();
-    if(res.results.responseCode == 200){
-      this.dataSource = res.results.data
-    }
   }
 
   liveChat(){

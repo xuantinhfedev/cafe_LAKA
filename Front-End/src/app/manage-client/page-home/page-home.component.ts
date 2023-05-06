@@ -83,7 +83,7 @@ export class PageHomeComponent implements OnInit {
   ngOnInit(): void {
     this.getProducts();
   }
-
+  nameHeader: any = '';
   async getProducts() {
     this.ngX.start();
     let res = await this.storeService.pageAllProducts(
@@ -95,6 +95,7 @@ export class PageHomeComponent implements OnInit {
     );
     if (res.results.responseCode == '200') {
       this.ngX.stop();
+      this.nameHeader = res.results.categoryName;
       this.products = res.results.data;
       this.total = res.results.dataCount;
     } else {
