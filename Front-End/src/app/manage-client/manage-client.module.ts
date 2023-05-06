@@ -35,6 +35,7 @@ import { MaterialExampleModule } from '../shared/material.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { StylePaginatorDirective } from './style-paginator.directive';
 import { PageFooterComponent } from './page-footer/page-footer.component';
+import { PageAboutComponent } from './page-about/page-about.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -73,8 +74,8 @@ import { PageFooterComponent } from './page-footer/page-footer.component';
     PageProductBoxComponent,
     PageCartComponent,
     PageFooterComponent,
+    PageAboutComponent,
   ],
-  providers: [
-  ]
+  providers: [],
 })
 export class ManageClientModule {}

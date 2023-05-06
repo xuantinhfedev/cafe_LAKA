@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ManageClientComponent } from './manage-client.component';
 import { PageHomeComponent } from './page-home/page-home.component';
 import { PageCartComponent } from './page-cart/page-cart.component';
+import { PageAboutComponent } from './page-about/page-about.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'cart',
     component: PageCartComponent,
+  },
+  {
+    path: 'about',
+    component: PageAboutComponent
   },
   {
     path: '',

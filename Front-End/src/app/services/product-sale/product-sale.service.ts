@@ -18,6 +18,10 @@ export class ProductSaleService {
     private httpClient: HttpClient
   ) {}
 
+  async getRandom() {
+    let res = await this.baseService.getService(api_url + 'getRandom', ``);
+    return res;
+  }
   // Hàm thực hiện gọi API thêm sản phẩm
   async add(data: any) {
     let dataResponse = await this.uploadService.postService(
@@ -72,15 +76,15 @@ export class ProductSaleService {
     return dataResponse;
   }
 
-    // Hàm thực hiện cập nhật trạng thái Status của sản phẩm
-    async updateHot(data: any) {
-      let dataResponse = await this.baseService.patchService(
-        data,
-        api_url + 'updateHot',
-        ''
-      );
-      return dataResponse;
-    }
+  // Hàm thực hiện cập nhật trạng thái Status của sản phẩm
+  async updateHot(data: any) {
+    let dataResponse = await this.baseService.patchService(
+      data,
+      api_url + 'updateHot',
+      ''
+    );
+    return dataResponse;
+  }
 
   // Hàm thực hiện gọi API lấy danh sách sản phẩm
   async getTrashProducts(pageSize: number, pageIndex: number, value: string) {

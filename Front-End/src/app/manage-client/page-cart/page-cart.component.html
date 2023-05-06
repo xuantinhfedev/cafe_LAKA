@@ -39,7 +39,7 @@
       <ng-container matColumnDef="sale">
         <th mat-header-cell *matHeaderCellDef>% Khuyến mãi</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.sale | number }} 
+          {{ element.sale | number }}
         </td>
         <td mat-footer-cell *matFooterCellDef></td>
       </ng-container>
@@ -103,8 +103,6 @@
       <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
     </table>
   </mat-card>
-
-
   <mat-card class="max-w-7xl mx-auto" *ngIf="!cart.items.length">
     <div style="display: flex;
     align-items: center; flex-direction: column; ">
@@ -112,6 +110,4 @@
       <button mat-raised-button routerLink="/page/home">Bắt đầu mua hàng nào</button>
     </div>
   </mat-card>
-
-
 </div>

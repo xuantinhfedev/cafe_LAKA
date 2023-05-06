@@ -125,6 +125,30 @@ router.get('/get', auth.authenticateToken, (req, res, next) => {
   });
 });
 
+// API lấy danh sách Product
+router.get('/getRandom', (req, res, next) => {
+
+  var query = "select p.id, p.name, p.description, p.image, p.price, p.status, p.sale, p.hot, p.quantity, c.id as categorySaleId, c.name as categoryName from productSale as p INNER JOIN categorySale as c ON p.categorySaleId = c.id where p.deleted = 0 order by RAND() LIMIT 3 ";
+  connection.query(query, (err, results) => {
+    if (!err) {
+      return res.status(200).json({
+        results: {
+          responseCode: "200",
+          message: "Lấy danh sách sản phẩm thành công.",
+          data: results,
+        }
+      });
+    } else {
+      return res.status(200).json({
+        results: {
+          responseCode: "500",
+          message: err
+        }
+      });
+    }
+  });
+});
+
 // API lấy id, name của sản phẩm bằng categoryId
 router.get('/getByCategory/:id', auth.authenticateToken, (req, res, next) => {
 

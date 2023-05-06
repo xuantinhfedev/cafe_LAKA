@@ -15,9 +15,7 @@ import { ChangePasswordComponent } from './dialog/change-password/change-passwor
 import { ManageCategoryComponent } from './manage-category/manage-category.component';
 import { CategoryComponent } from './dialog/category/category.component';
 import { DeleteCategoryComponent } from './dialog/category/delete-category/delete-category.component';
-
 import { MatFormFieldModule } from '@angular/material/form-field';
-
 import { StylePaginatorDirective } from './style-paginator.directive';
 import { TrashCategoryComponent } from './dialog/category/trash-category/trash-category.component';
 import { OneTrashCategoryComponent } from './dialog/category/trash-category/one-trash-category/one-trash-category.component';
