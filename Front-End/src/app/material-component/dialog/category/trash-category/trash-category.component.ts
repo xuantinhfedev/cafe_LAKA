@@ -99,7 +99,10 @@ export class TrashCategoryComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onRestoreAllCategory.subscribe(
       (response) => {
-        this.router.navigate(['/cafe/category']);
+        // this.router.navigate(['/cafe/category']);
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }
@@ -140,7 +143,10 @@ export class TrashCategoryComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onRestoreCategory.subscribe(
       (response) => {
-        this.router.navigate(['/cafe/category']);
+        // this.router.navigate(['/cafe/category']);
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }

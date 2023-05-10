@@ -15,7 +15,7 @@ import { TrashOneCategorySaleComponent } from '../trash-one-category-sale/trash-
 @Component({
   selector: 'app-trash-category-sale',
   templateUrl: './trash-category-sale.component.html',
-  styleUrls: ['./trash-category-sale.component.scss']
+  styleUrls: ['./trash-category-sale.component.scss'],
 })
 export class TrashCategorySaleComponent implements OnInit {
   displayedColumns: string[] = ['index', 'name', 'edit'];
@@ -40,7 +40,6 @@ export class TrashCategorySaleComponent implements OnInit {
     private router: Router,
     private toastr: Toastr
   ) {}
-
 
   ngOnInit() {
     this.ngxService.start();
@@ -81,7 +80,7 @@ export class TrashCategorySaleComponent implements OnInit {
   pageChangeEvent(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
-    this.tableData(this.pageSize, this.pageIndex, this.valueSearch)
+    this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
   }
 
   async handleRestoreAllAction() {
@@ -91,14 +90,19 @@ export class TrashCategorySaleComponent implements OnInit {
       message: 'khôi phục tất cả danh mục từ trong thùng rác',
     };
     dialogConfig.width = '800px';
-    const dialogRef = this.dialog.open(TrashAllCategorySaleComponent, dialogConfig);
+    const dialogRef = this.dialog.open(
+      TrashAllCategorySaleComponent,
+      dialogConfig
+    );
     this.router.events.subscribe(() => {
       dialogRef.close();
     });
 
     const sub = dialogRef.componentInstance.onRestoreAllCategory.subscribe(
       (response) => {
-        this.router.navigate(['/cafe/category-sales']);
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }
@@ -110,7 +114,10 @@ export class TrashCategorySaleComponent implements OnInit {
       message: 'xóa tất cả danh mục có trong thùng rác',
     };
     dialogConfig.width = '800px';
-    const dialogRef = this.dialog.open(TrashAllCategorySaleComponent, dialogConfig);
+    const dialogRef = this.dialog.open(
+      TrashAllCategorySaleComponent,
+      dialogConfig
+    );
     this.router.events.subscribe(() => {
       dialogRef.close();
     });
@@ -132,14 +139,19 @@ export class TrashCategorySaleComponent implements OnInit {
       data: element,
     };
     dialogConfig.width = '800px';
-    const dialogRef = this.dialog.open(TrashOneCategorySaleComponent, dialogConfig);
+    const dialogRef = this.dialog.open(
+      TrashOneCategorySaleComponent,
+      dialogConfig
+    );
     this.router.events.subscribe(() => {
       dialogRef.close();
     });
 
     const sub = dialogRef.componentInstance.onRestoreCategory.subscribe(
       (response) => {
-        this.router.navigate(['/cafe/category-sales']);
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }
@@ -152,7 +164,10 @@ export class TrashCategorySaleComponent implements OnInit {
       data: element,
     };
     dialogConfig.width = '800px';
-    const dialogRef = this.dialog.open(TrashOneCategorySaleComponent, dialogConfig);
+    const dialogRef = this.dialog.open(
+      TrashOneCategorySaleComponent,
+      dialogConfig
+    );
     this.router.events.subscribe(() => {
       dialogRef.close();
     });
@@ -169,5 +184,4 @@ export class TrashCategorySaleComponent implements OnInit {
   returnCategory() {
     this.router.navigate(['/cafe/category-sales']);
   }
-
 }

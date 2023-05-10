@@ -46,7 +46,7 @@ const MENUITEMS = [
   },
   {
     state: 'contact',
-    name: 'Quản lý liên lạc',
+    name: 'Xem thông tin liên lạc',
     icon: 'mail',
     role: '',
   },

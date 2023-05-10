@@ -99,7 +99,9 @@ export class TrashProductSaleComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onRestore.subscribe(
       (response) => {
-        this.router.navigate(['/cafe/product-sales']);
+         this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }
@@ -140,7 +142,9 @@ export class TrashProductSaleComponent implements OnInit {
 
     const sub = dialogRef.componentInstance.onRestoreAll.subscribe(
       (response) => {
-        this.router.navigate(['/cafe/product-sales']);
+         this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
       }
     );
   }

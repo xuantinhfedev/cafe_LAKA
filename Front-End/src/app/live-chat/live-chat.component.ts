@@ -35,7 +35,7 @@ export class LiveChatComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log("Khởi tạo oninit")
+    console.log('Khởi tạo oninit');
     if (sessionStorage.getItem('token')) {
       this.tokenForm.patchValue({
         token: sessionStorage.getItem('token'),
@@ -78,8 +78,7 @@ export class LiveChatComponent implements OnInit {
     if (message) {
       this.socketService.sendMessage(
         { message, roomName: this.CHAT_ROOM },
-        (cb) => {
-        }
+        (cb) => {}
       );
       this.messages = [
         ...this.messages,
