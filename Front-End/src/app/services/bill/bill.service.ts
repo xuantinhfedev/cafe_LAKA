@@ -64,6 +64,22 @@ export class BillService {
     );
     return dataResponse;
   }
+  async restore(data: any){
+    let res = await this.__baseService.patchService(
+      data,
+      api_url + `restore`,
+      ''
+    );
+    return res;
+  }
 
+    // API xóa hoàn toàn bản ghi trong thùng rác
+    async destroy(id: any) {
+      let dataResponse = await this.__baseService.deleteService(
+        api_url + 'destroy?id=' + id,
+        ''
+      );
+      return dataResponse;
+    }
 
 }

@@ -49,6 +49,8 @@ import { ClearProductSaleComponent } from './manage-product-sale/clear-product-s
 import { DestroyProductSaleComponent } from './manage-product-sale/destroy-product-sale/destroy-product-sale.component';
 import { RestoreAllProductSaleComponent } from './manage-product-sale/restore-all-product-sale/restore-all-product-sale.component';
 import { RestoreProductSaleComponent } from './manage-product-sale/restore-product-sale/restore-product-sale.component';
+import { RestoreBillComponent } from './view-bill/restore-bill/restore-bill.component';
+import { DestroyBillComponent } from './view-bill/destroy-bill/destroy-bill.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -101,7 +103,9 @@ import { RestoreProductSaleComponent } from './manage-product-sale/restore-produ
     DeleteProductSaleComponent,
     DestroyProductSaleComponent,
     RestoreAllProductSaleComponent,
-    RestoreProductSaleComponent
+    RestoreProductSaleComponent,
+    RestoreBillComponent,
+    DestroyBillComponent
   ],
   exports: [],
 })

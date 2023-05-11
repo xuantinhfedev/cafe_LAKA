@@ -230,4 +230,67 @@ router.get('/trash', auth.authenticateToken, (req, res) => {
     });
 });
 
+router.delete('/destroy', auth.authenticateToken, (req, res) => {
+    let bill = req.query.id;
+    var query = "DELETE FROM bill where id=?";
+    connection.query(query, [bill], (err, results) => {
+      if (!err) {
+        if (results.affectedRows == 0) {
+          return res.status(200).json({
+            results: {
+              responseCode: "404",
+              message: "Sản phẩm không được tìm thấy"
+            }
+          });
+        } else {
+          return res.status(200).json({
+            results: {
+              responseCode: "200",
+              message: "Sản phẩm đã bị xóa hoàn toàn."
+            }
+          });
+        }
+      } else {
+        return res.status(200).json({
+          results: {
+            responseCode: "500",
+            message: err
+          }
+        });
+      }
+    });
+  });
+
+  
+// API khôi phục Sản phẩm từ thùng rác
+router.patch('/restore', auth.authenticateToken, (req, res) => {
+    let bill = req.body;
+    var query = "UPDATE bill SET deleted='false' WHERE id=?";
+    connection.query(query, [bill.id], (err, results) => {
+      if (!err) {
+        if (results.affectedRows == 0) {
+          return res.status(200).json({
+            results: {
+              responseCode: "404",
+              message: "Sản phẩm không được tìm thấy."
+            }
+          });
+        } else {
+          return res.status(200).json({
+            results: {
+              responseCode: "200",
+              message: "Khôi phục sản phẩm thành công."
+            }
+          });
+        }
+      } else {
+        return res.status(200).json({
+          results: {
+            responseCode: "500",
+            message: err
+          }
+        });
+      }
+    });
+  });
 module.exports = router;

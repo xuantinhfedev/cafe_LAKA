@@ -11,13 +11,15 @@ import { GlobalConstants } from 'src/app/shared/global-constants';
 import { saveAs } from 'file-saver';
 import { ViewBillProductsComponent } from '../../dialog/view-bill-products/view-bill-products.component';
 import { ConfirmationComponent } from '../../dialog/confirmation/confirmation.component';
+import { RestoreBillComponent } from '../restore-bill/restore-bill.component';
+import { DestroyBillComponent } from '../destroy-bill/destroy-bill.component';
 
 @Component({
   selector: 'app-trash-bill',
   templateUrl: './trash-bill.component.html',
   styleUrls: ['./trash-bill.component.scss'],
 })
-export class TrashBillComponent implements OnInit { 
+export class TrashBillComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
     'email',
@@ -45,7 +47,8 @@ export class TrashBillComponent implements OnInit {
     private __ngUi: NgxUiLoaderService,
     private __dialog: MatDialog,
     private __toastr: Toastr,
-    private __route: Router
+    private __route: Router,
+
   ) {}
 
   ngOnInit() {
@@ -132,6 +135,50 @@ export class TrashBillComponent implements OnInit {
       }
       this.__toastr.toastError(this.responseMessage, 'Lỗi');
     }
+  }
+
+  async handleDestroyAction(element: any){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'destroy',
+      message: `xóa bỏ hoàn toàn hóa đơn ${element.name} này`,
+      data: element,
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.__dialog.open(DestroyBillComponent, dialogConfig);
+    this.__route.events.subscribe(() => {
+      dialogRef.close();
+    });
+
+    const sub = dialogRef.componentInstance.onDestroyCategory.subscribe(
+      (response) => {
+        this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+      }
+    );
+  }
+
+  async handleRestoreAction(data: any){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'restore',
+      message: `khôi phục hóa đơn ${data.name}`,
+      data: data,
+    };
+    dialogConfig.width = '800px';
+    const dialogRef = this.__dialog.open(RestoreBillComponent, dialogConfig);
+    this.__route.events.subscribe(() => {
+      dialogRef.close();
+    });
+
+    const sub = dialogRef.componentInstance.onRestoreCategory.subscribe(
+      (response) => {
+       this.pageSize = 10;
+        this.pageIndex = 0;
+        this.tableData(this.pageSize, this.pageIndex, this.valueSearch);
+      }
+    );
   }
 
   async searchNameProduct() {

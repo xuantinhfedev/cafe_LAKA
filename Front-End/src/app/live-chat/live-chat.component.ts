@@ -33,9 +33,13 @@ export class LiveChatComponent implements OnInit {
     private socketService: SocketioService,
     private formBuilder: FormBuilder
   ) {}
-
+checkRole = false;
   ngOnInit() {
     console.log('Khởi tạo oninit');
+    let role = sessionStorage.getItem('role');
+    if(role == 'admin' || role == 'user'){
+      this.checkRole = true;
+    }
     if (sessionStorage.getItem('token')) {
       this.tokenForm.patchValue({
         token: sessionStorage.getItem('token'),

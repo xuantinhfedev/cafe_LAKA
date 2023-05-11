@@ -63,9 +63,12 @@
         <button mat-icon-button color="primary" matTooltip="Xem hóa đơn" (click)="handleViewAction(element)">
           <mat-icon>visibility</mat-icon>
         </button>
-        <!-- <button mat-icon-button color="primary" matTooltip="Xóa hóa đơn" (click)="handleDeleteAction(element)">
-          <mat-icon>delete</mat-icon>
-        </button> -->
+        <button mat-icon-button color="primary" matTooltip="Lấy lại dữ liệu" (click)="handleRestoreAction(element)">
+          <mat-icon>undo</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Xóa hoàn toàn" (click)="handleDestroyAction(element)">
+          <mat-icon>delete_sweep</mat-icon>
+        </button>
       </td>
     </ng-container>
 
