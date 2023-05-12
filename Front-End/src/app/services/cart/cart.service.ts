@@ -47,6 +47,10 @@ export class CartService {
 
     const itemInCart = items.find((_item) => _item.id === item.id);
     if (itemInCart) {
+      if (itemInCart.quantityRemain <= 0) {
+        Swal.fire('Thông báo', 'Số lượng còn lại của sản phẩm không đủ. Xin lỗi vì sự bất tiện này', 'info');
+        return;
+      }
       itemInCart.quantity += 1;
       itemInCart.quantityRemain -= 1;
       quantityHold = itemInCart.quantityRemain;
@@ -54,10 +58,6 @@ export class CartService {
       items.push(item);
     }
     console.log(quantityHold);
-    if (quantityHold <= 0) {
-      Swal.fire('Thông báo', 'Số lượng còn lại của sản phẩm không đủ. Xin lỗi vì sự bất tiện này', 'info');
-      return;
-    }
 
     sessionStorage.setItem('items', JSON.stringify(items));
 

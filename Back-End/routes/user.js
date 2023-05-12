@@ -16,7 +16,7 @@ router.post('/signup', (req, res) => {
     connection.query(query, [user.email], (err, results) => {
         if (!err) {
             if (results.length <= 0) {
-                query = "insert into user(name,contactNumber,email,password,status,role) values(?,?,?,?,'false','user')";
+                query = "insert into user(name,contactNumber,email,password,deleted,status,role) values(?,?,?,?,'false','false','user')";
                 connection.query(query, [user.name, user.contactNumber, user.email, user.password],
                     (err, results) => {
                         if (!err) {
@@ -138,11 +138,12 @@ router.post('/forgotPassword', (req, res) => {
                     subject: 'Mật khẩu được gửi từ Laka Cafe Manage',
                     html: '<p><b>Chi tiết đăng nhập vào hệ thống Laka Cafe manage</b><br><b>Email: </b>' + results[0].email + '<br><b>Password: </b>' + results[0].password + '<br><a href="http://localhost:4200">Nhấn vào đây để đăng nhập lại</a></p>'
                 }
+                console.log(mailOptions)
                 transporter.sendMail(mailOptions, function (err, info) {
                     if (err) {
-                        // console.log(err)
+                        console.log(err)
                     } else {
-                        // console.log("Email sent: " + info.response)
+                        console.log("Email sent: " + info.response)
                     }
                 });
                 return res.status(200).json({
